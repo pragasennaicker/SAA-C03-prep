@@ -1,5 +1,6 @@
 const TOTAL = 17;
 const PROGRESS_KEY = 'saaC03VisualProgress';
+const THEME_KEY = 'saaC03Theme';
 
 function getDone() {
   try {
@@ -79,7 +80,41 @@ function answer(el, correct, id) {
   if (fb) fb.style.display = 'block';
 }
 
+function getTheme() {
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved === 'light' || saved === 'dark') return saved;
+  return 'dark';
+}
+
+function applyTheme(theme) {
+  const next = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem(THEME_KEY, next);
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  const isLight = next === 'light';
+  btn.setAttribute('aria-pressed', String(isLight));
+  btn.setAttribute('aria-label', isLight ? 'Switch to dark colour scheme' : 'Switch to light colour scheme');
+  btn.title = isLight ? 'Switch to dark' : 'Switch to light';
+  btn.innerHTML = isLight
+    ? '<span class="theme-icon" aria-hidden="true">☾</span><span>Dark</span>'
+    : '<span class="theme-icon" aria-hidden="true">☀</span><span>Light</span>';
+}
+
+function toggleTheme() {
+  applyTheme(getTheme() === 'light' ? 'dark' : 'light');
+}
+
+function wireThemeToggle() {
+  const btn = document.getElementById('themeToggle');
+  if (!btn || btn.dataset.wired === '1') return;
+  btn.dataset.wired = '1';
+  btn.addEventListener('click', toggleTheme);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  applyTheme(getTheme());
+  wireThemeToggle();
   updateProgressUI();
   document.querySelectorAll('.complete-check').forEach((el) => {
     el.addEventListener('change', () => saveProgressFromCheckbox(el));
