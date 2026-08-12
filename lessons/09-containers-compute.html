@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(9,0,this)" class="scenario-tab active">ECS</button><button type="button" onclick="showScenario(9,1,this)" class="scenario-tab">EKS</button><button type="button" onclick="showScenario(9,2,this)" class="scenario-tab">Registry</button></div><div class="scenario-panel active" id="sc-9-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Simple microservice platform</h3>
           <p>Constraint: a small team needs managed container orchestration without Kubernetes expertise. Design: ECS services on Fargate pull private images from ECR and register tasks with an ALB. Why alternatives fail: EKS adds Kubernetes administration, while plain EC2 lacks orchestration.</p>
-          <div class="reason-strip"><span>1</span> ECS minimizes control work <b>→</b><span>2</span> Fargate removes nodes <b>→</b><span>3</span> ECR stores images</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> ECS minimizes control work</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Fargate removes nodes</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> ECR stores images</span></div>
         </div><div class="scenario-panel" id="sc-9-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Portable Kubernetes workloads</h3>
           <p>Constraint: an organization requires Kubernetes APIs, Helm charts, and familiar ecosystem tooling. Design: EKS supplies the managed control plane with managed node groups or Fargate profiles. Why alternatives fail: ECS does not expose Kubernetes APIs, and self-managed Kubernetes increases operational burden.</p>
-          <div class="reason-strip"><span>1</span> EKS preserves Kubernetes <b>→</b><span>2</span> Nodes or Fargate run pods <b>→</b><span>3</span> AWS manages control plane</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> EKS preserves Kubernetes</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Nodes or Fargate run pods</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> AWS manages control plane</span></div>
         </div><div class="scenario-panel" id="sc-9-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Private image delivery</h3>
           <p>Constraint: deployments need private, scanned, versioned images close to AWS compute. Design: push immutable tags to ECR, enable scanning, and grant task execution roles pull access. Why alternatives fail: S3 is not an OCI registry, and public registries weaken private access control.</p>
-          <div class="reason-strip"><span>1</span> ECR is managed registry <b>→</b><span>2</span> Execution role pulls <b>→</b><span>3</span> Immutable tags reduce drift</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> ECR is managed registry</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Execution role pulls</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Immutable tags reduce drift</span></div>
         </div>
   </div>
 

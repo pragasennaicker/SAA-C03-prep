@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(5,0,this)" class="scenario-tab active">Relational HA</button><button type="button" onclick="showScenario(5,1,this)" class="scenario-tab">Global Keys</button><button type="button" onclick="showScenario(5,2,this)" class="scenario-tab">Read Cache</button></div><div class="scenario-panel active" id="sc-5-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Fail over a transactional database</h3>
           <p>An order system needs SQL transactions and automatic in-Region failover without application-managed replication. Use RDS Multi-AZ or an Aurora cluster across AZs. A read replica is primarily asynchronous read scaling and may lose recent changes, while DynamoDB requires a data-model rewrite.</p>
-          <div class="reason-strip"><span>1</span> SQL transactions <b>→</b><span>2</span> Synchronous HA <b>→</b><span>3</span> Managed failover</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> SQL transactions</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Synchronous HA</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Managed failover</span></div>
         </div><div class="scenario-panel" id="sc-5-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Serve active-active user state</h3>
           <p>Users in multiple Regions need local, low-latency key-value writes with managed multi-Region replication. Use DynamoDB global tables and design conflict-tolerant access patterns. Cross-Region RDS replicas are not active-active writers, and ElastiCache is not the durable source of truth.</p>
-          <div class="reason-strip"><span>1</span> Local writes <b>→</b><span>2</span> Multi-Region <b>→</b><span>3</span> Managed replication</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Local writes</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Multi-Region</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Managed replication</span></div>
         </div><div class="scenario-panel" id="sc-5-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Absorb repeated hot queries</h3>
           <p>A read-heavy application repeatedly requests the same database records and can tolerate brief cache staleness. Add ElastiCache using cache-aside with expiration and invalidation. More Multi-AZ standbys do not serve application reads, while scaling the writer alone wastes database resources.</p>
-          <div class="reason-strip"><span>1</span> Sub-ms reads <b>→</b><span>2</span> Offload database <b>→</b><span>3</span> Staleness allowed</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Sub-ms reads</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Offload database</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Staleness allowed</span></div>
         </div>
   </div>
 

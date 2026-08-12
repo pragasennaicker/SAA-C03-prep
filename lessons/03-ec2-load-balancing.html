@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(3,0,this)" class="scenario-tab active">HTTP Routes</button><button type="button" onclick="showScenario(3,1,this)" class="scenario-tab">Static IP</button><button type="button" onclick="showScenario(3,2,this)" class="scenario-tab">Flash Sale</button></div><div class="scenario-panel active" id="sc-3-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Route by hostname and path</h3>
           <p>One HTTPS entry point must route api.example.com and /images to different target groups. Use an ALB with host- and path-based listener rules and ACM certificates. An NLB does not inspect HTTP paths, and DNS routing cannot split requests by URL path.</p>
-          <div class="reason-strip"><span>1</span> Layer 7 rules <b>→</b><span>2</span> TLS support <b>→</b><span>3</span> Target groups</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Layer 7 rules</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> TLS support</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Target groups</span></div>
         </div><div class="scenario-panel" id="sc-3-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Serve allowlisted TCP traffic</h3>
           <p>Partners require fixed IP addresses for a latency-sensitive TCP service deployed across AZs. Use an internet-facing NLB with Elastic IP addresses per enabled AZ. ALB addresses can change and ALB is intended for HTTP-family protocols, while Global Accelerator is unnecessary if regional entry points suffice.</p>
-          <div class="reason-strip"><span>1</span> Static addresses <b>→</b><span>2</span> Layer 4 <b>→</b><span>3</span> Cross-AZ service</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Static addresses</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Layer 4</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Cross-AZ service</span></div>
         </div><div class="scenario-panel" id="sc-3-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Scale ahead of a known event</h3>
           <p>A sale starts at a fixed time and instance initialization takes several minutes. Configure scheduled scaling to raise ASG capacity before the event, then use target tracking for live demand. Reactive scaling alone starts too late, and larger fixed instances waste capacity after the sale.</p>
-          <div class="reason-strip"><span>1</span> Known schedule <b>→</b><span>2</span> Warm capacity <b>→</b><span>3</span> Elastic follow-up</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Known schedule</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Warm capacity</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Elastic follow-up</span></div>
         </div>
   </div>
 

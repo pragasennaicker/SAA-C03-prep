@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(13,0,this)" class="scenario-tab active">Streaming</button><button type="button" onclick="showScenario(13,1,this)" class="scenario-tab">Lake</button><button type="button" onclick="showScenario(13,2,this)" class="scenario-tab">Warehouse</button></div><div class="scenario-panel active" id="sc-13-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Replayable telemetry stream</h3>
           <p>Constraint: several consumers need ordered device telemetry and must replay records after failures. Design: Kinesis Data Streams partitions by device and retains records for independent consumers. Why alternatives fail: Firehose is delivery-focused, and SQS does not provide the same shard-based replay stream.</p>
-          <div class="reason-strip"><span>1</span> Partition key preserves order <b>→</b><span>2</span> Consumers read independently <b>→</b><span>3</span> Retention enables replay</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Partition key preserves order</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Consumers read independently</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Retention enables replay</span></div>
         </div><div class="scenario-panel" id="sc-13-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Serverless log investigation</h3>
           <p>Constraint: analysts sporadically query years of logs in S3 without loading a warehouse. Design: catalog partitioned Parquet data with Glue and query it using Athena. Why alternatives fail: Redshift adds provisioned warehouse concerns, and RDS is not optimized for lake scans.</p>
-          <div class="reason-strip"><span>1</span> Athena queries S3 <b>→</b><span>2</span> Glue supplies schema <b>→</b><span>3</span> Parquet reduces bytes scanned</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Athena queries S3</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Glue supplies schema</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Parquet reduces bytes scanned</span></div>
         </div><div class="scenario-panel" id="sc-13-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Repeated BI joins</h3>
           <p>Constraint: many users run frequent complex joins and aggregations over curated enterprise data. Design: load a dimensional model into Redshift and scale or isolate workloads appropriately. Why alternatives fail: Athena can be less predictable for repeated high-concurrency BI, and DynamoDB lacks relational joins.</p>
-          <div class="reason-strip"><span>1</span> Redshift is columnar <b>→</b><span>2</span> MPP accelerates analytics <b>→</b><span>3</span> Workload controls concurrency</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Redshift is columnar</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> MPP accelerates analytics</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Workload controls concurrency</span></div>
         </div>
   </div>
 

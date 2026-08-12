@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(11,0,this)" class="scenario-tab active">Low Cost</button><button type="button" onclick="showScenario(11,1,this)" class="scenario-tab">Minutes</button><button type="button" onclick="showScenario(11,2,this)" class="scenario-tab">Near Zero</button></div><div class="scenario-panel active" id="sc-11-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Recover a noncritical application</h3>
           <p>A system can lose up to 24 hours of data and remain offline for a day, while minimizing steady-state cost. Use cross-Region backups with infrastructure as code and a tested restore runbook. Warm standby pays for running capacity that the RTO does not require, and multi-site is far more expensive.</p>
-          <div class="reason-strip"><span>1</span> Long RPO <b>→</b><span>2</span> Long RTO <b>→</b><span>3</span> Lowest standby cost</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Long RPO</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Long RTO</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Lowest standby cost</span></div>
         </div><div class="scenario-panel" id="sc-11-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Keep a scaled-down recovery stack</h3>
           <p>A business service needs a minutes-level RTO and very low RPO in a second Region, but cannot fund full duplicate capacity. Run a warm standby with replicated data and reduced application capacity, then scale on failover. Pilot light may need too much provisioning time, while multi-site pays for full active capacity.</p>
-          <div class="reason-strip"><span>1</span> Stack already live <b>→</b><span>2</span> Scale on failover <b>→</b><span>3</span> Replicated data</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Stack already live</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Scale on failover</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Replicated data</span></div>
         </div><div class="scenario-panel" id="sc-11-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Serve from both Regions</h3>
           <p>A revenue platform requires near-zero RTO and RPO and can accept the highest operating cost and application complexity. Use multi-site active-active architecture with globally replicated data and health-based traffic steering. Backups, pilot light, and warm standby all require startup or scaling that violates the recovery objective.</p>
-          <div class="reason-strip"><span>1</span> Both sites active <b>→</b><span>2</span> Immediate routing <b>→</b><span>3</span> Highest readiness</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Both sites active</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Immediate routing</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Highest readiness</span></div>
         </div>
   </div>
 

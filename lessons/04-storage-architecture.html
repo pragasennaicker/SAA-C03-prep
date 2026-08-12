@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(4,0,this)" class="scenario-tab active">Shared Linux</button><button type="button" onclick="showScenario(4,1,this)" class="scenario-tab">Archive</button><button type="button" onclick="showScenario(4,2,this)" class="scenario-tab">Windows Share</button></div><div class="scenario-panel active" id="sc-4-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Share files across AZs</h3>
           <p>A Linux web fleet in three AZs needs concurrent POSIX file access and automatic capacity growth. Mount regional EFS through mount targets in each AZ. EBS volumes are zonal and generally not a shared multi-AZ filesystem, while S3 does not provide native POSIX semantics.</p>
-          <div class="reason-strip"><span>1</span> Regional NFS <b>→</b><span>2</span> Concurrent access <b>→</b><span>3</span> Elastic capacity</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Regional NFS</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Concurrent access</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Elastic capacity</span></div>
         </div><div class="scenario-panel" id="sc-4-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Retain rarely retrieved records</h3>
           <p>Compliance records must remain for seven years, are almost never read, and can tolerate hours before retrieval. Use S3 Glacier Deep Archive with lifecycle transitions and retention controls as required. S3 Standard pays for immediate access that is not needed, while EBS requires provisioned block capacity.</p>
-          <div class="reason-strip"><span>1</span> Lowest archive cost <b>→</b><span>2</span> Long retention <b>→</b><span>3</span> Hours acceptable</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Lowest archive cost</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Long retention</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Hours acceptable</span></div>
         </div><div class="scenario-panel" id="sc-4-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Migrate an SMB namespace</h3>
           <p>Windows applications require managed SMB shares, Active Directory integration, and native Windows file features. Use Amazon FSx for Windows File Server joined to the directory. EFS exposes NFS rather than SMB, and S3 object storage cannot preserve normal SMB filesystem behavior.</p>
-          <div class="reason-strip"><span>1</span> Native SMB <b>→</b><span>2</span> AD integrated <b>→</b><span>3</span> Windows features</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Native SMB</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> AD integrated</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Windows features</span></div>
         </div>
   </div>
 

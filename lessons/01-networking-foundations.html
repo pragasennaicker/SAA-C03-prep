@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(1,0,this)" class="scenario-tab active">Private S3</button><button type="button" onclick="showScenario(1,1,this)" class="scenario-tab">Outbound HA</button><button type="button" onclick="showScenario(1,2,this)" class="scenario-tab">Filter Layers</button></div><div class="scenario-panel active" id="sc-1-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Reach S3 without NAT</h3>
           <p>Private EC2 instances need S3 access but must not traverse the internet or pay NAT processing charges. Add an S3 gateway endpoint and restrict its endpoint policy and bucket policy. An internet gateway does not make private instances reachable, and an interface endpoint adds unnecessary hourly cost here.</p>
-          <div class="reason-strip"><span>1</span> No public path <b>→</b><span>2</span> No NAT charge <b>→</b><span>3</span> Policy controlled</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> No public path</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> No NAT charge</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Policy controlled</span></div>
         </div><div class="scenario-panel" id="sc-1-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Resilient private-subnet egress</h3>
           <p>A two-AZ workload needs outbound patch access and must survive one AZ failure. Deploy a NAT gateway in each AZ and point each private subnet at its local NAT. One shared NAT creates an AZ dependency, while an internet gateway cannot provide outbound access to instances without public addresses.</p>
-          <div class="reason-strip"><span>1</span> AZ independent <b>→</b><span>2</span> Outbound only <b>→</b><span>3</span> Local routing</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> AZ independent</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Outbound only</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Local routing</span></div>
         </div><div class="scenario-panel" id="sc-1-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Block a hostile CIDR</h3>
           <p>Administrators must deny a known CIDR across every instance in a subnet while retaining application security groups. Add an explicit deny in the subnet network ACL and allow required return ports. Security groups have no deny rules, and route tables are not packet-filtering policy.</p>
-          <div class="reason-strip"><span>1</span> Explicit deny <b>→</b><span>2</span> Subnet scope <b>→</b><span>3</span> Stateless returns</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Explicit deny</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Subnet scope</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Stateless returns</span></div>
         </div>
   </div>
 

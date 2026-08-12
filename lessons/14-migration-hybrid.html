@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(14,0,this)" class="scenario-tab active">Database</button><button type="button" onclick="showScenario(14,1,this)" class="scenario-tab">Files</button><button type="button" onclick="showScenario(14,2,this)" class="scenario-tab">Offline</button></div><div class="scenario-panel active" id="sc-14-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Low-downtime database move</h3>
           <p>Constraint: a production database must move with only a brief cutover. Design: DMS performs full load plus change data capture, with Schema Conversion Tool where engines differ. Why alternatives fail: DataSync copies files, and MGN replicates servers rather than database changes.</p>
-          <div class="reason-strip"><span>1</span> DMS moves data <b>→</b><span>2</span> CDC follows changes <b>→</b><span>3</span> SCT converts schema</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> DMS moves data</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> CDC follows changes</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> SCT converts schema</span></div>
         </div><div class="scenario-panel" id="sc-14-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Recurring NAS transfer</h3>
           <p>Constraint: an on-premises NFS share must synchronize nightly to S3 with verification and bandwidth controls. Design: DataSync agents perform incremental scheduled transfers. Why alternatives fail: Storage Gateway exposes ongoing hybrid access, while Snow devices are offline and not nightly synchronization.</p>
-          <div class="reason-strip"><span>1</span> DataSync handles files <b>→</b><span>2</span> Incremental copies save bandwidth <b>→</b><span>3</span> Verification checks transfer</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> DataSync handles files</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Incremental copies save bandwidth</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Verification checks transfer</span></div>
         </div><div class="scenario-panel" id="sc-14-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Petabyte migration with weak link</h3>
           <p>Constraint: petabytes must reach AWS while the WAN would take months. Design: use an appropriate AWS Snow device workflow and track encrypted shipment. Why alternatives fail: DataSync remains bandwidth-bound, and Transfer Family does not create physical transport capacity.</p>
-          <div class="reason-strip"><span>1</span> Snow bypasses WAN <b>→</b><span>2</span> Data stays encrypted <b>→</b><span>3</span> Capacity drives device choice</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Snow bypasses WAN</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Data stays encrypted</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Capacity drives device choice</span></div>
         </div>
   </div>
 

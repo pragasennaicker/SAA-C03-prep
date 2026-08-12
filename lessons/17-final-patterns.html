@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(17,0,this)" class="scenario-tab active">Pattern</button><button type="button" onclick="showScenario(17,1,this)" class="scenario-tab">Recovery</button><button type="button" onclick="showScenario(17,2,this)" class="scenario-tab">Exam</button></div><div class="scenario-panel active" id="sc-17-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Resilient web transaction</h3>
           <p>Constraint: a public workload must remain available through an AZ failure and absorb bursts. Design: Route 53 and an ALB front Auto Scaling instances across AZs, with Multi-AZ data and SQS for asynchronous work. Why alternatives fail: one large instance is a single failure domain, and synchronous chaining spreads failure.</p>
-          <div class="reason-strip"><span>1</span> Multi-AZ removes one fault <b>→</b><span>2</span> Auto Scaling replaces capacity <b>→</b><span>3</span> Queues isolate bursts</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Multi-AZ removes one fault</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Auto Scaling replaces capacity</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Queues isolate bursts</span></div>
         </div><div class="scenario-panel" id="sc-17-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Choosing DR by objective</h3>
           <p>Constraint: the business supplies strict RTO and RPO rather than asking for maximum availability at any cost. Design: map backup/restore, pilot light, warm standby, or multi-site to those objectives and test recovery. Why alternatives fail: backups may miss a short RTO, while active-active can overspend for relaxed objectives.</p>
-          <div class="reason-strip"><span>1</span> RPO limits lost data <b>→</b><span>2</span> RTO limits outage <b>→</b><span>3</span> Testing validates recovery</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> RPO limits lost data</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> RTO limits outage</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Testing validates recovery</span></div>
         </div><div class="scenario-panel" id="sc-17-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Resolving two plausible answers</h3>
           <p>Constraint: two architectures appear technically possible under time pressure. Design: compare each against every superlative and explicit constraint, then choose the simplest managed option satisfying all. Why alternatives fail: keyword matching ignores trade-offs, and adding services can violate cost or operations requirements.</p>
-          <div class="reason-strip"><span>1</span> Read the final ask <b>→</b><span>2</span> Honor every constraint <b>→</b><span>3</span> Managed usually lowers ops</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Read the final ask</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Honor every constraint</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Managed usually lowers ops</span></div>
         </div>
   </div>
 

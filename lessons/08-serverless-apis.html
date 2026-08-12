@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(8,0,this)" class="scenario-tab active">API</button><button type="button" onclick="showScenario(8,1,this)" class="scenario-tab">GraphQL</button><button type="button" onclick="showScenario(8,2,this)" class="scenario-tab">Scale</button></div><div class="scenario-panel active" id="sc-8-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Bursting mobile checkout</h3>
           <p>Constraint: a mobile checkout API has sharp bursts and must authenticate customers. Design: Cognito user pools issue tokens, API Gateway validates them, and Lambda writes idempotently to DynamoDB. Why alternatives fail: EC2 adds capacity management, while an identity pool alone does not provide a user directory.</p>
-          <div class="reason-strip"><span>1</span> User pool authenticates <b>→</b><span>2</span> API Gateway validates JWT <b>→</b><span>3</span> Idempotency absorbs retries</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> User pool authenticates</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> API Gateway validates JWT</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Idempotency absorbs retries</span></div>
         </div><div class="scenario-panel" id="sc-8-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Live collaborative dashboard</h3>
           <p>Constraint: web clients need GraphQL queries and near-real-time updates with minimal connection management. Design: AppSync subscriptions push changes and resolvers access DynamoDB or Lambda. Why alternatives fail: API Gateway REST needs custom fan-out, and polling wastes requests and increases latency.</p>
-          <div class="reason-strip"><span>1</span> AppSync manages GraphQL <b>→</b><span>2</span> Subscriptions push updates <b>→</b><span>3</span> Resolvers reach data</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> AppSync manages GraphQL</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Subscriptions push updates</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Resolvers reach data</span></div>
         </div><div class="scenario-panel" id="sc-8-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Database-safe Lambda ingestion</h3>
           <p>Constraint: asynchronous jobs can spike beyond an RDS database&#x27;s connection capacity. Design: buffer work in SQS, cap Lambda reserved concurrency, and use RDS Proxy. Why alternatives fail: provisioned concurrency reduces cold starts but does not cap database pressure; direct invocation removes buffering.</p>
-          <div class="reason-strip"><span>1</span> SQS smooths bursts <b>→</b><span>2</span> Reserved concurrency caps load <b>→</b><span>3</span> RDS Proxy pools connections</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> SQS smooths bursts</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Reserved concurrency caps load</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> RDS Proxy pools connections</span></div>
         </div>
   </div>
 

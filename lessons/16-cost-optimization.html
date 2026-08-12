@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(16,0,this)" class="scenario-tab active">Compute</button><button type="button" onclick="showScenario(16,1,this)" class="scenario-tab">Storage</button><button type="button" onclick="showScenario(16,2,this)" class="scenario-tab">Network</button></div><div class="scenario-panel active" id="sc-16-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Stable baseline with bursts</h3>
           <p>Constraint: compute has a steady year-round baseline plus unpredictable peaks. Design: cover the measured baseline with a suitable Savings Plan and run peaks on demand or Spot where interruptible. Why alternatives fail: committing to peak wastes money, and Spot is unsafe for noninterruptible baseline capacity.</p>
-          <div class="reason-strip"><span>1</span> Commit only baseline <b>→</b><span>2</span> On-Demand handles uncertainty <b>→</b><span>3</span> Spot fits interruption</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Commit only baseline</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> On-Demand handles uncertainty</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Spot fits interruption</span></div>
         </div><div class="scenario-panel" id="sc-16-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Unknown object access</h3>
           <p>Constraint: millions of long-lived objects have changing, unpredictable access frequency. Design: S3 Intelligent-Tiering moves eligible objects among access tiers automatically. Why alternatives fail: rigid lifecycle dates can misclassify changing access, and Standard keeps every object at the higher frequent-access rate.</p>
-          <div class="reason-strip"><span>1</span> Monitoring learns access <b>→</b><span>2</span> No retrieval fee for access tiers <b>→</b><span>3</span> Archive tiers are optional</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Monitoring learns access</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> No retrieval fee for access tiers</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Archive tiers are optional</span></div>
         </div><div class="scenario-panel" id="sc-16-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Expensive private downloads</h3>
           <p>Constraint: private instances download large S3 datasets through NAT gateways, creating processing charges. Design: add an S3 gateway endpoint and route S3 traffic privately. Why alternatives fail: a larger NAT gateway does not reduce per-byte processing, and an internet gateway cannot serve private instances directly.</p>
-          <div class="reason-strip"><span>1</span> Gateway endpoint avoids NAT <b>→</b><span>2</span> S3 route stays private <b>→</b><span>3</span> No endpoint hourly charge</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Gateway endpoint avoids NAT</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> S3 route stays private</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> No endpoint hourly charge</span></div>
         </div>
   </div>
 

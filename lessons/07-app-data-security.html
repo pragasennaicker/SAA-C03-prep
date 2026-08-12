@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(7,0,this)" class="scenario-tab active">Web Abuse</button><button type="button" onclick="showScenario(7,1,this)" class="scenario-tab">DB Secret</button><button type="button" onclick="showScenario(7,2,this)" class="scenario-tab">Threat Signal</button></div><div class="scenario-panel active" id="sc-7-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Stop injection and bot requests</h3>
           <p>A public ALB receives SQL injection attempts and excessive requests from individual clients. Associate an AWS WAF web ACL with managed SQLi rules and a rate-based rule. Security groups cannot inspect HTTP payloads, and Shield focuses on DDoS rather than application query syntax.</p>
-          <div class="reason-strip"><span>1</span> Layer 7 filter <b>→</b><span>2</span> Managed rules <b>→</b><span>3</span> Rate limiting</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Layer 7 filter</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Managed rules</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Rate limiting</span></div>
         </div><div class="scenario-panel" id="sc-7-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Rotate credentials automatically</h3>
           <p>A Lambda function needs database credentials that must rotate regularly without redeployment. Store them in Secrets Manager, enable rotation, and grant the function only secret retrieval and required KMS permissions. Environment variables alone retain static values, while Parameter Store standard parameters do not provide native managed rotation.</p>
-          <div class="reason-strip"><span>1</span> Managed rotation <b>→</b><span>2</span> Runtime retrieval <b>→</b><span>3</span> Least privilege</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Managed rotation</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Runtime retrieval</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Least privilege</span></div>
         </div><div class="scenario-panel" id="sc-7-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Detect compromised credentials</h3>
           <p>Security needs managed detection of unusual API calls and known malicious network activity without deploying agents. Enable GuardDuty across accounts and Regions, then route findings through EventBridge for response. WAF sees only supported web traffic, and CloudTrail records API activity but does not itself perform threat analysis.</p>
-          <div class="reason-strip"><span>1</span> Threat analytics <b>→</b><span>2</span> No agents <b>→</b><span>3</span> Automated findings</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Threat analytics</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> No agents</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Automated findings</span></div>
         </div>
   </div>
 

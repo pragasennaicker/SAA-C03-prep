@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(15,0,this)" class="scenario-tab active">Audit</button><button type="button" onclick="showScenario(15,1,this)" class="scenario-tab">Fleet</button><button type="button" onclick="showScenario(15,2,this)" class="scenario-tab">Landing zone</button></div><div class="scenario-panel active" id="sc-15-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Who changed the security group?</h3>
           <p>Constraint: investigators need the identity, time, source, and API call that modified a security group. Design: search CloudTrail event history or a centralized trail. Why alternatives fail: CloudWatch metrics show behavior, and Config history shows configuration change but is not the primary API caller record.</p>
-          <div class="reason-strip"><span>1</span> CloudTrail records API <b>→</b><span>2</span> Identity appears in event <b>→</b><span>3</span> Central trails aid audit</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> CloudTrail records API</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Identity appears in event</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Central trails aid audit</span></div>
         </div><div class="scenario-panel" id="sc-15-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>No-ingress server administration</h3>
           <p>Constraint: operators must access private EC2 instances without opening port 22 or distributing SSH keys. Design: use SSM Session Manager with managed-instance permissions and connectivity. Why alternatives fail: a bastion still needs inbound access, and CloudFormation is not an interactive shell.</p>
-          <div class="reason-strip"><span>1</span> Session Manager avoids inbound <b>→</b><span>2</span> IAM controls sessions <b>→</b><span>3</span> Logs support audit</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Session Manager avoids inbound</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> IAM controls sessions</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Logs support audit</span></div>
         </div><div class="scenario-panel" id="sc-15-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Governed multi-account growth</h3>
           <p>Constraint: new accounts need repeatable baselines, centralized logging, and preventive or detective controls. Design: Control Tower establishes the landing zone and guardrails, with Organizations and account factory. Why alternatives fail: Config alone does not provision accounts, and CloudFormation alone lacks landing-zone governance.</p>
-          <div class="reason-strip"><span>1</span> Control Tower builds baseline <b>→</b><span>2</span> Guardrails govern OUs <b>→</b><span>3</span> Account factory standardizes</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Control Tower builds baseline</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Guardrails govern OUs</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Account factory standardizes</span></div>
         </div>
   </div>
 

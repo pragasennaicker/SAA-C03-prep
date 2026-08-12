@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(12,0,this)" class="scenario-tab active">CDN</button><button type="button" onclick="showScenario(12,1,this)" class="scenario-tab">Accelerator</button><button type="button" onclick="showScenario(12,2,this)" class="scenario-tab">DNS</button></div><div class="scenario-panel active" id="sc-12-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Private global media site</h3>
           <p>Constraint: users worldwide need low-latency downloads from a private S3 bucket. Design: CloudFront caches objects and uses origin access control to sign origin requests. Why alternatives fail: S3 website endpoints cannot use OAC, and Route 53 alone does not cache content.</p>
-          <div class="reason-strip"><span>1</span> CloudFront caches objects <b>→</b><span>2</span> OAC protects S3 <b>→</b><span>3</span> HTTPS terminates at edge</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> CloudFront caches objects</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> OAC protects S3</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> HTTPS terminates at edge</span></div>
         </div><div class="scenario-panel" id="sc-12-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Global gaming endpoint</h3>
           <p>Constraint: a latency-sensitive TCP game needs static anycast IPs and rapid regional failover. Design: Global Accelerator sends traffic over the AWS backbone to healthy ALB or NLB endpoints. Why alternatives fail: CloudFront is HTTP-content oriented, while DNS failover depends on resolver caching.</p>
-          <div class="reason-strip"><span>1</span> Anycast IPs stay stable <b>→</b><span>2</span> Backbone reduces internet path <b>→</b><span>3</span> Health shifts endpoints</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Anycast IPs stay stable</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Backbone reduces internet path</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Health shifts endpoints</span></div>
         </div><div class="scenario-panel" id="sc-12-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Regional active-passive site</h3>
           <p>Constraint: a web name should use the primary region unless its endpoint is unhealthy. Design: Route 53 failover alias records and health evaluation select the secondary. Why alternatives fail: weighted routing is not inherently active-passive, and latency routing optimizes latency rather than priority.</p>
-          <div class="reason-strip"><span>1</span> Failover expresses priority <b>→</b><span>2</span> Health controls answers <b>→</b><span>3</span> Alias targets AWS resource</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Failover expresses priority</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Health controls answers</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Alias targets AWS resource</span></div>
         </div>
   </div>
 

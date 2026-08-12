@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(2,0,this)" class="scenario-tab active">Many VPCs</button><button type="button" onclick="showScenario(2,1,this)" class="scenario-tab">Stable Hybrid</button><button type="button" onclick="showScenario(2,2,this)" class="scenario-tab">SaaS Access</button></div><div class="scenario-panel active" id="sc-2-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Build a transitive network hub</h3>
           <p>Dozens of VPCs and two offices need centralized, transitive routing with segmented route domains. Attach them to a Transit Gateway and use separate TGW route tables. A peering mesh grows quadratically and peering cannot route transitively through another VPC.</p>
-          <div class="reason-strip"><span>1</span> Transitive hub <b>→</b><span>2</span> Route domains <b>→</b><span>3</span> Fewer links</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Transitive hub</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Route domains</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Fewer links</span></div>
         </div><div class="scenario-panel" id="sc-2-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Private predictable hybrid path</h3>
           <p>A data center transfers steady large volumes to AWS and requires consistent network performance, with encrypted failover. Use Direct Connect as the primary path and a site-to-site VPN as backup, adding VPN over DX if primary-path encryption is mandatory. VPN alone depends on internet conditions, while Direct Connect alone lacks native encryption.</p>
-          <div class="reason-strip"><span>1</span> Predictable path <b>→</b><span>2</span> Encrypted option <b>→</b><span>3</span> Backup route</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Predictable path</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Encrypted option</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Backup route</span></div>
         </div><div class="scenario-panel" id="sc-2-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Expose only an internal service</h3>
           <p>A provider must serve hundreds of customer VPCs, including overlapping CIDRs, without granting broad network access. Put the service behind an NLB and publish it through PrivateLink endpoint services. Peering requires non-overlapping CIDRs and exposes routed network reachability beyond the single service.</p>
-          <div class="reason-strip"><span>1</span> Overlap safe <b>→</b><span>2</span> Service scoped <b>→</b><span>3</span> No route sharing</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Overlap safe</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Service scoped</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> No route sharing</span></div>
         </div>
   </div>
 

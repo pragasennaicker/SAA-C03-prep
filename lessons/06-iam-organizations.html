@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(6,0,this)" class="scenario-tab active">Cross Account</button><button type="button" onclick="showScenario(6,1,this)" class="scenario-tab">Region Guard</button><button type="button" onclick="showScenario(6,2,this)" class="scenario-tab">Developer Cap</button></div><div class="scenario-panel active" id="sc-6-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Read data with a role</h3>
           <p>An application in Account A needs limited access to a bucket in Account B without shared credentials. Create a role in B with bucket permissions and trust A to assume it through STS, adding external ID conditions for a third party. Copying access keys creates long-lived secret risk, while an SCP cannot grant bucket access.</p>
-          <div class="reason-strip"><span>1</span> Temporary credentials <b>→</b><span>2</span> Scoped trust <b>→</b><span>3</span> No key sharing</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Temporary credentials</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Scoped trust</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> No key sharing</span></div>
         </div><div class="scenario-panel" id="sc-6-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Restrict member-account Regions</h3>
           <p>Security must prevent member accounts from creating most resources outside approved Regions, even for account administrators. Attach an SCP with the required deny conditions to the relevant OU, exempting global services carefully. IAM policies in each account are easier to alter, and an SCP alone does not grant permitted actions.</p>
-          <div class="reason-strip"><span>1</span> OU-wide guardrail <b>→</b><span>2</span> Admin constrained <b>→</b><span>3</span> Explicit deny</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> OU-wide guardrail</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Admin constrained</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Explicit deny</span></div>
         </div><div class="scenario-panel" id="sc-6-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Delegate role creation safely</h3>
           <p>Developers may create roles but must never grant permissions beyond a security-approved ceiling. Require a permissions boundary on created roles and restrict iam:PassRole to approved roles. A normal allow policy can be changed into broader access, while an SCP is too coarse for per-role delegated limits.</p>
-          <div class="reason-strip"><span>1</span> Maximum ceiling <b>→</b><span>2</span> Delegated creation <b>→</b><span>3</span> PassRole scoped</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Maximum ceiling</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Delegated creation</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> PassRole scoped</span></div>
         </div>
   </div>
 

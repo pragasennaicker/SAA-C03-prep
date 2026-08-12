@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812k">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -76,15 +76,15 @@
     <div class="scenario-tabs"><button type="button" onclick="showScenario(10,0,this)" class="scenario-tab active">Fan-out</button><button type="button" onclick="showScenario(10,1,this)" class="scenario-tab">Workflow</button><button type="button" onclick="showScenario(10,2,this)" class="scenario-tab">Routing</button></div><div class="scenario-panel active" id="sc-10-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Independent order processors</h3>
           <p>Constraint: billing, fulfillment, and analytics must each process every order independently and survive downtime. Design: publish to SNS with a separate SQS subscription per consumer. Why alternatives fail: one shared queue load-balances messages instead of copying them, and direct calls couple availability.</p>
-          <div class="reason-strip"><span>1</span> SNS copies each event <b>→</b><span>2</span> SQS buffers per consumer <b>→</b><span>3</span> Policies isolate access</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> SNS copies each event</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> SQS buffers per consumer</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Policies isolate access</span></div>
         </div><div class="scenario-panel" id="sc-10-1">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Long-running approval flow</h3>
           <p>Constraint: a process waits for approval, branches on risk, and retries selected steps for days. Design: Step Functions Standard orchestrates services with waits, choices, and error handling. Why alternatives fail: Lambda cannot run for days, and SQS alone does not model workflow state.</p>
-          <div class="reason-strip"><span>1</span> Standard supports long runs <b>→</b><span>2</span> State machine records progress <b>→</b><span>3</span> Retries are per state</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Standard supports long runs</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> State machine records progress</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Retries are per state</span></div>
         </div><div class="scenario-panel" id="sc-10-2">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Cross-application business events</h3>
           <p>Constraint: many targets need only events matching attributes such as source and detail type. Design: EventBridge rules filter events and route them to targets, with archives or DLQs where needed. Why alternatives fail: SNS filtering is subscription-oriented, and SQS is not an event bus.</p>
-          <div class="reason-strip"><span>1</span> Rules match content <b>→</b><span>2</span> Bus decouples producers <b>→</b><span>3</span> Targets receive selected events</div>
+          <div class="reason-strip"><span class="reason-step"><span>1</span> Rules match content</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>2</span> Bus decouples producers</span><b class="reason-arrow" aria-hidden="true">→</b><span class="reason-step"><span>3</span> Targets receive selected events</span></div>
         </div>
   </div>
 
