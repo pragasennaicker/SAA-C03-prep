@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>(function(){try{var t=localStorage.getItem('saaC03Theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('saaC03Theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lesson 13: Data, Analytics & Streaming · SAA-C03</title>
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -27,7 +27,7 @@
   <div class="chapter-hero">
     <a class="back" href="../index.html">← Course index</a>
     <div class="chapter-no">LESSON 13</div>
-    <h1>Data, Analytics &amp; Streaming</h1><p class="sub">Kinesis, Firehose, Glue, Athena, EMR, Redshift and data lakes</p><div class="badges"><span class="badge">Performance</span><span class="badge">Cost</span></div>
+    <div class="title-row"><h1>Data, Analytics &amp; Streaming</h1><aside class="keywords" aria-label="Key words"><div class="keywords-label">Key words</div><div class="keyword-chips"><button type="button" class="keyword-chip" aria-expanded="false" data-def="Real-time streaming ingest with shards; consumers process records with low latency. You manage shard capacity (or on-demand mode).">Kinesis Data Streams</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Fully managed delivery stream that batches/compresses/transforms and loads into S3, Redshift, OpenSearch, and more — near real-time, not sub-second analytics.">Firehose</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Serverless ETL and data catalog. Crawlers populate a Data Catalog that Athena/Redshift Spectrum can query.">Glue</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Serverless SQL over data in S3 via the Glue Data Catalog. Pay per data scanned — partition and compress to control cost.">Athena</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Managed cloud data warehouse for complex analytics and BI at scale; columnar storage and MPP query engine.">Redshift</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Managed big-data frameworks (Spark, Hadoop, etc.) on clusters when you need custom processing beyond Athena/Glue jobs.">EMR</button></div><div class="keyword-def" hidden role="status"></div></aside></div><p class="sub">Kinesis, Firehose, Glue, Athena, EMR, Redshift and data lakes</p><div class="badges"><span class="badge">Performance</span><span class="badge">Cost</span></div>
     <div class="key-question"><span>KEY QUESTION</span>Is the data batch or streaming, and how will it be queried?</div>
     <div class="goal"><span>EXIT GOAL</span>Build a mental pipeline from ingestion through storage, catalog/ETL and analytics.</div>
   </div>
@@ -115,5 +115,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260812"></script>
+<script src="../assets/js/course.js?v=20260812c"></script>
 </body></html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>(function(){try{var t=localStorage.getItem('saaC03Theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('saaC03Theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lesson 08: Serverless, APIs & Front Ends · SAA-C03</title>
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -27,7 +27,7 @@
   <div class="chapter-hero">
     <a class="back" href="../index.html">← Course index</a>
     <div class="chapter-no">LESSON 08</div>
-    <h1>Serverless, APIs &amp; Front Ends</h1><p class="sub">Lambda, API Gateway, Cognito, AppSync and Amplify</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span><span class="badge">Security</span></div>
+    <div class="title-row"><h1>Serverless, APIs &amp; Front Ends</h1><aside class="keywords" aria-label="Key words"><div class="keywords-label">Key words</div><div class="keyword-chips"><button type="button" class="keyword-chip" aria-expanded="false" data-def="Event-driven compute that runs your code without managing servers. Scale is automatic; watch concurrency, timeouts, cold starts, and VPC ENI needs.">Lambda</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Managed HTTP/REST/WebSocket front door for APIs, with auth, throttling, and integration to Lambda or HTTP backends.">API Gateway</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="User pools (sign-up/sign-in) and identity pools (temporary AWS credentials for authenticated/guest users) for app identity.">Cognito</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Managed GraphQL API with real-time subscriptions and resolvers to data sources (DynamoDB, Lambda, HTTP, and more).">AppSync</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Front-end hosting and app toolchain that accelerates building web/mobile backends with auth, APIs, and CI/CD-style deploys.">Amplify</button></div><div class="keyword-def" hidden role="status"></div></aside></div><p class="sub">Lambda, API Gateway, Cognito, AppSync and Amplify</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span><span class="badge">Security</span></div>
     <div class="key-question"><span>KEY QUESTION</span>Can the application be decomposed into managed, event-driven components?</div>
     <div class="goal"><span>EXIT GOAL</span>Design low-operations APIs and event-driven applications, and know when serverless is not the best fit.</div>
   </div>
@@ -115,5 +115,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260812"></script>
+<script src="../assets/js/course.js?v=20260812c"></script>
 </body></html>

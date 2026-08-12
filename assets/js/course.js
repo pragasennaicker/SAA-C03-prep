@@ -80,10 +80,18 @@ function answer(el, correct, id) {
   if (fb) fb.style.display = 'block';
 }
 
+function systemTheme() {
+  try {
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  } catch (e) {
+    return 'dark';
+  }
+}
+
 function getTheme() {
   const saved = localStorage.getItem(THEME_KEY);
   if (saved === 'light' || saved === 'dark') return saved;
-  return 'dark';
+  return systemTheme();
 }
 
 function applyTheme(theme) {
@@ -112,9 +120,47 @@ function wireThemeToggle() {
   btn.addEventListener('click', toggleTheme);
 }
 
+function wireKeywords() {
+  const root = document.querySelector('.keywords');
+  if (!root || root.dataset.wired === '1') return;
+  root.dataset.wired = '1';
+  const panel = root.querySelector('.keyword-def');
+  const chips = [...root.querySelectorAll('.keyword-chip')];
+  if (!panel || !chips.length) return;
+
+  function closeAll() {
+    chips.forEach((c) => c.setAttribute('aria-expanded', 'false'));
+    panel.hidden = true;
+    panel.textContent = '';
+  }
+
+  function openChip(chip) {
+    chips.forEach((c) => c.setAttribute('aria-expanded', String(c === chip)));
+    panel.textContent = chip.getAttribute('data-def') || '';
+    panel.hidden = false;
+  }
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (chip.getAttribute('aria-expanded') === 'true') closeAll();
+      else openChip(chip);
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!root.contains(e.target)) closeAll();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAll();
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme(getTheme());
   wireThemeToggle();
+  wireKeywords();
   updateProgressUI();
   document.querySelectorAll('.complete-check').forEach((el) => {
     el.addEventListener('change', () => saveProgressFromCheckbox(el));

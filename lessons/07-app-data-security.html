@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>(function(){try{var t=localStorage.getItem('saaC03Theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('saaC03Theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lesson 07: Application Security & Data Protection · SAA-C03</title>
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -27,7 +27,7 @@
   <div class="chapter-hero">
     <a class="back" href="../index.html">← Course index</a>
     <div class="chapter-no">LESSON 07</div>
-    <h1>Application Security &amp; Data Protection</h1><p class="sub">KMS, Secrets Manager, ACM, WAF, Shield, GuardDuty and layered controls</p><div class="badges"><span class="badge">Security</span></div>
+    <div class="title-row"><h1>Application Security &amp; Data Protection</h1><aside class="keywords" aria-label="Key words"><div class="keywords-label">Key words</div><div class="keyword-chips"><button type="button" class="keyword-chip" aria-expanded="false" data-def="Key Management Service — create and control encryption keys; integrates with many AWS services for SSE and envelope encryption. Key policies are authoritative.">KMS</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Stores and rotates secrets (DB passwords, API keys) with fine-grained IAM access and optional automatic rotation.">Secrets Manager</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="AWS Certificate Manager — provisions and renews public TLS certificates for integrated services (ALB, CloudFront, API Gateway) at no extra certificate cost.">ACM</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Web Application Firewall — Layer 7 rules (SQLi, XSS, rate limits, geo) commonly attached to ALB, CloudFront, or API Gateway.">WAF</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="DDoS protection. Standard is automatic for many AWS resources; Advanced adds enhanced detection, response, and cost protections.">Shield</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Threat detection service that analyzes CloudTrail, VPC Flow Logs, and DNS logs for suspicious activity without deploying agents.">GuardDuty</button></div><div class="keyword-def" hidden role="status"></div></aside></div><p class="sub">KMS, Secrets Manager, ACM, WAF, Shield, GuardDuty and layered controls</p><div class="badges"><span class="badge">Security</span></div>
     <div class="key-question"><span>KEY QUESTION</span>Which layer of the architecture is the threat or control targeting?</div>
     <div class="goal"><span>EXIT GOAL</span>Map encryption, secrets, TLS, web protection, network filtering and detection services to the correct security problem.</div>
   </div>
@@ -115,5 +115,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260812"></script>
+<script src="../assets/js/course.js?v=20260812c"></script>
 </body></html>

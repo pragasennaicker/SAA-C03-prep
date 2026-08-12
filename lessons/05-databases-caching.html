@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>(function(){try{var t=localStorage.getItem('saaC03Theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('saaC03Theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lesson 05: Databases & Caching · SAA-C03</title>
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -27,7 +27,7 @@
   <div class="chapter-hero">
     <a class="back" href="../index.html">← Course index</a>
     <div class="chapter-no">LESSON 05</div>
-    <h1>Databases &amp; Caching</h1><p class="sub">RDS, Aurora, DynamoDB, ElastiCache and purpose-built databases</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span></div>
+    <div class="title-row"><h1>Databases &amp; Caching</h1><aside class="keywords" aria-label="Key words"><div class="keywords-label">Key words</div><div class="keyword-chips"><button type="button" class="keyword-chip" aria-expanded="false" data-def="Managed relational databases (MySQL, PostgreSQL, etc.) with automated backups, patching, and Multi-AZ options. You manage schema and queries, not the OS.">RDS</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="AWS-built MySQL/PostgreSQL-compatible engine with shared storage that auto-scales, fast replicas, and strong Multi-AZ durability defaults.">Aurora</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Fully managed key-value/document NoSQL database with single-digit millisecond performance at any scale; partition key design drives performance.">DynamoDB</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Managed Redis or Memcached in-memory cache to reduce database load and latency for hot reads or session data.">ElastiCache</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Async copy used to scale reads and offload reporting. Failover to a replica is not the same as Multi-AZ synchronous standby behavior.">Read Replica</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Synchronous standby in another AZ for high availability of the primary writer. Protects against AZ failure; it is not a read-scaling feature by itself.">Multi-AZ</button></div><div class="keyword-def" hidden role="status"></div></aside></div><p class="sub">RDS, Aurora, DynamoDB, ElastiCache and purpose-built databases</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span></div>
     <div class="key-question"><span>KEY QUESTION</span>What data model and access pattern does the application actually need?</div>
     <div class="goal"><span>EXIT GOAL</span>Differentiate availability, read scaling, caching and database-type decisions.</div>
   </div>
@@ -115,5 +115,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260812"></script>
+<script src="../assets/js/course.js?v=20260812c"></script>
 </body></html>

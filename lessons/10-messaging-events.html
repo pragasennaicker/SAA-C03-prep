@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>(function(){try{var t=localStorage.getItem('saaC03Theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('saaC03Theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lesson 10: Messaging, Integration & Event-Driven Design · SAA-C03</title>
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -27,7 +27,7 @@
   <div class="chapter-hero">
     <a class="back" href="../index.html">← Course index</a>
     <div class="chapter-no">LESSON 10</div>
-    <h1>Messaging, Integration &amp; Event-Driven Design</h1><p class="sub">SQS, SNS, EventBridge, Step Functions, MQ and decoupling</p><div class="badges"><span class="badge">Resilience</span><span class="badge">Performance</span></div>
+    <div class="title-row"><h1>Messaging, Integration &amp; Event-Driven Design</h1><aside class="keywords" aria-label="Key words"><div class="keywords-label">Key words</div><div class="keyword-chips"><button type="button" class="keyword-chip" aria-expanded="false" data-def="Simple Queue Service — durable message queue for decoupling producers and consumers. Standard (at-least-once, best-effort order) vs FIFO (ordered, exactly-once processing within limits).">SQS</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Simple Notification Service — pub/sub fan-out to many subscribers (SQS, Lambda, HTTP, email). Push model for fan-out patterns.">SNS</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Event bus for routing events between AWS services, SaaS partners, and custom apps using rules — preferred for event-driven architecture across accounts/services.">EventBridge</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Orchestrates multi-step workflows with retries, branching, and human approval — better than chaining Lambdas with brittle custom state.">Step Functions</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Managed ActiveMQ/RabbitMQ for apps that need traditional message broker protocols (JMS, AMQP) rather than SQS/SNS semantics.">Amazon MQ</button></div><div class="keyword-def" hidden role="status"></div></aside></div><p class="sub">SQS, SNS, EventBridge, Step Functions, MQ and decoupling</p><div class="badges"><span class="badge">Resilience</span><span class="badge">Performance</span></div>
     <div class="key-question"><span>KEY QUESTION</span>How can components fail and scale independently?</div>
     <div class="goal"><span>EXIT GOAL</span>Choose queue, pub/sub, event bus or workflow orchestration based on delivery semantics and coupling.</div>
   </div>
@@ -115,5 +115,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260812"></script>
+<script src="../assets/js/course.js?v=20260812c"></script>
 </body></html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>(function(){try{var t=localStorage.getItem('saaC03Theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('saaC03Theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lesson 17: Final Architecture Patterns & Exam Strategy · SAA-C03</title>
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -27,7 +27,7 @@
   <div class="chapter-hero">
     <a class="back" href="../index.html">← Course index</a>
     <div class="chapter-no">LESSON 17</div>
-    <h1>Final Architecture Patterns &amp; Exam Strategy</h1><p class="sub">Combine services into complete systems and solve scenario questions</p><div class="badges"><span class="badge">Security</span><span class="badge">Resilience</span><span class="badge">Performance</span><span class="badge">Cost</span></div>
+    <div class="title-row"><h1>Final Architecture Patterns &amp; Exam Strategy</h1><aside class="keywords" aria-label="Key words"><div class="keywords-label">Key words</div><div class="keyword-chips"><button type="button" class="keyword-chip" aria-expanded="false" data-def="AWS framework of pillars (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability) used to review architectures systematically.">Well-Architected</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Design so components communicate via queues, events, or APIs and can fail/scale independently — reduces blast radius and tight failure domains.">Loose coupling</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Grant only the permissions required for a task (IAM, SGs, endpoint/bucket policies). Default deny; expand carefully.">Least privilege</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="How much of the system a single failure or mistake can take down. Limit with Multi-AZ, cell architecture, IAM boundaries, and isolation.">Blast radius</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="SAA questions often hide a hard requirement (encryption, private-only, RPO/RTO, cost ceiling). Eliminate answers that violate the constraint first.">Exam constraint</button></div><div class="keyword-def" hidden role="status"></div></aside></div><p class="sub">Combine services into complete systems and solve scenario questions</p><div class="badges"><span class="badge">Security</span><span class="badge">Resilience</span><span class="badge">Performance</span><span class="badge">Cost</span></div>
     <div class="key-question"><span>KEY QUESTION</span>Which architecture satisfies every stated constraint with the least unnecessary complexity?</div>
     <div class="goal"><span>EXIT GOAL</span>Solve end-to-end SAA scenarios quickly by recognizing architecture families and qualifier words.</div>
   </div>
@@ -115,5 +115,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260812"></script>
+<script src="../assets/js/course.js?v=20260812c"></script>
 </body></html>

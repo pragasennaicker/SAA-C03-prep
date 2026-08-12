@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>(function(){try{var t=localStorage.getItem('saaC03Theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('saaC03Theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lesson 06: IAM, Organizations & Authorization · SAA-C03</title>
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -27,7 +27,7 @@
   <div class="chapter-hero">
     <a class="back" href="../index.html">← Course index</a>
     <div class="chapter-no">LESSON 06</div>
-    <h1>IAM, Organizations &amp; Authorization</h1><p class="sub">Identities, roles, policy evaluation, STS, SCPs and workforce access</p><div class="badges"><span class="badge">Security</span></div>
+    <div class="title-row"><h1>IAM, Organizations &amp; Authorization</h1><aside class="keywords" aria-label="Key words"><div class="keywords-label">Key words</div><div class="keyword-chips"><button type="button" class="keyword-chip" aria-expanded="false" data-def="Identity assumed by users, services, or accounts via temporary credentials. Preferred over long-lived access keys for workloads.">IAM Role</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="JSON document of Allow/Deny statements evaluated for API authorization. Explicit Deny wins over Allow.">IAM Policy</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Security Token Service — issues temporary credentials for AssumeRole, federation, and cross-account access.">STS</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Service Control Policy in AWS Organizations — guardrail that limits the maximum permissions accounts can use, even for the root user in member accounts.">SCP</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Workforce single sign-on into AWS accounts and apps (successor to AWS SSO). Central permission sets instead of per-account IAM users.">Identity Center</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Optional max-permissions ceiling on an IAM user or role. The effective permission is the intersection of identity policies and the boundary.">Permission Boundary</button></div><div class="keyword-def" hidden role="status"></div></aside></div><p class="sub">Identities, roles, policy evaluation, STS, SCPs and workforce access</p><div class="badges"><span class="badge">Security</span></div>
     <div class="key-question"><span>KEY QUESTION</span>Who is allowed to do what, where, and under which boundaries?</div>
     <div class="goal"><span>EXIT GOAL</span>Reason through IAM policy evaluation, temporary credentials, cross-account access and multi-account guardrails.</div>
   </div>
@@ -115,5 +115,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260812"></script>
+<script src="../assets/js/course.js?v=20260812c"></script>
 </body></html>

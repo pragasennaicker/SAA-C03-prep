@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>(function(){try{var t=localStorage.getItem('saaC03Theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('saaC03Theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lesson 03: EC2, Load Balancing & Auto Scaling · SAA-C03</title>
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260812">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260812f">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -27,7 +27,7 @@
   <div class="chapter-hero">
     <a class="back" href="../index.html">← Course index</a>
     <div class="chapter-no">LESSON 03</div>
-    <h1>EC2, Load Balancing &amp; Auto Scaling</h1><p class="sub">Instances, purchase models, ALB/NLB and elastic compute</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span></div>
+    <div class="title-row"><h1>EC2, Load Balancing &amp; Auto Scaling</h1><aside class="keywords" aria-label="Key words"><div class="keywords-label">Key words</div><div class="keyword-chips"><button type="button" class="keyword-chip" aria-expanded="false" data-def="Elastic Compute Cloud — virtual servers (instances) you size, place, and scale. Exam focus is instance families, networking placement, and purchase models.">EC2</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Amazon Machine Image — template of OS, root volume, and launch permissions used to launch consistent EC2 instances.">AMI</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Application Load Balancer — Layer 7 HTTP/HTTPS load balancing with path/host routing, useful for microservices and container targets.">ALB</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Network Load Balancer — Layer 4 TCP/UDP(/TLS) load balancing for ultra-low latency, static IPs, and non-HTTP protocols.">NLB</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Automatically adjusts EC2 capacity from scaling policies/schedules and health checks so capacity matches demand across AZs.">Auto Scaling</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Pay-by-the-second/hour with no long-term commitment. Flexible but usually highest unit price for steady workloads.">On-Demand</button><button type="button" class="keyword-chip" aria-expanded="false" data-def="Commit to usage (1–3 years) for discounted compute. Savings Plans are more flexible across instance families/regions than classic Reserved Instances for many cases.">Reserved / Savings Plans</button></div><div class="keyword-def" hidden role="status"></div></aside></div><p class="sub">Instances, purchase models, ALB/NLB and elastic compute</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span></div>
     <div class="key-question"><span>KEY QUESTION</span>How do I run variable compute reliably and economically?</div>
     <div class="goal"><span>EXIT GOAL</span>Select EC2 characteristics, load balancers and scaling policies based on traffic, protocol, availability and cost.</div>
   </div>
@@ -115,5 +115,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260812"></script>
+<script src="../assets/js/course.js?v=20260812c"></script>
 </body></html>
