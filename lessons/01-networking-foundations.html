@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 01: Networking Foundations · SAA-C03</title>
+<meta name="description" content="VPCs, subnets, routing, internet access and network security — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 01: Networking Foundations · SAA-C03">
+<meta property="og:description" content="VPCs, subnets, routing, internet access and network security — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-1">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 01</div>
+    <h1>Networking Foundations</h1><p class="sub">VPCs, subnets, routing, internet access and network security</p><div class="badges"><span class="badge">Security</span><span class="badge">Performance</span><span class="badge">Cost</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>How does one packet move through a VPC?</div>
+    <div class="goal"><span>EXIT GOAL</span>Draw a two-AZ VPC from memory, trace inbound and outbound traffic, and identify the routing or security control that permits or blocks it.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-1">Visual map</a><a href="#deep-1">Deep dive</a>
+    <a href="#decision-1">Decision table</a><a href="#scenario-1">Scenarios</a>
+    <a href="#decoder-1">Exam language</a><a href="#quiz-1">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-1">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Networking Foundations architecture diagram"><defs><marker id="arr-1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Internet</text><rect x="58.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">User / client</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">VPC edge</text><rect x="266.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Internet Gateway</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">Public subnets</text><rect x="474.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">ALB</text><rect x="474.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">NAT Gateway</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">Private subnets</text><rect x="682.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="190.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">EC2 /</text><text x="762.0" y="207.0" text-anchor="middle" fill="#c2d2e4" font-size="12">ECS application</text><rect x="682.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">RDS / private data</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">Private AWS access</text><rect x="890.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">S3 Gateway Endpoint</text><line x1="207.0" y1="230.0" x2="276.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-1)"/><line x1="415.0" y1="230.0" x2="484.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-1)"/><line x1="623.0" y1="266.0" x2="692.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-1)"/><line x1="831.0" y1="266.0" x2="900.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-1)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Network decisions become clear when every packet has a route, a state model, and the narrowest private path.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Route before reachability</b><p>Trace the subnet route table first: an internet gateway serves public IPv4 paths, while a NAT gateway gives private subnets outbound-only internet access.</p></div>
+      <div><span>②</span><b>State lives in security groups</b><p>Security groups are stateful and attach to ENIs; network ACLs are stateless subnet boundaries, so return traffic must be allowed explicitly.</p></div>
+      <div><span>③</span><b>Private service paths</b><p>Gateway endpoints keep S3 and DynamoDB traffic off NAT, while interface endpoints use PrivateLink ENIs and security groups for supported services.</p></div>
+      <div><span>④</span><b>Availability by AZ</b><p>A NAT gateway is zonal. Place one per active Availability Zone and route each private subnet locally to avoid cross-AZ dependency and charges.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-1">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>VPC + CIDR</h3></div><ul><li>The VPC CIDR is the private address space for the network.</li><li>Subnets are carved from that space and belong to one Availability Zone.</li><li>Plan non-overlapping CIDRs when future peering, Transit Gateway or hybrid routing is likely.</li><li>IPv4 routing uses longest-prefix match: the most specific matching route wins.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>Public vs private subnets</h3></div><ul><li>A subnet is public because its route table has a route to an Internet Gateway.</li><li>An instance also needs a public IPv4 address or Elastic IP plus permissive security controls to be directly internet reachable.</li><li>A private subnet normally has no direct IGW route.</li><li>Public ALBs and NAT Gateways normally live in public subnets; application/database tiers normally live in private subnets.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>IGW + NAT Gateway</h3></div><ul><li>An Internet Gateway is attached to the VPC and enables internet routing for public resources.</li><li>A NAT Gateway enables private IPv4 resources to initiate outbound internet connections.</li><li>The NAT Gateway itself sits in a public subnet and uses an Elastic IP for public IPv4 egress.</li><li>For resilience, use a NAT Gateway per AZ and route each private subnet to its same-AZ NAT.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>Security Group vs NACL</h3></div><ul><li>Security Groups are stateful: allowed request traffic automatically permits the response path.</li><li>Security Groups contain allow rules, not explicit deny rules.</li><li>Network ACLs are stateless and are evaluated at the subnet boundary.</li><li>NACLs support allow and deny rules and require return-path rules, including ephemeral ports where relevant.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>VPC endpoints</h3></div><ul><li>Gateway endpoints are especially important for S3 and DynamoDB.</li><li>Interface endpoints use private ENIs and AWS PrivateLink for many AWS services.</li><li>Endpoints keep supported service traffic private and may avoid NAT processing/data-path cost.</li><li>Endpoint policies can further restrict permitted actions/resources.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-1">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Requirement</th><th>Best-fit component</th><th>Why</th></tr></thead><tbody><tr><td>Internet-facing HTTP entry</td><td>Public ALB + IGW</td><td>Layer-7 entry point in public subnets</td></tr><tr><td>Private EC2 needs package updates</td><td>NAT Gateway</td><td>Outbound internet without direct inbound exposure</td></tr><tr><td>Private EC2 sends heavy traffic to S3</td><td>S3 Gateway Endpoint</td><td>Private service path; avoids NAT for that traffic</td></tr><tr><td>Explicitly block a CIDR at subnet boundary</td><td>NACL</td><td>Supports explicit deny</td></tr><tr><td>Allow app tier to DB on port 5432</td><td>DB Security Group referencing app SG</td><td>Stateful, resource-level least privilege</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-1">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(1,0,this)" class="scenario-tab active">Private S3</button><button type="button" onclick="showScenario(1,1,this)" class="scenario-tab">Outbound HA</button><button type="button" onclick="showScenario(1,2,this)" class="scenario-tab">Filter Layers</button></div><div class="scenario-panel active" id="sc-1-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Reach S3 without NAT</h3>
+          <p>Private EC2 instances need S3 access but must not traverse the internet or pay NAT processing charges. Add an S3 gateway endpoint and restrict its endpoint policy and bucket policy. An internet gateway does not make private instances reachable, and an interface endpoint adds unnecessary hourly cost here.</p>
+          <div class="reason-strip"><span>1</span> No public path <b>→</b><span>2</span> No NAT charge <b>→</b><span>3</span> Policy controlled</div>
+        </div><div class="scenario-panel" id="sc-1-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Resilient private-subnet egress</h3>
+          <p>A two-AZ workload needs outbound patch access and must survive one AZ failure. Deploy a NAT gateway in each AZ and point each private subnet at its local NAT. One shared NAT creates an AZ dependency, while an internet gateway cannot provide outbound access to instances without public addresses.</p>
+          <div class="reason-strip"><span>1</span> AZ independent <b>→</b><span>2</span> Outbound only <b>→</b><span>3</span> Local routing</div>
+        </div><div class="scenario-panel" id="sc-1-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Block a hostile CIDR</h3>
+          <p>Administrators must deny a known CIDR across every instance in a subnet while retaining application security groups. Add an explicit deny in the subnet network ACL and allow required return ports. Security groups have no deny rules, and route tables are not packet-filtering policy.</p>
+          <div class="reason-strip"><span>1</span> Explicit deny <b>→</b><span>2</span> Subnet scope <b>→</b><span>3</span> Stateless returns</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-1">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“publicly accessible”</div><div class="think">→ Look for IGW + public addressing + routing/security.</div></div><div class="decoder-item"><div class="phrase">“private instances need updates”</div><div class="think">→ Think NAT Gateway.</div></div><div class="decoder-item"><div class="phrase">“explicit deny”</div><div class="think">→ Think NACL or a higher-level security control; Security Groups have allow rules only.</div></div><div class="decoder-item"><div class="phrase">“access S3 without internet/NAT”</div><div class="think">→ Think S3 Gateway Endpoint.</div></div><div class="decoder-item"><div class="phrase">“highly available VPC”</div><div class="think">→ Spread subnets/resources across AZs; avoid one-AZ NAT dependency.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-1">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>Private EC2 instances must download objects from S3 without internet routes and with the lowest recurring network cost. Which design meets the requirement?</b></div><button type="button" class="option" onclick="answer(this,true,'q-1-1')">A. Add an S3 gateway endpoint</button><button type="button" class="option" onclick="answer(this,false,'q-1-1')">B. Add a NAT gateway in every AZ</button><button type="button" class="option" onclick="answer(this,false,'q-1-1')">C. Assign public IPv4 addresses</button><button type="button" class="option" onclick="answer(this,false,'q-1-1')">D. Add an internet gateway route</button>
+        <div class="feedback" id="q-1-1"><strong>Answer: A.</strong> The deciding constraints are private routing and low recurring cost; an S3 gateway endpoint has no hourly endpoint or NAT processing charge.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>A subnet must reject one malicious source CIDR even when an attached application security group allows its port. Which control should be changed?</b></div><button type="button" class="option" onclick="answer(this,false,'q-1-2')">A. Security group outbound rule</button><button type="button" class="option" onclick="answer(this,true,'q-1-2')">B. Network ACL inbound deny rule</button><button type="button" class="option" onclick="answer(this,false,'q-1-2')">C. Internet gateway route</button><button type="button" class="option" onclick="answer(this,false,'q-1-2')">D. VPC DHCP option set</button>
+        <div class="feedback" id="q-1-2"><strong>Answer: B.</strong> The deciding constraint is an explicit subnet-level deny. Network ACLs support ordered allow and deny rules, whereas security groups allow only.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>Instances in two private subnets across two AZs require highly available IPv4 internet egress. Which architecture removes a single-AZ dependency?</b></div><button type="button" class="option" onclick="answer(this,false,'q-1-3')">A. One NAT instance in one AZ</button><button type="button" class="option" onclick="answer(this,false,'q-1-3')">B. One egress-only internet gateway</button><button type="button" class="option" onclick="answer(this,true,'q-1-3')">C. A NAT gateway per AZ with local routes</button><button type="button" class="option" onclick="answer(this,false,'q-1-3')">D. One internet gateway per private subnet</button>
+        <div class="feedback" id="q-1-3"><strong>Answer: C.</strong> The deciding constraint is AZ-resilient IPv4 egress. NAT gateways are zonal, so each subnet should use a NAT in its own AZ.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>A security group allows TCP 443 inbound from a client. No outbound rule explicitly allows the response ephemeral port. Why can the response still return?</b></div><button type="button" class="option" onclick="answer(this,false,'q-1-4')">A. Route tables open response ports</button><button type="button" class="option" onclick="answer(this,false,'q-1-4')">B. The internet gateway tracks sessions</button><button type="button" class="option" onclick="answer(this,false,'q-1-4')">C. Network ACLs are stateful</button><button type="button" class="option" onclick="answer(this,true,'q-1-4')">D. Security groups are stateful</button>
+        <div class="feedback" id="q-1-4"><strong>Answer: D.</strong> The deciding behavior is connection tracking: security groups automatically permit response traffic for an allowed flow.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>An IPv6-only private workload needs outbound internet access but must reject unsolicited inbound internet connections. Which VPC component is appropriate?</b></div><button type="button" class="option" onclick="answer(this,true,'q-1-5')">A. Egress-only internet gateway</button><button type="button" class="option" onclick="answer(this,false,'q-1-5')">B. NAT gateway</button><button type="button" class="option" onclick="answer(this,false,'q-1-5')">C. Gateway Load Balancer</button><button type="button" class="option" onclick="answer(this,false,'q-1-5')">D. VPC peering connection</button>
+        <div class="feedback" id="q-1-5"><strong>Answer: A.</strong> The deciding constraints are IPv6 and outbound-only internet access. An egress-only internet gateway provides that behavior without IPv4 NAT.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="1"> Mark Lesson 01 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="02-connecting-networks.html">Lesson 02 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

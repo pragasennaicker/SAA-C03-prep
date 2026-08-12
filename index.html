@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AWS SAA-C03 Visual Course</title>
+<meta name="description" content="To-the-point visual study course for the AWS Solutions Architect Associate (SAA-C03) exam.">
+<meta property="og:title" content="AWS SAA-C03 Visual Course">
+<meta property="og:description" content="To-the-point visual study course for the AWS Solutions Architect Associate (SAA-C03) exam.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section id="index">
+  <div class="hero">
+    <div class="eyebrow">Visual edition · August 2026</div>
+    <h1>AWS Solutions Architect Associate<br>Visual Course</h1>
+    <p class="lead">To-the-point architecture learning for SAA-C03. Each lesson has a visual model, decision tables, worked scenarios, exam-language triggers, and five scenario-style questions.</p>
+    <div class="domain-grid">
+      <div class="domain"><div class="pct">30%</div><b>Security</b><p>Secure access, workloads/applications, and data controls.</p></div>
+      <div class="domain"><div class="pct">26%</div><b>Resilience</b><p>Loose coupling, scalability, HA, fault tolerance and DR.</p></div>
+      <div class="domain"><div class="pct">24%</div><b>Performance</b><p>Storage, compute, databases, networks and data ingestion.</p></div>
+      <div class="domain"><div class="pct">20%</div><b>Cost</b><p>Cost-optimized storage, compute, database and networking.</p></div>
+    </div>
+    <div class="course-map">
+      <div class="map-row"><span class="map-label">FOUNDATION</span>
+        <a class="map-pill" href="lessons/01-networking-foundations.html">01 Networking</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/02-connecting-networks.html">02 Connectivity</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/03-ec2-load-balancing.html">03 Compute</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/04-storage-architecture.html">04 Storage</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/05-databases-caching.html">05 Databases</a></div>
+      <div class="map-row"><span class="map-label">SECURITY</span>
+        <a class="map-pill" href="lessons/06-iam-organizations.html">06 IAM</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/07-app-data-security.html">07 App/Data Security</a></div>
+      <div class="map-row"><span class="map-label">APPLICATION</span>
+        <a class="map-pill" href="lessons/08-serverless-apis.html">08 Serverless</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/09-containers-compute.html">09 Containers</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/10-messaging-events.html">10 Messaging</a></div>
+      <div class="map-row"><span class="map-label">ARCHITECTURE</span>
+        <a class="map-pill" href="lessons/11-resilience-dr.html">11 DR</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/12-edge-global.html">12 Global</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/13-data-analytics.html">13 Analytics</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/14-migration-hybrid.html">14 Migration</a></div>
+      <div class="map-row"><span class="map-label">OPTIMIZE</span>
+        <a class="map-pill" href="lessons/15-monitoring-ops.html">15 Operations</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/16-cost-optimization.html">16 Cost</a><span class="map-arrow">→</span>
+        <a class="map-pill" href="lessons/17-final-patterns.html">17 Final Patterns</a></div>
+    </div>
+    <div class="info-note"><b>How to use this course:</b> For each lesson, draw the architecture, then explain the packet/data path, failure mode, scaling mechanism, and cost trade-off without notes. Then take the quiz.</div>
+    <div class="method-grid">
+      <div><span>1 · DRAW</span><p>Reproduce the visual model from memory before reading the deep dive.</p></div>
+      <div><span>2 · TRACE</span><p>Follow request and data paths; name the control that permits or blocks traffic.</p></div>
+      <div><span>3 · STRESS</span><p>Ask what fails in an AZ or Region outage and how RPO/RTO change.</p></div>
+      <div><span>4 · DECIDE</span><p>Use exam language triggers to eliminate answers that violate hard constraints.</p></div>
+    </div>
+    <div class="disclaimer"><b>Disclaimer:</b> Unofficial study aid, not affiliated with Amazon Web Services. Always verify details against the current <a href="https://docs.aws.amazon.com/aws-certification/latest/solutions-architect-associate-03/solutions-architect-associate-03.html" target="_blank" rel="noopener">SAA-C03 exam guide</a> and AWS documentation.</div>
+  </div>
+
+  <div class="toolbar"><input class="search" id="search" placeholder="Search lessons: VPC, DynamoDB, IAM, disaster recovery..." oninput="filterLessons()"><button class="reset" type="button" onclick="resetProgress()">Reset progress</button></div>
+  <div class="lesson-list">
+<a class="lesson-card" href="lessons/01-networking-foundations.html" data-search="networking foundations vpcs, subnets, routing, internet access and network security security performance cost">
+      <div class="card-num">01</div>
+      <div class="card-copy"><h3>Networking Foundations</h3><p>VPCs, subnets, routing, internet access and network security</p>
+      <div class="card-tags"><span>Security</span><span>Performance</span><span>Cost</span></div></div>
+      <div class="dot" id="dot-1"></div>
+    </a><a class="lesson-card" href="lessons/02-connecting-networks.html" data-search="connecting networks &amp; global routing peering, transit gateway, vpn, direct connect, privatelink and route 53 security performance resilience">
+      <div class="card-num">02</div>
+      <div class="card-copy"><h3>Connecting Networks &amp; Global Routing</h3><p>Peering, Transit Gateway, VPN, Direct Connect, PrivateLink and Route 53</p>
+      <div class="card-tags"><span>Security</span><span>Performance</span><span>Resilience</span></div></div>
+      <div class="dot" id="dot-2"></div>
+    </a><a class="lesson-card" href="lessons/03-ec2-load-balancing.html" data-search="ec2, load balancing &amp; auto scaling instances, purchase models, alb/nlb and elastic compute performance resilience cost">
+      <div class="card-num">03</div>
+      <div class="card-copy"><h3>EC2, Load Balancing &amp; Auto Scaling</h3><p>Instances, purchase models, ALB/NLB and elastic compute</p>
+      <div class="card-tags"><span>Performance</span><span>Resilience</span><span>Cost</span></div></div>
+      <div class="dot" id="dot-3"></div>
+    </a><a class="lesson-card" href="lessons/04-storage-architecture.html" data-search="storage architecture s3, ebs, efs, fsx, archive, replication and backup performance resilience cost security">
+      <div class="card-num">04</div>
+      <div class="card-copy"><h3>Storage Architecture</h3><p>S3, EBS, EFS, FSx, archive, replication and backup</p>
+      <div class="card-tags"><span>Performance</span><span>Resilience</span><span>Cost</span><span>Security</span></div></div>
+      <div class="dot" id="dot-4"></div>
+    </a><a class="lesson-card" href="lessons/05-databases-caching.html" data-search="databases &amp; caching rds, aurora, dynamodb, elasticache and purpose-built databases performance resilience cost">
+      <div class="card-num">05</div>
+      <div class="card-copy"><h3>Databases &amp; Caching</h3><p>RDS, Aurora, DynamoDB, ElastiCache and purpose-built databases</p>
+      <div class="card-tags"><span>Performance</span><span>Resilience</span><span>Cost</span></div></div>
+      <div class="dot" id="dot-5"></div>
+    </a><a class="lesson-card" href="lessons/06-iam-organizations.html" data-search="iam, organizations &amp; authorization identities, roles, policy evaluation, sts, scps and workforce access security">
+      <div class="card-num">06</div>
+      <div class="card-copy"><h3>IAM, Organizations &amp; Authorization</h3><p>Identities, roles, policy evaluation, STS, SCPs and workforce access</p>
+      <div class="card-tags"><span>Security</span></div></div>
+      <div class="dot" id="dot-6"></div>
+    </a><a class="lesson-card" href="lessons/07-app-data-security.html" data-search="application security &amp; data protection kms, secrets manager, acm, waf, shield, guardduty and layered controls security">
+      <div class="card-num">07</div>
+      <div class="card-copy"><h3>Application Security &amp; Data Protection</h3><p>KMS, Secrets Manager, ACM, WAF, Shield, GuardDuty and layered controls</p>
+      <div class="card-tags"><span>Security</span></div></div>
+      <div class="dot" id="dot-7"></div>
+    </a><a class="lesson-card" href="lessons/08-serverless-apis.html" data-search="serverless, apis &amp; front ends lambda, api gateway, cognito, appsync and amplify performance resilience cost security">
+      <div class="card-num">08</div>
+      <div class="card-copy"><h3>Serverless, APIs &amp; Front Ends</h3><p>Lambda, API Gateway, Cognito, AppSync and Amplify</p>
+      <div class="card-tags"><span>Performance</span><span>Resilience</span><span>Cost</span><span>Security</span></div></div>
+      <div class="dot" id="dot-8"></div>
+    </a><a class="lesson-card" href="lessons/09-containers-compute.html" data-search="containers &amp; compute choices ecs, eks, fargate, ecr, batch and platform trade-offs performance resilience cost">
+      <div class="card-num">09</div>
+      <div class="card-copy"><h3>Containers &amp; Compute Choices</h3><p>ECS, EKS, Fargate, ECR, Batch and platform trade-offs</p>
+      <div class="card-tags"><span>Performance</span><span>Resilience</span><span>Cost</span></div></div>
+      <div class="dot" id="dot-9"></div>
+    </a><a class="lesson-card" href="lessons/10-messaging-events.html" data-search="messaging, integration &amp; event-driven design sqs, sns, eventbridge, step functions, mq and decoupling resilience performance">
+      <div class="card-num">10</div>
+      <div class="card-copy"><h3>Messaging, Integration &amp; Event-Driven Design</h3><p>SQS, SNS, EventBridge, Step Functions, MQ and decoupling</p>
+      <div class="card-tags"><span>Resilience</span><span>Performance</span></div></div>
+      <div class="dot" id="dot-10"></div>
+    </a><a class="lesson-card" href="lessons/11-resilience-dr.html" data-search="resilience, backup &amp; disaster recovery multi-az, multi-region, rpo/rto, failover and dr patterns resilience security">
+      <div class="card-num">11</div>
+      <div class="card-copy"><h3>Resilience, Backup &amp; Disaster Recovery</h3><p>Multi-AZ, Multi-Region, RPO/RTO, failover and DR patterns</p>
+      <div class="card-tags"><span>Resilience</span><span>Security</span></div></div>
+      <div class="dot" id="dot-11"></div>
+    </a><a class="lesson-card" href="lessons/12-edge-global.html" data-search="edge, global performance &amp; dns cloudfront, global accelerator, route 53 and global applications performance resilience cost">
+      <div class="card-num">12</div>
+      <div class="card-copy"><h3>Edge, Global Performance &amp; DNS</h3><p>CloudFront, Global Accelerator, Route 53 and global applications</p>
+      <div class="card-tags"><span>Performance</span><span>Resilience</span><span>Cost</span></div></div>
+      <div class="dot" id="dot-12"></div>
+    </a><a class="lesson-card" href="lessons/13-data-analytics.html" data-search="data, analytics &amp; streaming kinesis, firehose, glue, athena, emr, redshift and data lakes performance cost">
+      <div class="card-num">13</div>
+      <div class="card-copy"><h3>Data, Analytics &amp; Streaming</h3><p>Kinesis, Firehose, Glue, Athena, EMR, Redshift and data lakes</p>
+      <div class="card-tags"><span>Performance</span><span>Cost</span></div></div>
+      <div class="dot" id="dot-13"></div>
+    </a><a class="lesson-card" href="lessons/14-migration-hybrid.html" data-search="migration, transfer &amp; hybrid storage dms, datasync, application migration service, snow, transfer family and storage gateway performance resilience cost">
+      <div class="card-num">14</div>
+      <div class="card-copy"><h3>Migration, Transfer &amp; Hybrid Storage</h3><p>DMS, DataSync, Application Migration Service, Snow, Transfer Family and Storage Gateway</p>
+      <div class="card-tags"><span>Performance</span><span>Resilience</span><span>Cost</span></div></div>
+      <div class="dot" id="dot-14"></div>
+    </a><a class="lesson-card" href="lessons/15-monitoring-ops.html" data-search="monitoring, governance &amp; operations cloudwatch, cloudtrail, config, systems manager, cloudformation and control tower security resilience cost">
+      <div class="card-num">15</div>
+      <div class="card-copy"><h3>Monitoring, Governance &amp; Operations</h3><p>CloudWatch, CloudTrail, Config, Systems Manager, CloudFormation and Control Tower</p>
+      <div class="card-tags"><span>Security</span><span>Resilience</span><span>Cost</span></div></div>
+      <div class="dot" id="dot-15"></div>
+    </a><a class="lesson-card" href="lessons/16-cost-optimization.html" data-search="cost optimization &amp; architecture trade-offs compute pricing, storage lifecycle, database sizing, network costs and cost tools cost">
+      <div class="card-num">16</div>
+      <div class="card-copy"><h3>Cost Optimization &amp; Architecture Trade-offs</h3><p>Compute pricing, storage lifecycle, database sizing, network costs and cost tools</p>
+      <div class="card-tags"><span>Cost</span></div></div>
+      <div class="dot" id="dot-16"></div>
+    </a><a class="lesson-card" href="lessons/17-final-patterns.html" data-search="final architecture patterns &amp; exam strategy combine services into complete systems and solve scenario questions security resilience performance cost">
+      <div class="card-num">17</div>
+      <div class="card-copy"><h3>Final Architecture Patterns &amp; Exam Strategy</h3><p>Combine services into complete systems and solve scenario questions</p>
+      <div class="card-tags"><span>Security</span><span>Resilience</span><span>Performance</span><span>Cost</span></div></div>
+      <div class="dot" id="dot-17"></div>
+    </a>
+  </div>
+
+  <div class="appendix">
+    <div class="eyebrow">Appendix</div>
+    <h2>Service atlas &amp; sources</h2>
+    <p class="lead">Recognition coverage for the wider in-scope service list lives in a dedicated appendix page.</p>
+    <p><a class="nav-btn" href="appendix/service-atlas.html">Open service atlas →</a></p>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="index.html">Course home</a> ·
+<a href="appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="assets/js/course.js"></script>
+</body></html>

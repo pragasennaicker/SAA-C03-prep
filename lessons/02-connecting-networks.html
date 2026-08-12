@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 02: Connecting Networks & Global Routing · SAA-C03</title>
+<meta name="description" content="Peering, Transit Gateway, VPN, Direct Connect, PrivateLink and Route 53 — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 02: Connecting Networks & Global Routing · SAA-C03">
+<meta property="og:description" content="Peering, Transit Gateway, VPN, Direct Connect, PrivateLink and Route 53 — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-2">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 02</div>
+    <h1>Connecting Networks &amp; Global Routing</h1><p class="sub">Peering, Transit Gateway, VPN, Direct Connect, PrivateLink and Route 53</p><div class="badges"><span class="badge">Security</span><span class="badge">Performance</span><span class="badge">Resilience</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>What should connect networks, services and Regions?</div>
+    <div class="goal"><span>EXIT GOAL</span>Choose the correct VPC-to-VPC, hybrid or private-service connectivity pattern and the right Route 53 routing policy.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-2">Visual map</a><a href="#deep-2">Deep dive</a>
+    <a href="#decision-2">Decision table</a><a href="#scenario-2">Scenarios</a>
+    <a href="#decoder-2">Exam language</a><a href="#quiz-2">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-2">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Connecting Networks &amp; Global Routing architecture diagram"><defs><marker id="arr-2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">On-premises</text><rect x="58.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Data centre</text><rect x="58.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="262.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Branch /</text><text x="138.0" y="279.0" text-anchor="middle" fill="#c2d2e4" font-size="12">remote network</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">Hybrid edge</text><rect x="266.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Site-to-Site VPN</text><rect x="266.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Direct Connect</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">AWS network hub</text><rect x="474.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Transit Gateway</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">VPC connectivity</text><rect x="682.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">VPC Peering</text><rect x="682.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">PrivateLink</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">Global DNS</text><rect x="890.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Route 53</text><line x1="207.0" y1="266.0" x2="276.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-2)"/><line x1="415.0" y1="266.0" x2="484.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-2)"/><line x1="623.0" y1="230.0" x2="692.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-2)"/><line x1="831.0" y1="266.0" x2="900.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-2)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Choose connectivity by topology, reachability scope, performance, encryption, and DNS direction.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Match topology to scale</b><p>Use peering for a few direct relationships and Transit Gateway for transitive hub-and-spoke routing across many VPCs and attachments.</p></div>
+      <div><span>②</span><b>Separate path from encryption</b><p>Direct Connect supplies a private physical path but does not encrypt traffic by default; add VPN over DX when encryption is required.</p></div>
+      <div><span>③</span><b>Publish one service</b><p>PrivateLink exposes a service through interface endpoints without sharing routes or requiring non-overlapping consumer CIDRs.</p></div>
+      <div><span>④</span><b>Resolve across boundaries</b><p>Route 53 Resolver inbound and outbound endpoints bridge hybrid DNS; private hosted zones alone do not answer on-premises resolvers automatically.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-2">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>VPC Peering</h3></div><ul><li>Private point-to-point routing between two VPCs.</li><li>No transitive routing: A↔B and A↔C does not create B↔C.</li><li>Peered VPC CIDRs cannot overlap.</li><li>Routes must be added to relevant route tables and security controls still apply.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>Transit Gateway</h3></div><ul><li>Hub-and-spoke routing for many VPCs and hybrid connections.</li><li>Transit routing is controlled with Transit Gateway route tables.</li><li>Reduces the operational complexity of a full peering mesh.</li><li>Can centralize inspection/egress patterns and aggregate VPN/Direct Connect connectivity.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>Site-to-Site VPN</h3></div><ul><li>IPsec encrypted connectivity over internet paths.</li><li>AWS provides redundant VPN tunnels; design customer-side redundancy as well.</li><li>Good when encrypted connectivity is needed quickly.</li><li>Network performance can vary because the path uses the internet.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>Direct Connect</h3></div><ul><li>Dedicated connectivity from your network to AWS through a Direct Connect location/provider.</li><li>Useful for consistent hybrid network performance and sustained data transfer.</li><li>Direct Connect traffic is not encrypted by default; add appropriate encryption where required.</li><li>For resilient critical designs, use redundant connections and/or VPN backup.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>PrivateLink + Route 53</h3></div><ul><li>PrivateLink exposes a specific service privately rather than routing entire networks together.</li><li>Excellent provider/consumer pattern and useful with overlapping address spaces.</li><li>Route 53 is DNS, not a packet router: it tells clients which endpoint to use.</li><li>Know weighted, latency, failover, geolocation, geoproximity and multivalue routing patterns.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-2">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Requirement</th><th>Choose</th><th>Reason</th></tr></thead><tbody><tr><td>Two non-overlapping VPCs</td><td>VPC Peering</td><td>Simple direct connection</td></tr><tr><td>Many VPCs + data centre</td><td>Transit Gateway</td><td>Central transitive hub</td></tr><tr><td>Encrypted hybrid link quickly</td><td>Site-to-Site VPN</td><td>IPsec over existing internet connectivity</td></tr><tr><td>Dedicated hybrid connectivity</td><td>Direct Connect</td><td>Private dedicated network path</td></tr><tr><td>Customer VPCs consume one private API</td><td>PrivateLink</td><td>Service access without broad routing</td></tr><tr><td>Send 5% of DNS traffic to new version</td><td>Route 53 Weighted</td><td>Controlled proportional routing</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-2">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(2,0,this)" class="scenario-tab active">Many VPCs</button><button type="button" onclick="showScenario(2,1,this)" class="scenario-tab">Stable Hybrid</button><button type="button" onclick="showScenario(2,2,this)" class="scenario-tab">SaaS Access</button></div><div class="scenario-panel active" id="sc-2-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Build a transitive network hub</h3>
+          <p>Dozens of VPCs and two offices need centralized, transitive routing with segmented route domains. Attach them to a Transit Gateway and use separate TGW route tables. A peering mesh grows quadratically and peering cannot route transitively through another VPC.</p>
+          <div class="reason-strip"><span>1</span> Transitive hub <b>→</b><span>2</span> Route domains <b>→</b><span>3</span> Fewer links</div>
+        </div><div class="scenario-panel" id="sc-2-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Private predictable hybrid path</h3>
+          <p>A data center transfers steady large volumes to AWS and requires consistent network performance, with encrypted failover. Use Direct Connect as the primary path and a site-to-site VPN as backup, adding VPN over DX if primary-path encryption is mandatory. VPN alone depends on internet conditions, while Direct Connect alone lacks native encryption.</p>
+          <div class="reason-strip"><span>1</span> Predictable path <b>→</b><span>2</span> Encrypted option <b>→</b><span>3</span> Backup route</div>
+        </div><div class="scenario-panel" id="sc-2-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Expose only an internal service</h3>
+          <p>A provider must serve hundreds of customer VPCs, including overlapping CIDRs, without granting broad network access. Put the service behind an NLB and publish it through PrivateLink endpoint services. Peering requires non-overlapping CIDRs and exposes routed network reachability beyond the single service.</p>
+          <div class="reason-strip"><span>1</span> Overlap safe <b>→</b><span>2</span> Service scoped <b>→</b><span>3</span> No route sharing</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-2">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“transitive routing”</div><div class="think">→ Transit Gateway, not VPC Peering.</div></div><div class="decoder-item"><div class="phrase">“dedicated connection”</div><div class="think">→ Direct Connect.</div></div><div class="decoder-item"><div class="phrase">“encrypted connection quickly”</div><div class="think">→ Site-to-Site VPN.</div></div><div class="decoder-item"><div class="phrase">“private access to a service only”</div><div class="think">→ PrivateLink.</div></div><div class="decoder-item"><div class="phrase">“10% / 90% traffic split”</div><div class="think">→ Route 53 Weighted.</div></div><div class="decoder-item"><div class="phrase">“lowest latency Region”</div><div class="think">→ Route 53 Latency routing.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-2">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>Fifty VPCs need transitive connectivity to each other and to on-premises networks with centralized route segmentation. Which service best fits?</b></div><button type="button" class="option" onclick="answer(this,false,'q-2-1')">A. VPC peering mesh</button><button type="button" class="option" onclick="answer(this,true,'q-2-1')">B. AWS Transit Gateway</button><button type="button" class="option" onclick="answer(this,false,'q-2-1')">C. AWS PrivateLink</button><button type="button" class="option" onclick="answer(this,false,'q-2-1')">D. Route 53 private hosted zone</button>
+        <div class="feedback" id="q-2-1"><strong>Answer: B.</strong> The deciding constraints are transitive routing and scale. Transit Gateway provides a managed hub with multiple route tables.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>A partner must consume one TCP service privately from a VPC whose CIDR overlaps the provider VPC. The provider must not share network routes. What should be used?</b></div><button type="button" class="option" onclick="answer(this,false,'q-2-2')">A. VPC peering</button><button type="button" class="option" onclick="answer(this,false,'q-2-2')">B. Transit Gateway peering</button><button type="button" class="option" onclick="answer(this,true,'q-2-2')">C. PrivateLink endpoint service</button><button type="button" class="option" onclick="answer(this,false,'q-2-2')">D. Site-to-site VPN</button>
+        <div class="feedback" id="q-2-2"><strong>Answer: C.</strong> The deciding constraints are overlapping CIDRs and service-only exposure. PrivateLink maps endpoint ENIs to a published service without routed connectivity.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>A company needs a dedicated, predictable path from its data center to AWS, but all application traffic must also be encrypted in transit. Which design works?</b></div><button type="button" class="option" onclick="answer(this,false,'q-2-3')">A. Direct Connect only</button><button type="button" class="option" onclick="answer(this,false,'q-2-3')">B. Internet gateway with TLS termination disabled</button><button type="button" class="option" onclick="answer(this,false,'q-2-3')">C. VPC peering over Direct Connect</button><button type="button" class="option" onclick="answer(this,true,'q-2-3')">D. VPN over Direct Connect</button>
+        <div class="feedback" id="q-2-3"><strong>Answer: D.</strong> The deciding constraints are dedicated performance and encryption. Direct Connect supplies the path, while the VPN supplies IPsec encryption.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>On-premises DNS servers must resolve records in Route 53 private hosted zones. Which component accepts those DNS queries inside the VPC?</b></div><button type="button" class="option" onclick="answer(this,true,'q-2-4')">A. Route 53 Resolver inbound endpoint</button><button type="button" class="option" onclick="answer(this,false,'q-2-4')">B. Route 53 Resolver outbound endpoint</button><button type="button" class="option" onclick="answer(this,false,'q-2-4')">C. Public hosted zone alias</button><button type="button" class="option" onclick="answer(this,false,'q-2-4')">D. Transit Gateway Connect</button>
+        <div class="feedback" id="q-2-4"><strong>Answer: A.</strong> The deciding direction is on premises to AWS. A Resolver inbound endpoint receives forwarded queries for private AWS namespaces.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>Two VPCs have a peering connection, and one is connected to a third VPC. The first VPC cannot reach the third through the second. What explains this?</b></div><button type="button" class="option" onclick="answer(this,false,'q-2-5')">A. Peering supports only IPv6 transit</button><button type="button" class="option" onclick="answer(this,true,'q-2-5')">B. VPC peering is non-transitive</button><button type="button" class="option" onclick="answer(this,false,'q-2-5')">C. Route 53 blocks peered routes</button><button type="button" class="option" onclick="answer(this,false,'q-2-5')">D. Security groups cannot reference peers</button>
+        <div class="feedback" id="q-2-5"><strong>Answer: B.</strong> The deciding topology rule is that VPC peering is non-transitive; each required VPC pair needs a direct connection or a routing hub.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="2"> Mark Lesson 02 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="01-networking-foundations.html">← Lesson 01</a><a class="nav-btn" href="03-ec2-load-balancing.html">Lesson 03 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

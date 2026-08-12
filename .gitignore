@@ -1,0 +1,4 @@
+# Temporary extract artifacts
+_extracted_*.html
+_lessons_meta.json
+.DS_Store

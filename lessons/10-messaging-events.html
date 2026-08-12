@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 10: Messaging, Integration & Event-Driven Design · SAA-C03</title>
+<meta name="description" content="SQS, SNS, EventBridge, Step Functions, MQ and decoupling — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 10: Messaging, Integration & Event-Driven Design · SAA-C03">
+<meta property="og:description" content="SQS, SNS, EventBridge, Step Functions, MQ and decoupling — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-10">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 10</div>
+    <h1>Messaging, Integration &amp; Event-Driven Design</h1><p class="sub">SQS, SNS, EventBridge, Step Functions, MQ and decoupling</p><div class="badges"><span class="badge">Resilience</span><span class="badge">Performance</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>How can components fail and scale independently?</div>
+    <div class="goal"><span>EXIT GOAL</span>Choose queue, pub/sub, event bus or workflow orchestration based on delivery semantics and coupling.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-10">Visual map</a><a href="#deep-10">Deep dive</a>
+    <a href="#decision-10">Decision table</a><a href="#scenario-10">Scenarios</a>
+    <a href="#decoder-10">Exam language</a><a href="#quiz-10">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-10">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Messaging, Integration &amp; Event-Driven Design architecture diagram"><defs><marker id="arr-10" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Producers</text><rect x="58.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Web/API</text><rect x="58.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">AWS service events</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">Routing</text><rect x="266.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">SNS</text><rect x="266.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">EventBridge</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">Buffering</text><rect x="474.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">SQS</text><rect x="474.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">DLQ</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">Consumers</text><rect x="682.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Lambda</text><rect x="682.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">ECS workers</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">Workflow</text><rect x="890.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Step Functions</text><line x1="207.0" y1="266.0" x2="276.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-10)"/><line x1="415.0" y1="266.0" x2="484.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-10)"/><line x1="623.0" y1="266.0" x2="692.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-10)"/><line x1="831.0" y1="266.0" x2="900.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-10)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Messaging decisions: buffering, fan-out, event routing, workflow, and failure handling.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Name delivery semantics</b><p>Label queues and buses with ordering, duplication, retention, retry, and acknowledgement behavior. Standard SQS is at-least-once; FIFO adds ordered message groups and deduplication.</p></div>
+      <div><span>②</span><b>Distinguish queue from fan-out</b><p>Use SQS when consumers pull and buffer work, SNS when publishers push one message to many subscribers, and combine them for durable fan-out.</p></div>
+      <div><span>③</span><b>Map event intent</b><p>EventBridge routes application and SaaS events by content; Step Functions coordinates stateful workflows, branching, retries, waits, and compensation.</p></div>
+      <div><span>④</span><b>Place failure stores deliberately</b><p>Draw source-queue DLQs, subscription redrive, EventBridge DLQs, and workflow catches at the component that owns retry exhaustion.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-10">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>SQS</h3></div><ul><li>Queue decouples producers and consumers and absorbs bursts.</li><li>Standard queues prioritize scale and at-least-once delivery; consumers should be idempotent.</li><li>FIFO queues add ordering and deduplication semantics for workloads that require them.</li><li>Visibility timeout prevents another consumer from immediately processing an in-flight message.</li><li>Dead-letter queues isolate repeatedly failing messages for investigation/replay.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>SNS</h3></div><ul><li>Topic-based pub/sub fanout to multiple subscribers.</li><li>A strong pattern is SNS → separate SQS queues per downstream service, so each consumer owns its backlog/retries.</li><li>Can deliver to supported endpoints such as SQS, Lambda and notifications.</li><li>Filtering can reduce unnecessary deliveries to subscribers.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>EventBridge</h3></div><ul><li>Event bus routes events using rules/patterns.</li><li>Useful for AWS service events, custom domain events and SaaS integrations.</li><li>Decouples event producers from consumers without each producer knowing every destination.</li><li>Schedules are available through EventBridge scheduling capabilities, but distinguish event routing from durable work queues.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>Step Functions</h3></div><ul><li>State-machine orchestration for multi-step workflows.</li><li>Handles branching, retries, waiting and error paths explicitly.</li><li>Useful when business process state must be visible and coordinated.</li><li>Contrast choreography (events between services) with orchestration (central workflow).</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Amazon MQ + integration</h3></div><ul><li>Amazon MQ supports familiar broker protocols/engines for migrations requiring traditional messaging compatibility.</li><li>AppFlow handles managed data transfer between supported SaaS and AWS services.</li><li>Choose purpose-built native services when protocol compatibility is not required and operational simplicity matters.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-10">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Pattern</th><th>Choose</th><th>Mental model</th></tr></thead><tbody><tr><td>Buffer work</td><td>SQS</td><td>Queue</td></tr><tr><td>One event → many subscribers</td><td>SNS</td><td>Fanout</td></tr><tr><td>Route events by pattern/source</td><td>EventBridge</td><td>Event bus</td></tr><tr><td>Coordinate multi-step process</td><td>Step Functions</td><td>State machine</td></tr><tr><td>Legacy broker protocols</td><td>Amazon MQ</td><td>Managed traditional broker</td></tr><tr><td>Failed messages after retries</td><td>DLQ</td><td>Failure isolation</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-10">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(10,0,this)" class="scenario-tab active">Fan-out</button><button type="button" onclick="showScenario(10,1,this)" class="scenario-tab">Workflow</button><button type="button" onclick="showScenario(10,2,this)" class="scenario-tab">Routing</button></div><div class="scenario-panel active" id="sc-10-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Independent order processors</h3>
+          <p>Constraint: billing, fulfillment, and analytics must each process every order independently and survive downtime. Design: publish to SNS with a separate SQS subscription per consumer. Why alternatives fail: one shared queue load-balances messages instead of copying them, and direct calls couple availability.</p>
+          <div class="reason-strip"><span>1</span> SNS copies each event <b>→</b><span>2</span> SQS buffers per consumer <b>→</b><span>3</span> Policies isolate access</div>
+        </div><div class="scenario-panel" id="sc-10-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Long-running approval flow</h3>
+          <p>Constraint: a process waits for approval, branches on risk, and retries selected steps for days. Design: Step Functions Standard orchestrates services with waits, choices, and error handling. Why alternatives fail: Lambda cannot run for days, and SQS alone does not model workflow state.</p>
+          <div class="reason-strip"><span>1</span> Standard supports long runs <b>→</b><span>2</span> State machine records progress <b>→</b><span>3</span> Retries are per state</div>
+        </div><div class="scenario-panel" id="sc-10-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Cross-application business events</h3>
+          <p>Constraint: many targets need only events matching attributes such as source and detail type. Design: EventBridge rules filter events and route them to targets, with archives or DLQs where needed. Why alternatives fail: SNS filtering is subscription-oriented, and SQS is not an event bus.</p>
+          <div class="reason-strip"><span>1</span> Rules match content <b>→</b><span>2</span> Bus decouples producers <b>→</b><span>3</span> Targets receive selected events</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-10">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“decouple / buffer / backlog”</div><div class="think">→ SQS.</div></div><div class="decoder-item"><div class="phrase">“fanout to many subscribers”</div><div class="think">→ SNS.</div></div><div class="decoder-item"><div class="phrase">“event bus / content-based routing”</div><div class="think">→ EventBridge.</div></div><div class="decoder-item"><div class="phrase">“ordered queue”</div><div class="think">→ SQS FIFO.</div></div><div class="decoder-item"><div class="phrase">“workflow with steps/retries/waits”</div><div class="think">→ Step Functions.</div></div><div class="decoder-item"><div class="phrase">“ActiveMQ/RabbitMQ compatibility”</div><div class="think">→ Amazon MQ.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-10">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>Three services must each receive every order event and process at different rates without losing messages during outages. Which architecture is best?</b></div><button type="button" class="option" onclick="answer(this,false,'q-10-1')">A. One shared standard SQS queue</button><button type="button" class="option" onclick="answer(this,true,'q-10-1')">B. SNS topic with one SQS queue per service</button><button type="button" class="option" onclick="answer(this,false,'q-10-1')">C. Direct synchronous Lambda calls</button><button type="button" class="option" onclick="answer(this,false,'q-10-1')">D. One Step Functions Express execution</button>
+        <div class="feedback" id="q-10-1"><strong>Answer: B.</strong> SNS provides fan-out, while a separate SQS queue gives every service an independent durable backlog.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>A payment processor requires ordered messages per customer while different customers can run in parallel. Which SQS feature provides this behavior?</b></div><button type="button" class="option" onclick="answer(this,false,'q-10-2')">A. Standard queue delay seconds</button><button type="button" class="option" onclick="answer(this,true,'q-10-2')">B. FIFO queue message group IDs</button><button type="button" class="option" onclick="answer(this,false,'q-10-2')">C. Queue access policy</button><button type="button" class="option" onclick="answer(this,false,'q-10-2')">D. Dead-letter redrive allow policy</button>
+        <div class="feedback" id="q-10-2"><strong>Answer: B.</strong> FIFO message groups preserve order within each group while allowing multiple groups to be processed concurrently.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>A workflow can run for several hours and needs an auditable execution history, human waits, and exactly-once workflow execution semantics. Which service fits?</b></div><button type="button" class="option" onclick="answer(this,true,'q-10-3')">A. Step Functions Standard</button><button type="button" class="option" onclick="answer(this,false,'q-10-3')">B. Step Functions Express</button><button type="button" class="option" onclick="answer(this,false,'q-10-3')">C. SNS FIFO only</button><button type="button" class="option" onclick="answer(this,false,'q-10-3')">D. SQS standard queue only</button>
+        <div class="feedback" id="q-10-3"><strong>Answer: A.</strong> Standard Workflows support long-running, auditable executions and exactly-once workflow execution semantics.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>An SQS consumer repeatedly fails a poison message and blocks useful retries. What configuration isolates it after a bounded receive count?</b></div><button type="button" class="option" onclick="answer(this,true,'q-10-4')">A. Configure a DLQ and maxReceiveCount</button><button type="button" class="option" onclick="answer(this,false,'q-10-4')">B. Increase message retention only</button><button type="button" class="option" onclick="answer(this,false,'q-10-4')">C. Disable long polling</button><button type="button" class="option" onclick="answer(this,false,'q-10-4')">D. Add an SNS message filter</button>
+        <div class="feedback" id="q-10-4"><strong>Answer: A.</strong> The redrive policy moves a message to the DLQ after its receive count exceeds maxReceiveCount.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>A SaaS application emits events that must route to targets according to fields in each JSON event, with minimal custom routing code. Choose the service.</b></div><button type="button" class="option" onclick="answer(this,true,'q-10-5')">A. Amazon EventBridge</button><button type="button" class="option" onclick="answer(this,false,'q-10-5')">B. Amazon EBS</button><button type="button" class="option" onclick="answer(this,false,'q-10-5')">C. Amazon MQ client library only</button><button type="button" class="option" onclick="answer(this,false,'q-10-5')">D. S3 Transfer Acceleration</button>
+        <div class="feedback" id="q-10-5"><strong>Answer: A.</strong> EventBridge event patterns filter structured events and rules route matching events to supported targets.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="10"> Mark Lesson 10 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="09-containers-compute.html">← Lesson 09</a><a class="nav-btn" href="11-resilience-dr.html">Lesson 11 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 07: Application Security & Data Protection · SAA-C03</title>
+<meta name="description" content="KMS, Secrets Manager, ACM, WAF, Shield, GuardDuty and layered controls — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 07: Application Security & Data Protection · SAA-C03">
+<meta property="og:description" content="KMS, Secrets Manager, ACM, WAF, Shield, GuardDuty and layered controls — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-7">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 07</div>
+    <h1>Application Security &amp; Data Protection</h1><p class="sub">KMS, Secrets Manager, ACM, WAF, Shield, GuardDuty and layered controls</p><div class="badges"><span class="badge">Security</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>Which layer of the architecture is the threat or control targeting?</div>
+    <div class="goal"><span>EXIT GOAL</span>Map encryption, secrets, TLS, web protection, network filtering and detection services to the correct security problem.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-7">Visual map</a><a href="#deep-7">Deep dive</a>
+    <a href="#decision-7">Decision table</a><a href="#scenario-7">Scenarios</a>
+    <a href="#decoder-7">Exam language</a><a href="#quiz-7">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-7">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Application Security &amp; Data Protection architecture diagram"><defs><marker id="arr-7" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Internet threat</text><rect x="58.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">DDoS</text><rect x="58.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Malicious HTTP</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">Edge controls</text><rect x="266.0" y="129.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Shield</text><rect x="266.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">WAF</text><rect x="266.0" y="273.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">ACM / TLS</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">Network controls</text><rect x="474.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Security Groups</text><rect x="474.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Network Firewall</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">Workload identity</text><rect x="682.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">IAM roles</text><rect x="682.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Secrets Manager</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">Data + detection</text><rect x="890.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">KMS</text><rect x="890.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="262.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">GuardDuty /</text><text x="970.0" y="279.0" text-anchor="middle" fill="#c2d2e4" font-size="12">Inspector / Macie</text><line x1="207.0" y1="266.0" x2="276.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-7)"/><line x1="415.0" y1="230.0" x2="484.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-7)"/><line x1="623.0" y1="266.0" x2="692.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-7)"/><line x1="831.0" y1="266.0" x2="900.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-7)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Protect keys and secrets, filter attacks at the right layer, and automate findings into response.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Place each security control</b><p>KMS protects cryptographic keys, Secrets Manager rotates credentials, WAF filters web requests, and Shield mitigates DDoS attacks.</p></div>
+      <div><span>②</span><b>Treat key policy as foundational</b><p>KMS authorization depends on the key policy, with IAM grants effective only when the policy enables the relevant account or principal.</p></div>
+      <div><span>③</span><b>Rotate without exposing secrets</b><p>Store database credentials in Secrets Manager, grant workloads retrieval permission, and use supported or custom rotation workflows.</p></div>
+      <div><span>④</span><b>Detect before responding</b><p>GuardDuty analyzes signals for threats; Security Hub aggregates posture and findings, while EventBridge and automation perform response actions.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-7">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>KMS + encryption</h3></div><ul><li>KMS manages cryptographic keys used by many AWS services.</li><li>AWS-owned, AWS-managed and customer-managed key choices differ in control and administration.</li><li>Envelope encryption lets services encrypt data keys efficiently while KMS protects key material.</li><li>Key policies are fundamental authorization controls; IAM alone may not be sufficient depending on key policy design.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>Secrets Manager</h3></div><ul><li>Stores secrets such as database passwords, API keys and credentials.</li><li>Supports rotation workflows for supported integrations/custom logic.</li><li>Applications retrieve secrets at runtime using IAM-authorized calls.</li><li>Do not confuse a KMS key with a secret value: KMS protects encryption keys; Secrets Manager stores secret material.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>Edge + network security</h3></div><ul><li>AWS WAF evaluates HTTP(S) requests using rules and managed rule groups.</li><li>AWS Shield protects against DDoS; Shield Standard is built into supported AWS services, while Advanced adds expanded protections/features.</li><li>AWS Network Firewall filters VPC network traffic centrally.</li><li>Firewall Manager can centrally apply supported security policies across accounts/resources.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>Detection + posture</h3></div><ul><li>GuardDuty analyzes signals to detect suspicious or malicious activity.</li><li>Inspector assesses supported compute/container/serverless workloads for vulnerabilities/exposure.</li><li>Macie discovers sensitive data in S3.</li><li>Security Hub aggregates and normalizes findings; Detective helps investigate security events.</li><li>Audit Manager and Artifact support audit/compliance evidence and reports.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Certificates + directories</h3></div><ul><li>ACM manages TLS certificates for supported AWS integrations.</li><li>Directory Service supports Microsoft AD and directory-integrated workloads.</li><li>Cognito manages application customer identity; IAM Identity Center handles workforce identity.</li><li>CloudHSM provides dedicated HSM appliances when direct HSM control is required.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-7">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Problem</th><th>Service</th><th>Layer</th></tr></thead><tbody><tr><td>SQL injection</td><td>WAF</td><td>Application/HTTP</td></tr><tr><td>DDoS</td><td>Shield</td><td>Edge/network</td></tr><tr><td>Private secret rotation</td><td>Secrets Manager</td><td>Application secret</td></tr><tr><td>Encryption keys</td><td>KMS</td><td>Cryptography</td></tr><tr><td>Suspicious activity</td><td>GuardDuty</td><td>Threat detection</td></tr><tr><td>Vulnerabilities</td><td>Inspector</td><td>Workload posture</td></tr><tr><td>PII discovery in S3</td><td>Macie</td><td>Data security</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-7">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(7,0,this)" class="scenario-tab active">Web Abuse</button><button type="button" onclick="showScenario(7,1,this)" class="scenario-tab">DB Secret</button><button type="button" onclick="showScenario(7,2,this)" class="scenario-tab">Threat Signal</button></div><div class="scenario-panel active" id="sc-7-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Stop injection and bot requests</h3>
+          <p>A public ALB receives SQL injection attempts and excessive requests from individual clients. Associate an AWS WAF web ACL with managed SQLi rules and a rate-based rule. Security groups cannot inspect HTTP payloads, and Shield focuses on DDoS rather than application query syntax.</p>
+          <div class="reason-strip"><span>1</span> Layer 7 filter <b>→</b><span>2</span> Managed rules <b>→</b><span>3</span> Rate limiting</div>
+        </div><div class="scenario-panel" id="sc-7-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Rotate credentials automatically</h3>
+          <p>A Lambda function needs database credentials that must rotate regularly without redeployment. Store them in Secrets Manager, enable rotation, and grant the function only secret retrieval and required KMS permissions. Environment variables alone retain static values, while Parameter Store standard parameters do not provide native managed rotation.</p>
+          <div class="reason-strip"><span>1</span> Managed rotation <b>→</b><span>2</span> Runtime retrieval <b>→</b><span>3</span> Least privilege</div>
+        </div><div class="scenario-panel" id="sc-7-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Detect compromised credentials</h3>
+          <p>Security needs managed detection of unusual API calls and known malicious network activity without deploying agents. Enable GuardDuty across accounts and Regions, then route findings through EventBridge for response. WAF sees only supported web traffic, and CloudTrail records API activity but does not itself perform threat analysis.</p>
+          <div class="reason-strip"><span>1</span> Threat analytics <b>→</b><span>2</span> No agents <b>→</b><span>3</span> Automated findings</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-7">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“SQL injection / malicious HTTP”</div><div class="think">→ WAF.</div></div><div class="decoder-item"><div class="phrase">“DDoS”</div><div class="think">→ Shield.</div></div><div class="decoder-item"><div class="phrase">“vulnerability scan”</div><div class="think">→ Inspector.</div></div><div class="decoder-item"><div class="phrase">“threat detection”</div><div class="think">→ GuardDuty.</div></div><div class="decoder-item"><div class="phrase">“sensitive data in S3”</div><div class="think">→ Macie.</div></div><div class="decoder-item"><div class="phrase">“rotate DB password”</div><div class="think">→ Secrets Manager.</div></div><div class="decoder-item"><div class="phrase">“dedicated hardware security module”</div><div class="think">→ CloudHSM.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-7">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>A public ALB must block SQL injection patterns and throttle clients that exceed a request threshold. Which service directly supplies both controls?</b></div><button type="button" class="option" onclick="answer(this,true,'q-7-1')">A. AWS WAF</button><button type="button" class="option" onclick="answer(this,false,'q-7-1')">B. AWS Shield Standard</button><button type="button" class="option" onclick="answer(this,false,'q-7-1')">C. Amazon GuardDuty</button><button type="button" class="option" onclick="answer(this,false,'q-7-1')">D. AWS KMS</button>
+        <div class="feedback" id="q-7-1"><strong>Answer: A.</strong> The deciding constraints are HTTP payload inspection and rate-based blocking. AWS WAF web ACL rules provide both.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>An application needs database passwords stored securely and rotated on a schedule without embedding them in deployment artifacts. Which service is designed for this?</b></div><button type="button" class="option" onclick="answer(this,false,'q-7-2')">A. AWS Artifact</button><button type="button" class="option" onclick="answer(this,true,'q-7-2')">B. AWS Secrets Manager</button><button type="button" class="option" onclick="answer(this,false,'q-7-2')">C. AWS Shield Advanced</button><button type="button" class="option" onclick="answer(this,false,'q-7-2')">D. Amazon Inspector</button>
+        <div class="feedback" id="q-7-2"><strong>Answer: B.</strong> The deciding constraint is managed secret rotation. Secrets Manager stores, retrieves, and rotates supported credentials.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>Security teams want managed detection of anomalous API behavior and communication with known malicious IP addresses. Which service should they enable?</b></div><button type="button" class="option" onclick="answer(this,false,'q-7-3')">A. AWS WAF</button><button type="button" class="option" onclick="answer(this,false,'q-7-3')">B. AWS Certificate Manager</button><button type="button" class="option" onclick="answer(this,true,'q-7-3')">C. Amazon GuardDuty</button><button type="button" class="option" onclick="answer(this,false,'q-7-3')">D. AWS Firewall Manager only</button>
+        <div class="feedback" id="q-7-3"><strong>Answer: C.</strong> The deciding constraint is threat detection from behavioral and network signals. GuardDuty analyzes AWS data sources and emits findings.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>A team encrypts data with a customer managed KMS key, but an IAM allow still fails. Which policy is foundational to permitting use of that key?</b></div><button type="button" class="option" onclick="answer(this,false,'q-7-4')">A. NACL policy</button><button type="button" class="option" onclick="answer(this,false,'q-7-4')">B. Organizations tag policy</button><button type="button" class="option" onclick="answer(this,false,'q-7-4')">C. WAF web ACL</button><button type="button" class="option" onclick="answer(this,true,'q-7-4')">D. KMS key policy</button>
+        <div class="feedback" id="q-7-4"><strong>Answer: D.</strong> The deciding resource is a KMS key. Its key policy is the primary authorization mechanism and must enable the principal or IAM delegation.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>A company wants enhanced DDoS protection, cost-protection benefits, and access to the DDoS Response Team for critical applications. What should it use?</b></div><button type="button" class="option" onclick="answer(this,true,'q-7-5')">A. AWS Shield Advanced</button><button type="button" class="option" onclick="answer(this,false,'q-7-5')">B. AWS WAF managed SQL rules</button><button type="button" class="option" onclick="answer(this,false,'q-7-5')">C. Amazon Macie</button><button type="button" class="option" onclick="answer(this,false,'q-7-5')">D. Amazon Detective</button>
+        <div class="feedback" id="q-7-5"><strong>Answer: A.</strong> The deciding constraints are advanced DDoS support and cost protection. Those are Shield Advanced capabilities beyond Shield Standard.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="7"> Mark Lesson 07 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="06-iam-organizations.html">← Lesson 06</a><a class="nav-btn" href="08-serverless-apis.html">Lesson 08 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

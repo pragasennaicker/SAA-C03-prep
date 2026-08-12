@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 04: Storage Architecture · SAA-C03</title>
+<meta name="description" content="S3, EBS, EFS, FSx, archive, replication and backup — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 04: Storage Architecture · SAA-C03">
+<meta property="og:description" content="S3, EBS, EFS, FSx, archive, replication and backup — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-4">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 04</div>
+    <h1>Storage Architecture</h1><p class="sub">S3, EBS, EFS, FSx, archive, replication and backup</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span><span class="badge">Security</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>Is the workload asking for object, block or file storage?</div>
+    <div class="goal"><span>EXIT GOAL</span>Select storage by access semantics, performance, sharing, durability, lifecycle and recovery requirements.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-4">Visual map</a><a href="#deep-4">Deep dive</a>
+    <a href="#decision-4">Decision table</a><a href="#scenario-4">Scenarios</a>
+    <a href="#decoder-4">Exam language</a><a href="#quiz-4">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-4">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Storage Architecture architecture diagram"><defs><marker id="arr-4" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Applications</text><rect x="58.0" y="129.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Web app</text><rect x="58.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">EC2</text><rect x="58.0" y="273.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Analytics</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">Object</text><rect x="266.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Amazon S3</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">Block</text><rect x="474.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Amazon EBS</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">File</text><rect x="682.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Amazon EFS</text><rect x="682.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Amazon FSx</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">Protection</text><rect x="890.0" y="129.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Snapshots</text><rect x="890.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Replication</text><rect x="890.0" y="273.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">AWS Backup</text><line x1="207.0" y1="230.0" x2="276.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-4)"/><line x1="415.0" y1="230.0" x2="484.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-4)"/><line x1="623.0" y1="230.0" x2="692.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-4)"/><line x1="831.0" y1="266.0" x2="900.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-4)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Storage architecture starts with object, block, or file semantics before performance and lifecycle tuning.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Start with access semantics</b><p>Choose S3 for object APIs, EBS for block storage attached within one AZ, and EFS for shared regional NFS across Linux clients.</p></div>
+      <div><span>②</span><b>Match FSx to the protocol</b><p>Use FSx for Windows File Server for SMB and Windows integration, and FSx for Lustre for high-performance parallel file workloads.</p></div>
+      <div><span>③</span><b>Design S3 lifecycle by retrieval need</b><p>Move objects among S3 classes according to access predictability, retrieval latency, retention period, and minimum-duration charges.</p></div>
+      <div><span>④</span><b>Protect data independently</b><p>Multi-AZ placement is not backup: use EBS snapshots, S3 Versioning and replication, EFS backup, or AWS Backup to meet recovery requirements.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-4">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>S3 fundamentals</h3></div><ul><li>Object storage addressed by bucket/key rather than block or POSIX file semantics.</li><li>Versioning protects against accidental overwrite/delete and supports replication use cases.</li><li>Lifecycle rules transition or expire objects according to age/access pattern.</li><li>Replication can copy objects within or across Regions according to requirements.</li><li>Presigned URLs grant time-limited object access without making a bucket public.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>S3 storage classes</h3></div><ul><li>Standard fits frequent access.</li><li>Intelligent-Tiering automatically moves eligible objects between access tiers based on observed access and is useful for unknown/changing patterns.</li><li>Standard-IA and One Zone-IA fit infrequent access with retrieval charges; One Zone trades AZ resilience for lower cost.</li><li>Glacier Instant Retrieval / Flexible Retrieval / Deep Archive cover increasingly archival access patterns with different retrieval trade-offs.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>EBS</h3></div><ul><li>Persistent block storage for EC2 in one AZ.</li><li>gp3 is a common general-purpose SSD choice because capacity and performance can be provisioned independently.</li><li>io-class SSD fits demanding IOPS/latency workloads; HDD classes fit large sequential workloads where appropriate.</li><li>Snapshots provide point-in-time backup and can restore volumes in other AZs/Regions after copy.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>EFS + FSx</h3></div><ul><li>EFS is elastic NFS-style shared storage for Linux workloads and can span AZs through mount targets.</li><li>EFS performance/throughput modes should match access patterns.</li><li>FSx for Windows File Server provides managed SMB/Windows integration.</li><li>FSx for Lustre targets high-performance parallel file workloads; other FSx families serve ONTAP/OpenZFS use cases.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Data protection</h3></div><ul><li>AWS Backup can centralize backup plans and retention across supported services.</li><li>Encryption at rest commonly integrates with KMS.</li><li>Cross-Region/cross-account backup strategies can improve protection from regional or account-level incidents.</li><li>Recovery requirements—not backup creation alone—should drive architecture.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-4">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Need</th><th>Storage</th><th>Reason</th></tr></thead><tbody><tr><td>Static objects / data lake</td><td>S3</td><td>Object scale + durability</td></tr><tr><td>EC2 boot/database volume</td><td>EBS</td><td>Block semantics</td></tr><tr><td>Shared Linux NFS</td><td>EFS</td><td>Multi-client file system</td></tr><tr><td>Windows SMB shares</td><td>FSx Windows</td><td>Windows-native file service</td></tr><tr><td>HPC parallel file workload</td><td>FSx for Lustre</td><td>High-performance parallel access</td></tr><tr><td>Long-term rarely accessed archive</td><td>S3 Glacier classes</td><td>Archive economics</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-4">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(4,0,this)" class="scenario-tab active">Shared Linux</button><button type="button" onclick="showScenario(4,1,this)" class="scenario-tab">Archive</button><button type="button" onclick="showScenario(4,2,this)" class="scenario-tab">Windows Share</button></div><div class="scenario-panel active" id="sc-4-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Share files across AZs</h3>
+          <p>A Linux web fleet in three AZs needs concurrent POSIX file access and automatic capacity growth. Mount regional EFS through mount targets in each AZ. EBS volumes are zonal and generally not a shared multi-AZ filesystem, while S3 does not provide native POSIX semantics.</p>
+          <div class="reason-strip"><span>1</span> Regional NFS <b>→</b><span>2</span> Concurrent access <b>→</b><span>3</span> Elastic capacity</div>
+        </div><div class="scenario-panel" id="sc-4-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Retain rarely retrieved records</h3>
+          <p>Compliance records must remain for seven years, are almost never read, and can tolerate hours before retrieval. Use S3 Glacier Deep Archive with lifecycle transitions and retention controls as required. S3 Standard pays for immediate access that is not needed, while EBS requires provisioned block capacity.</p>
+          <div class="reason-strip"><span>1</span> Lowest archive cost <b>→</b><span>2</span> Long retention <b>→</b><span>3</span> Hours acceptable</div>
+        </div><div class="scenario-panel" id="sc-4-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Migrate an SMB namespace</h3>
+          <p>Windows applications require managed SMB shares, Active Directory integration, and native Windows file features. Use Amazon FSx for Windows File Server joined to the directory. EFS exposes NFS rather than SMB, and S3 object storage cannot preserve normal SMB filesystem behavior.</p>
+          <div class="reason-strip"><span>1</span> Native SMB <b>→</b><span>2</span> AD integrated <b>→</b><span>3</span> Windows features</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-4">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“millions/billions of objects”</div><div class="think">→ S3.</div></div><div class="decoder-item"><div class="phrase">“boot volume / block device”</div><div class="think">→ EBS.</div></div><div class="decoder-item"><div class="phrase">“shared Linux file system”</div><div class="think">→ EFS.</div></div><div class="decoder-item"><div class="phrase">“SMB / Windows file shares”</div><div class="think">→ FSx Windows.</div></div><div class="decoder-item"><div class="phrase">“unknown access pattern”</div><div class="think">→ S3 Intelligent-Tiering is often attractive.</div></div><div class="decoder-item"><div class="phrase">“archive for years”</div><div class="think">→ Glacier classes.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-4">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>Linux instances in three AZs need simultaneous access to a shared POSIX filesystem that grows automatically. Which storage service is appropriate?</b></div><button type="button" class="option" onclick="answer(this,false,'q-4-1')">A. A single gp3 EBS volume</button><button type="button" class="option" onclick="answer(this,true,'q-4-1')">B. Amazon EFS</button><button type="button" class="option" onclick="answer(this,false,'q-4-1')">C. S3 Glacier Flexible Retrieval</button><button type="button" class="option" onclick="answer(this,false,'q-4-1')">D. Instance store</button>
+        <div class="feedback" id="q-4-1"><strong>Answer: B.</strong> The deciding constraints are concurrent multi-AZ NFS access and elastic capacity. EFS is a regional managed filesystem built for this pattern.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>A high-performance computing workload needs a parallel filesystem integrated with S3 and optimized for very high throughput. Which service should be selected?</b></div><button type="button" class="option" onclick="answer(this,false,'q-4-2')">A. FSx for Windows File Server</button><button type="button" class="option" onclick="answer(this,false,'q-4-2')">B. EFS One Zone</button><button type="button" class="option" onclick="answer(this,true,'q-4-2')">C. FSx for Lustre</button><button type="button" class="option" onclick="answer(this,false,'q-4-2')">D. EBS sc1</button>
+        <div class="feedback" id="q-4-2"><strong>Answer: C.</strong> The deciding constraints are parallel HPC I/O and S3 integration. FSx for Lustre is optimized for this workload.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>An EC2 database needs durable low-latency block storage, and the instance and volume will remain in one Availability Zone. Which choice fits?</b></div><button type="button" class="option" onclick="answer(this,false,'q-4-3')">A. Amazon S3</button><button type="button" class="option" onclick="answer(this,false,'q-4-3')">B. Amazon EFS</button><button type="button" class="option" onclick="answer(this,false,'q-4-3')">C. FSx for OpenZFS</button><button type="button" class="option" onclick="answer(this,true,'q-4-3')">D. Provisioned IOPS EBS</button>
+        <div class="feedback" id="q-4-3"><strong>Answer: D.</strong> The deciding constraints are attached block semantics and predictable low-latency IOPS. Provisioned IOPS EBS is designed for such databases.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>Objects are accessed with unpredictable frequency, must remain immediately available, and should automatically move to the cheapest suitable access tier. What fits?</b></div><button type="button" class="option" onclick="answer(this,true,'q-4-4')">A. S3 Intelligent-Tiering</button><button type="button" class="option" onclick="answer(this,false,'q-4-4')">B. S3 One Zone-IA</button><button type="button" class="option" onclick="answer(this,false,'q-4-4')">C. S3 Glacier Deep Archive</button><button type="button" class="option" onclick="answer(this,false,'q-4-4')">D. EBS Cold HDD</button>
+        <div class="feedback" id="q-4-4"><strong>Answer: A.</strong> The deciding constraints are unknown access patterns and immediate availability. Intelligent-Tiering monitors access and moves objects among eligible tiers.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>A Windows application requires managed SMB shares, Active Directory authentication, and Windows ACL support. Which service meets all requirements?</b></div><button type="button" class="option" onclick="answer(this,false,'q-4-5')">A. Amazon EFS</button><button type="button" class="option" onclick="answer(this,true,'q-4-5')">B. FSx for Windows File Server</button><button type="button" class="option" onclick="answer(this,false,'q-4-5')">C. S3 File Gateway only</button><button type="button" class="option" onclick="answer(this,false,'q-4-5')">D. EBS Multi-Attach</button>
+        <div class="feedback" id="q-4-5"><strong>Answer: B.</strong> The deciding constraints are SMB, AD, and Windows ACL semantics. FSx for Windows File Server natively provides them.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="4"> Mark Lesson 04 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="03-ec2-load-balancing.html">← Lesson 03</a><a class="nav-btn" href="05-databases-caching.html">Lesson 05 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

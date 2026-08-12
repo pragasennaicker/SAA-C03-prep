@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 17: Final Architecture Patterns & Exam Strategy · SAA-C03</title>
+<meta name="description" content="Combine services into complete systems and solve scenario questions — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 17: Final Architecture Patterns & Exam Strategy · SAA-C03">
+<meta property="og:description" content="Combine services into complete systems and solve scenario questions — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-17">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 17</div>
+    <h1>Final Architecture Patterns &amp; Exam Strategy</h1><p class="sub">Combine services into complete systems and solve scenario questions</p><div class="badges"><span class="badge">Security</span><span class="badge">Resilience</span><span class="badge">Performance</span><span class="badge">Cost</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>Which architecture satisfies every stated constraint with the least unnecessary complexity?</div>
+    <div class="goal"><span>EXIT GOAL</span>Solve end-to-end SAA scenarios quickly by recognizing architecture families and qualifier words.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-17">Visual map</a><a href="#deep-17">Deep dive</a>
+    <a href="#decision-17">Decision table</a><a href="#scenario-17">Scenarios</a>
+    <a href="#decoder-17">Exam language</a><a href="#quiz-17">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-17">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Final Architecture Patterns &amp; Exam Strategy architecture diagram"><defs><marker id="arr-17" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="161.3" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Users</text><rect x="58.0" y="165.0" width="125.3" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="120.7" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Route 53</text><rect x="58.0" y="237.0" width="125.3" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="120.7" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">CloudFront</text><rect x="213.3" y="52" width="161.3" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="225.3" y="83" fill="#ff9900" font-size="15" font-weight="800">Entry</text><rect x="231.3" y="201.0" width="125.3" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="294.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">ALB / API Gateway</text><rect x="386.7" y="52" width="161.3" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="398.7" y="83" fill="#c084fc" font-size="15" font-weight="800">Compute</text><rect x="404.7" y="201.0" width="125.3" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="467.3" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">ASG / ECS / Lambda</text><rect x="560.0" y="52" width="161.3" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="572.0" y="83" fill="#4ade80" font-size="15" font-weight="800">Decoupling</text><rect x="578.0" y="201.0" width="125.3" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="640.7" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">SQS / EventBridge</text><rect x="733.3" y="52" width="161.3" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="745.3" y="83" fill="#facc15" font-size="15" font-weight="800">Data</text><rect x="751.3" y="201.0" width="125.3" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="814.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">RDS / DynamoDB / S3</text><rect x="906.7" y="52" width="161.3" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="918.7" y="83" fill="#60a5fa" font-size="15" font-weight="800">Controls</text><rect x="924.7" y="201.0" width="125.3" height="58" rx="12" fill="#15243a" stroke="#60a5fa" stroke-width="1.5"/><text x="987.3" y="226.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">IAM / KMS</text><text x="987.3" y="243.0" text-anchor="middle" fill="#c2d2e4" font-size="12">/ WAF / CloudWatch</text><line x1="172.3" y1="266.0" x2="241.3" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-17)"/><line x1="345.7" y1="230.0" x2="414.7" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-17)"/><line x1="519.0" y1="230.0" x2="588.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-17)"/><line x1="692.3" y1="230.0" x2="761.3" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-17)"/><line x1="865.7" y1="230.0" x2="934.7" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-17)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Exam decisions: extract constraints, trace failure paths, eliminate, and choose.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Translate words into constraints</b><p>Underline availability, durability, latency, throughput, recovery, operations, security, and cost requirements before selecting any service.</p></div>
+      <div><span>②</span><b>Build the data path</b><p>Sketch entry, identity, compute, state, asynchronous boundaries, observability, and failure destinations; then test every hop against the stated constraints.</p></div>
+      <div><span>③</span><b>Eliminate by violated requirement</b><p>Reject answers that break an explicit constraint, add unrequested operations, confuse authentication with authorization, or optimize a secondary concern.</p></div>
+      <div><span>④</span><b>Prefer reversible decisions</b><p>When two answers work, favor managed, loosely coupled, multi-AZ, observable designs that scale independently and minimize undifferentiated operations.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-17">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>Classic three-tier web</h3></div><ul><li>Route 53/CloudFront → ALB → private application tier → relational database.</li><li>ASG spans AZs; database uses Multi-AZ where HA is required.</li><li>Security Groups reference tiers rather than opening broad CIDRs.</li><li>Static assets go to S3/CloudFront; ElastiCache can offload hot reads.</li><li>Secrets Manager/KMS/CloudWatch complete security/operations concerns.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>Serverless API</h3></div><ul><li>CloudFront or front end → API Gateway → Lambda → DynamoDB/S3.</li><li>Cognito handles end-user identity.</li><li>SQS/EventBridge decouple asynchronous work.</li><li>Serverless services scale independently and reduce infrastructure management.</li><li>Use RDS Proxy if a relational DB is required behind high Lambda concurrency.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>Event-driven microservices</h3></div><ul><li>Publish domain events instead of making every service synchronously call every other service.</li><li>Use SNS/EventBridge for routing/fanout and SQS per consumer for durable buffering.</li><li>DLQs isolate failures; idempotency protects against duplicate delivery.</li><li>Each service owns its scaling and failure domain.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>Hybrid enterprise</h3></div><ul><li>On-premises → VPN or Direct Connect → Transit Gateway → multiple VPCs.</li><li>Centralized inspection/shared services can be attached to the hub.</li><li>Organizations/Control Tower/IAM Identity Center govern accounts and workforce access.</li><li>PrivateLink exposes selected services without broad network routing.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Exam method</h3></div><ul><li>1. Identify the workload and architecture family.</li><li>2. Underline hard constraints: MUST be private, RTO, protocol, no code changes, least ops, most cost-effective.</li><li>3. Eliminate answers that violate any hard constraint.</li><li>4. Compare the remaining answers on operations, resilience and cost.</li><li>5. Flag lengthy questions and return; never leave an answer blank.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-17">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Question phrase</th><th>Architecture instinct</th><th>Why</th></tr></thead><tbody><tr><td>Least operational overhead</td><td>Managed/serverless</td><td>Less infrastructure management</td></tr><tr><td>Highly available</td><td>Multi-AZ / remove SPOFs</td><td>Fault-domain redundancy</td></tr><tr><td>Decouple / absorb spikes</td><td>Queue/event-driven</td><td>Independent scaling/failure</td></tr><tr><td>Global low latency</td><td>CloudFront / GA / Route 53</td><td>Edge/global routing</td></tr><tr><td>No app changes</td><td>Infrastructure/managed workaround</td><td>Avoid rewrite</td></tr><tr><td>Most cost-effective</td><td>Meet hard requirements first</td><td>Then minimize cost</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-17">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(17,0,this)" class="scenario-tab active">Pattern</button><button type="button" onclick="showScenario(17,1,this)" class="scenario-tab">Recovery</button><button type="button" onclick="showScenario(17,2,this)" class="scenario-tab">Exam</button></div><div class="scenario-panel active" id="sc-17-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Resilient web transaction</h3>
+          <p>Constraint: a public workload must remain available through an AZ failure and absorb bursts. Design: Route 53 and an ALB front Auto Scaling instances across AZs, with Multi-AZ data and SQS for asynchronous work. Why alternatives fail: one large instance is a single failure domain, and synchronous chaining spreads failure.</p>
+          <div class="reason-strip"><span>1</span> Multi-AZ removes one fault <b>→</b><span>2</span> Auto Scaling replaces capacity <b>→</b><span>3</span> Queues isolate bursts</div>
+        </div><div class="scenario-panel" id="sc-17-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Choosing DR by objective</h3>
+          <p>Constraint: the business supplies strict RTO and RPO rather than asking for maximum availability at any cost. Design: map backup/restore, pilot light, warm standby, or multi-site to those objectives and test recovery. Why alternatives fail: backups may miss a short RTO, while active-active can overspend for relaxed objectives.</p>
+          <div class="reason-strip"><span>1</span> RPO limits lost data <b>→</b><span>2</span> RTO limits outage <b>→</b><span>3</span> Testing validates recovery</div>
+        </div><div class="scenario-panel" id="sc-17-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Resolving two plausible answers</h3>
+          <p>Constraint: two architectures appear technically possible under time pressure. Design: compare each against every superlative and explicit constraint, then choose the simplest managed option satisfying all. Why alternatives fail: keyword matching ignores trade-offs, and adding services can violate cost or operations requirements.</p>
+          <div class="reason-strip"><span>1</span> Read the final ask <b>→</b><span>2</span> Honor every constraint <b>→</b><span>3</span> Managed usually lowers ops</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-17">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“least operational overhead”</div><div class="think">→ Prefer managed/serverless among otherwise valid answers.</div></div><div class="decoder-item"><div class="phrase">“without modifying application”</div><div class="think">→ Look for infrastructure/proxy/migration-layer solution.</div></div><div class="decoder-item"><div class="phrase">“most cost-effective”</div><div class="think">→ Do not violate resilience/security just to be cheap.</div></div><div class="decoder-item"><div class="phrase">“millions of requests + unpredictable”</div><div class="think">→ Elastic/serverless patterns.</div></div><div class="decoder-item"><div class="phrase">“decouple components”</div><div class="think">→ Queues/events.</div></div><div class="decoder-item"><div class="phrase">“single point of failure”</div><div class="think">→ Spread across AZs / managed HA.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-17">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>A question asks for the least operationally intensive highly available relational database. Which clue should dominate when several technically valid designs appear?</b></div><button type="button" class="option" onclick="answer(this,true,'q-17-1')">A. Choose the managed Multi-AZ option satisfying all constraints</button><button type="button" class="option" onclick="answer(this,false,'q-17-1')">B. Choose the design with the most services</button><button type="button" class="option" onclick="answer(this,false,'q-17-1')">C. Build manual replication on EC2</button><button type="button" class="option" onclick="answer(this,false,'q-17-1')">D. Ignore the operational requirement</button>
+        <div class="feedback" id="q-17-1"><strong>Answer: A.</strong> The explicit superlative is decisive: a managed Multi-AZ database generally minimizes administration while meeting availability.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>A workload can tolerate hours of recovery and up to one day of data loss. Which disaster-recovery strategy is usually the most cost-effective starting point?</b></div><button type="button" class="option" onclick="answer(this,true,'q-17-2')">A. Backup and restore</button><button type="button" class="option" onclick="answer(this,false,'q-17-2')">B. Multi-site active-active</button><button type="button" class="option" onclick="answer(this,false,'q-17-2')">C. Warm standby at full production scale</button><button type="button" class="option" onclick="answer(this,false,'q-17-2')">D. Synchronous writes to three Regions</button>
+        <div class="feedback" id="q-17-2"><strong>Answer: A.</strong> Relaxed RTO and RPO commonly permit backup and restore, which has lower steady-state cost than continuously running environments.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>An order API must respond quickly even when fulfillment is slow or unavailable. Which general architecture pattern best isolates the user request path?</b></div><button type="button" class="option" onclick="answer(this,true,'q-17-3')">A. Put durable messaging between order acceptance and fulfillment</button><button type="button" class="option" onclick="answer(this,false,'q-17-3')">B. Call every fulfillment step synchronously</button><button type="button" class="option" onclick="answer(this,false,'q-17-3')">C. Increase DNS TTL</button><button type="button" class="option" onclick="answer(this,false,'q-17-3')">D. Store orders only in instance memory</button>
+        <div class="feedback" id="q-17-3"><strong>Answer: A.</strong> A durable queue decouples availability and rate, allowing the API to acknowledge accepted work without waiting for fulfillment.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>Two answers meet functional needs, but one uses self-managed clusters and the other a managed service with equivalent controls. The stem says minimize operations. Choose what?</b></div><button type="button" class="option" onclick="answer(this,true,'q-17-4')">A. The managed service</button><button type="button" class="option" onclick="answer(this,false,'q-17-4')">B. The self-managed cluster</button><button type="button" class="option" onclick="answer(this,false,'q-17-4')">C. Whichever answer is longer</button><button type="button" class="option" onclick="answer(this,false,'q-17-4')">D. The option with more EC2 instances</button>
+        <div class="feedback" id="q-17-4"><strong>Answer: A.</strong> When constraints are otherwise equal, the managed service directly satisfies the requirement to minimize operational overhead.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>A design is Multi-AZ but has synchronous dependencies on one regional external endpoint. What exam habit most likely reveals this hidden availability risk?</b></div><button type="button" class="option" onclick="answer(this,true,'q-17-5')">A. Trace the full request and failure path</button><button type="button" class="option" onclick="answer(this,false,'q-17-5')">B. Count only the number of AZs</button><button type="button" class="option" onclick="answer(this,false,'q-17-5')">C. Select the newest AWS service</button><button type="button" class="option" onclick="answer(this,false,'q-17-5')">D. Ignore dependencies outside compute</button>
+        <div class="feedback" id="q-17-5"><strong>Answer: A.</strong> End-to-end tracing exposes dependencies whose failure can defeat otherwise redundant compute and storage layers.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="17"> Mark Lesson 17 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="16-cost-optimization.html">← Lesson 16</a><a class="nav-btn" href="../index.html">Return to index →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

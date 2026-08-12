@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 08: Serverless, APIs & Front Ends · SAA-C03</title>
+<meta name="description" content="Lambda, API Gateway, Cognito, AppSync and Amplify — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 08: Serverless, APIs & Front Ends · SAA-C03">
+<meta property="og:description" content="Lambda, API Gateway, Cognito, AppSync and Amplify — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-8">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 08</div>
+    <h1>Serverless, APIs &amp; Front Ends</h1><p class="sub">Lambda, API Gateway, Cognito, AppSync and Amplify</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span><span class="badge">Security</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>Can the application be decomposed into managed, event-driven components?</div>
+    <div class="goal"><span>EXIT GOAL</span>Design low-operations APIs and event-driven applications, and know when serverless is not the best fit.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-8">Visual map</a><a href="#deep-8">Deep dive</a>
+    <a href="#decision-8">Decision table</a><a href="#scenario-8">Scenarios</a>
+    <a href="#decoder-8">Exam language</a><a href="#quiz-8">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-8">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Serverless, APIs &amp; Front Ends architecture diagram"><defs><marker id="arr-8" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Client</text><rect x="58.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Web / mobile app</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">Edge / identity</text><rect x="266.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">CloudFront</text><rect x="266.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Cognito</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">API layer</text><rect x="474.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">API Gateway</text><rect x="474.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">AppSync</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">Compute</text><rect x="682.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Lambda</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">State</text><rect x="890.0" y="129.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">DynamoDB</text><rect x="890.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">S3</text><rect x="890.0" y="273.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">SQS</text><line x1="207.0" y1="230.0" x2="276.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-8)"/><line x1="415.0" y1="266.0" x2="484.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-8)"/><line x1="623.0" y1="266.0" x2="692.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-8)"/><line x1="831.0" y1="230.0" x2="900.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-8)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Serverless decisions: identity, invocation, concurrency, and managed APIs.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Follow the invocation path</b><p>Draw client, API Gateway or AppSync, Lambda, and each downstream service. Mark synchronous calls, asynchronous events, retries, and timeout boundaries.</p></div>
+      <div><span>②</span><b>Separate identity from permission</b><p>Show Cognito user pools authenticating users, identity pools vending temporary AWS credentials, and IAM execution roles authorizing Lambda.</p></div>
+      <div><span>③</span><b>Budget every concurrency pool</b><p>Annotate account concurrency, reserved concurrency, provisioned concurrency, event-source scaling, and downstream connection limits before choosing a Lambda design.</p></div>
+      <div><span>④</span><b>Match the API front door</b><p>Use API Gateway for REST, HTTP, and WebSocket APIs; use AppSync when managed GraphQL, subscriptions, and offline synchronization drive the requirement.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-8">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>Lambda execution model</h3></div><ul><li>Runs functions in response to events with automatic scaling.</li><li>Memory allocation also influences available CPU; tune memory from measured cost/performance rather than minimum size.</li><li>Use execution roles for AWS access and environment/secrets patterns carefully.</li><li>Concurrency controls protect downstream systems; asynchronous invocations and event-source mappings have different retry semantics.</li><li>Keep functions stateless and persist durable state externally.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>API Gateway</h3></div><ul><li>Managed front door for REST, HTTP and WebSocket API patterns.</li><li>Supports throttling, authentication/authorization integrations, stages and request handling features.</li><li>Can invoke Lambda or integrate with other AWS services/backends.</li><li>Use caching or CloudFront where appropriate for read-heavy global APIs.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>Cognito</h3></div><ul><li>User Pools provide application sign-up/sign-in and token issuance.</li><li>Identity Pools can exchange authenticated identities for temporary AWS credentials in suitable app patterns.</li><li>Use for customer/application identity, not as a replacement for workforce Identity Center.</li><li>Integrates with external identity providers.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>AppSync + Amplify</h3></div><ul><li>AppSync provides managed GraphQL APIs, subscriptions/real-time features and multiple data-source integrations.</li><li>Amplify provides front-end development/deployment capabilities and hosting workflows.</li><li>Choose AppSync when GraphQL and flexible data-source resolution are core requirements.</li><li>Do not pick it merely because the application is serverless—API style matters.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Serverless trade-offs</h3></div><ul><li>Excellent for variable workloads and low operational overhead.</li><li>Cold-start, concurrency, runtime and service-integration constraints must be understood conceptually.</li><li>Very long-running, highly stateful or specialized compute may fit containers/EC2 better.</li><li>Event-driven design should protect downstream services with queues, rate limits and idempotency.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-8">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Need</th><th>Choose</th><th>Reason</th></tr></thead><tbody><tr><td>Short event-driven compute</td><td>Lambda</td><td>Managed scaling</td></tr><tr><td>REST/HTTP API</td><td>API Gateway</td><td>Managed API front door</td></tr><tr><td>GraphQL API</td><td>AppSync</td><td>Managed GraphQL</td></tr><tr><td>Customer authentication</td><td>Cognito</td><td>App identity</td></tr><tr><td>Static SPA hosting</td><td>S3/CloudFront or Amplify Hosting</td><td>Managed front-end delivery</td></tr><tr><td>Absorb async bursts</td><td>SQS between producer/worker</td><td>Decoupling</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-8">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(8,0,this)" class="scenario-tab active">API</button><button type="button" onclick="showScenario(8,1,this)" class="scenario-tab">GraphQL</button><button type="button" onclick="showScenario(8,2,this)" class="scenario-tab">Scale</button></div><div class="scenario-panel active" id="sc-8-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Bursting mobile checkout</h3>
+          <p>Constraint: a mobile checkout API has sharp bursts and must authenticate customers. Design: Cognito user pools issue tokens, API Gateway validates them, and Lambda writes idempotently to DynamoDB. Why alternatives fail: EC2 adds capacity management, while an identity pool alone does not provide a user directory.</p>
+          <div class="reason-strip"><span>1</span> User pool authenticates <b>→</b><span>2</span> API Gateway validates JWT <b>→</b><span>3</span> Idempotency absorbs retries</div>
+        </div><div class="scenario-panel" id="sc-8-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Live collaborative dashboard</h3>
+          <p>Constraint: web clients need GraphQL queries and near-real-time updates with minimal connection management. Design: AppSync subscriptions push changes and resolvers access DynamoDB or Lambda. Why alternatives fail: API Gateway REST needs custom fan-out, and polling wastes requests and increases latency.</p>
+          <div class="reason-strip"><span>1</span> AppSync manages GraphQL <b>→</b><span>2</span> Subscriptions push updates <b>→</b><span>3</span> Resolvers reach data</div>
+        </div><div class="scenario-panel" id="sc-8-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Database-safe Lambda ingestion</h3>
+          <p>Constraint: asynchronous jobs can spike beyond an RDS database&#x27;s connection capacity. Design: buffer work in SQS, cap Lambda reserved concurrency, and use RDS Proxy. Why alternatives fail: provisioned concurrency reduces cold starts but does not cap database pressure; direct invocation removes buffering.</p>
+          <div class="reason-strip"><span>1</span> SQS smooths bursts <b>→</b><span>2</span> Reserved concurrency caps load <b>→</b><span>3</span> RDS Proxy pools connections</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-8">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“least operational overhead + unpredictable requests”</div><div class="think">→ Serverless is worth evaluating.</div></div><div class="decoder-item"><div class="phrase">“customer sign-up/sign-in”</div><div class="think">→ Cognito.</div></div><div class="decoder-item"><div class="phrase">“REST API front door”</div><div class="think">→ API Gateway.</div></div><div class="decoder-item"><div class="phrase">“GraphQL + subscriptions”</div><div class="think">→ AppSync.</div></div><div class="decoder-item"><div class="phrase">“function overwhelms DB”</div><div class="think">→ Concurrency controls / queue / RDS Proxy.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-8">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>A public mobile API needs sign-up, sign-in, password recovery, and JWT validation before Lambda runs. Which design has the least custom identity code?</b></div><button type="button" class="option" onclick="answer(this,true,'q-8-1')">A. Cognito user pool authorizer on API Gateway</button><button type="button" class="option" onclick="answer(this,false,'q-8-1')">B. Cognito identity pool without a user pool</button><button type="button" class="option" onclick="answer(this,false,'q-8-1')">C. Lambda execution role passed to users</button><button type="button" class="option" onclick="answer(this,false,'q-8-1')">D. API keys stored in the mobile app</button>
+        <div class="feedback" id="q-8-1"><strong>Answer: A.</strong> A user pool supplies the user directory and tokens; API Gateway can validate those tokens before invoking Lambda.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>A Lambda consumer reads an SQS queue, but its downstream database supports only 40 concurrent writers. Which control most directly protects the database?</b></div><button type="button" class="option" onclick="answer(this,false,'q-8-2')">A. Increase Lambda memory</button><button type="button" class="option" onclick="answer(this,true,'q-8-2')">B. Set reserved concurrency on the function</button><button type="button" class="option" onclick="answer(this,false,'q-8-2')">C. Enable provisioned concurrency only</button><button type="button" class="option" onclick="answer(this,false,'q-8-2')">D. Shorten the SQS visibility timeout</button>
+        <div class="feedback" id="q-8-2"><strong>Answer: B.</strong> Reserved concurrency places a hard ceiling on concurrent function executions; provisioned concurrency primarily controls readiness and cold starts.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>A web application needs managed GraphQL queries plus server-pushed updates when DynamoDB items change. Which service best fits with the least operations?</b></div><button type="button" class="option" onclick="answer(this,false,'q-8-3')">A. API Gateway REST API</button><button type="button" class="option" onclick="answer(this,false,'q-8-3')">B. Application Load Balancer</button><button type="button" class="option" onclick="answer(this,true,'q-8-3')">C. AWS AppSync</button><button type="button" class="option" onclick="answer(this,false,'q-8-3')">D. CloudFront Functions</button>
+        <div class="feedback" id="q-8-3"><strong>Answer: C.</strong> AppSync provides managed GraphQL APIs, resolvers, and subscriptions for real-time updates.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>An asynchronous Lambda invocation fails repeatedly because a third-party endpoint is unavailable. Where should the team retain exhausted events for later analysis?</b></div><button type="button" class="option" onclick="answer(this,true,'q-8-4')">A. Lambda destination or dead-letter queue</button><button type="button" class="option" onclick="answer(this,false,'q-8-4')">B. API Gateway stage cache</button><button type="button" class="option" onclick="answer(this,false,'q-8-4')">C. Cognito identity pool</button><button type="button" class="option" onclick="answer(this,false,'q-8-4')">D. Lambda layer</button>
+        <div class="feedback" id="q-8-4"><strong>Answer: A.</strong> After asynchronous retry attempts, Lambda can route failed events to an on-failure destination or a supported DLQ.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>A latency-sensitive Lambda has predictable morning traffic and unacceptable cold-start delays. Which feature prepares execution environments ahead of requests?</b></div><button type="button" class="option" onclick="answer(this,false,'q-8-5')">A. Reserved concurrency</button><button type="button" class="option" onclick="answer(this,true,'q-8-5')">B. Provisioned concurrency</button><button type="button" class="option" onclick="answer(this,false,'q-8-5')">C. SQS long polling</button><button type="button" class="option" onclick="answer(this,false,'q-8-5')">D. API Gateway throttling</button>
+        <div class="feedback" id="q-8-5"><strong>Answer: B.</strong> Provisioned concurrency keeps initialized execution environments ready; reserved concurrency guarantees and limits capacity but does not pre-initialize it.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="8"> Mark Lesson 08 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="07-app-data-security.html">← Lesson 07</a><a class="nav-btn" href="09-containers-compute.html">Lesson 09 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

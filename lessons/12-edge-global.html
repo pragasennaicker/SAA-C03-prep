@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 12: Edge, Global Performance & DNS · SAA-C03</title>
+<meta name="description" content="CloudFront, Global Accelerator, Route 53 and global applications — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 12: Edge, Global Performance & DNS · SAA-C03">
+<meta property="og:description" content="CloudFront, Global Accelerator, Route 53 and global applications — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-12">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 12</div>
+    <h1>Edge, Global Performance &amp; DNS</h1><p class="sub">CloudFront, Global Accelerator, Route 53 and global applications</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>Should the solution cache content, optimize network path or choose a DNS destination?</div>
+    <div class="goal"><span>EXIT GOAL</span>Differentiate CDN caching, global anycast acceleration and DNS routing.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-12">Visual map</a><a href="#deep-12">Deep dive</a>
+    <a href="#decision-12">Decision table</a><a href="#scenario-12">Scenarios</a>
+    <a href="#decoder-12">Exam language</a><a href="#quiz-12">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-12">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Edge, Global Performance &amp; DNS architecture diagram"><defs><marker id="arr-12" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Global users</text><rect x="58.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Browser</text><rect x="58.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Mobile client</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">DNS</text><rect x="266.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Route 53</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">AWS edge</text><rect x="474.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">CloudFront</text><rect x="474.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Global Accelerator</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">Regional entry</text><rect x="682.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">ALB</text><rect x="682.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">API Gateway</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">Origins</text><rect x="890.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">S3</text><rect x="890.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Application</text><line x1="207.0" y1="266.0" x2="276.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-12)"/><line x1="415.0" y1="230.0" x2="484.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-12)"/><line x1="623.0" y1="266.0" x2="692.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-12)"/><line x1="831.0" y1="266.0" x2="900.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-12)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Global delivery decisions: DNS steering, edge caching, acceleration, and origin protection.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Separate content from packets</b><p>CloudFront caches HTTP content at edge locations; Global Accelerator moves TCP or UDP traffic over the AWS global network to healthy regional endpoints.</p></div>
+      <div><span>②</span><b>Trace DNS decisions</b><p>Show Route 53 record type, routing policy, health check, TTL, and alias target. DNS steers clients but does not proxy established connections.</p></div>
+      <div><span>③</span><b>Mark cache-key boundaries</b><p>Annotate which headers, cookies, and query strings enter the CloudFront cache key and which are only forwarded to the origin.</p></div>
+      <div><span>④</span><b>Design origin protection</b><p>Keep S3 origins private with origin access control and restrict custom origins where possible; pair edge delivery with WAF and TLS requirements.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-12">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>CloudFront</h3></div><ul><li>CDN using a global edge network to cache and deliver HTTP(S) content closer to users.</li><li>Origins can include S3, ALBs and other HTTP endpoints.</li><li>Cache keys, TTLs and invalidations affect freshness and origin load.</li><li>Origin Access Control can keep S3 origins private while CloudFront serves content.</li><li>Signed URLs/cookies can restrict private content distribution.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>Global Accelerator</h3></div><ul><li>Uses static anycast IP addresses and routes traffic over the AWS global network to healthy regional endpoints.</li><li>Works for TCP/UDP-style application acceleration and is not a content cache.</li><li>Useful when clients require fixed entry IPs and optimized global routing.</li><li>Health checks and endpoint weighting support failover/traffic shaping patterns.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>Route 53</h3></div><ul><li>Authoritative DNS with alias records for AWS resources.</li><li>Weighted = proportional distribution.</li><li>Latency = select the configured AWS Region giving lowest latency to the user.</li><li>Failover = active/passive; Geolocation = user geography; Geoproximity = geography plus bias; Multivalue returns multiple healthy records.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>CloudFront vs Route 53</h3></div><ul><li>Route 53 tells the client an endpoint address; DNS answers may be cached.</li><li>CloudFront becomes the HTTP delivery path and can cache content.</li><li>CloudFront itself often uses a DNS name returned through Route 53 alias records.</li><li>They commonly work together rather than competing.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Global architecture</h3></div><ul><li>Static content: S3 + CloudFront is a core pattern.</li><li>Dynamic global web: CloudFront can still accelerate/collapse connections even when content is not cacheable.</li><li>Multi-Region application endpoints can use Route 53 or Global Accelerator depending on DNS vs network-layer requirements.</li><li>Keep origin resources private where possible.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-12">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Need</th><th>Choose</th><th>Reason</th></tr></thead><tbody><tr><td>Cache static/dynamic HTTP globally</td><td>CloudFront</td><td>CDN</td></tr><tr><td>Static global IPs + optimized TCP/UDP</td><td>Global Accelerator</td><td>Anycast/network acceleration</td></tr><tr><td>DNS active/passive</td><td>Route 53 Failover</td><td>Health-aware DNS</td></tr><tr><td>90/10 release split</td><td>Route 53 Weighted</td><td>Proportional DNS</td></tr><tr><td>User to lowest latency AWS Region</td><td>Route 53 Latency</td><td>Latency-based DNS</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-12">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(12,0,this)" class="scenario-tab active">CDN</button><button type="button" onclick="showScenario(12,1,this)" class="scenario-tab">Accelerator</button><button type="button" onclick="showScenario(12,2,this)" class="scenario-tab">DNS</button></div><div class="scenario-panel active" id="sc-12-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Private global media site</h3>
+          <p>Constraint: users worldwide need low-latency downloads from a private S3 bucket. Design: CloudFront caches objects and uses origin access control to sign origin requests. Why alternatives fail: S3 website endpoints cannot use OAC, and Route 53 alone does not cache content.</p>
+          <div class="reason-strip"><span>1</span> CloudFront caches objects <b>→</b><span>2</span> OAC protects S3 <b>→</b><span>3</span> HTTPS terminates at edge</div>
+        </div><div class="scenario-panel" id="sc-12-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Global gaming endpoint</h3>
+          <p>Constraint: a latency-sensitive TCP game needs static anycast IPs and rapid regional failover. Design: Global Accelerator sends traffic over the AWS backbone to healthy ALB or NLB endpoints. Why alternatives fail: CloudFront is HTTP-content oriented, while DNS failover depends on resolver caching.</p>
+          <div class="reason-strip"><span>1</span> Anycast IPs stay stable <b>→</b><span>2</span> Backbone reduces internet path <b>→</b><span>3</span> Health shifts endpoints</div>
+        </div><div class="scenario-panel" id="sc-12-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Regional active-passive site</h3>
+          <p>Constraint: a web name should use the primary region unless its endpoint is unhealthy. Design: Route 53 failover alias records and health evaluation select the secondary. Why alternatives fail: weighted routing is not inherently active-passive, and latency routing optimizes latency rather than priority.</p>
+          <div class="reason-strip"><span>1</span> Failover expresses priority <b>→</b><span>2</span> Health controls answers <b>→</b><span>3</span> Alias targets AWS resource</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-12">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“cache at edge”</div><div class="think">→ CloudFront.</div></div><div class="decoder-item"><div class="phrase">“static anycast IPs”</div><div class="think">→ Global Accelerator.</div></div><div class="decoder-item"><div class="phrase">“DNS percentages”</div><div class="think">→ Route 53 Weighted.</div></div><div class="decoder-item"><div class="phrase">“active/passive DNS”</div><div class="think">→ Route 53 Failover.</div></div><div class="decoder-item"><div class="phrase">“private S3 behind CDN”</div><div class="think">→ CloudFront + Origin Access Control.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-12">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>A company serves private S3 objects globally and wants users unable to bypass the CDN by calling S3 directly. Which configuration is recommended?</b></div><button type="button" class="option" onclick="answer(this,true,'q-12-1')">A. CloudFront with origin access control and restrictive bucket policy</button><button type="button" class="option" onclick="answer(this,false,'q-12-1')">B. Public S3 website endpoint with signed cookies</button><button type="button" class="option" onclick="answer(this,false,'q-12-1')">C. Route 53 latency record only</button><button type="button" class="option" onclick="answer(this,false,'q-12-1')">D. Global Accelerator endpoint to S3</button>
+        <div class="feedback" id="q-12-1"><strong>Answer: A.</strong> OAC lets CloudFront sign S3 origin requests while the bucket policy denies direct public access.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>A global TCP application needs two fixed anycast IP addresses and fast endpoint failover unaffected by DNS caches. Which service should front it?</b></div><button type="button" class="option" onclick="answer(this,false,'q-12-2')">A. CloudFront</button><button type="button" class="option" onclick="answer(this,true,'q-12-2')">B. Global Accelerator</button><button type="button" class="option" onclick="answer(this,false,'q-12-2')">C. Route 53 geolocation routing</button><button type="button" class="option" onclick="answer(this,false,'q-12-2')">D. S3 Multi-Region Access Point</button>
+        <div class="feedback" id="q-12-2"><strong>Answer: B.</strong> Global Accelerator supplies static anycast IPs and routes new connections to healthy endpoints over the AWS global network.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>Users should resolve to the AWS Region offering the lowest measured network latency, and DNS-based steering is acceptable. Which Route 53 policy fits?</b></div><button type="button" class="option" onclick="answer(this,false,'q-12-3')">A. Weighted</button><button type="button" class="option" onclick="answer(this,true,'q-12-3')">B. Latency-based</button><button type="button" class="option" onclick="answer(this,false,'q-12-3')">C. Geolocation</button><button type="button" class="option" onclick="answer(this,false,'q-12-3')">D. Multivalue answer without health checks</button>
+        <div class="feedback" id="q-12-3"><strong>Answer: B.</strong> Latency-based routing chooses the configured resource in the Region that provides the lowest latency measurement.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>A CloudFront distribution has poor cache hit ratio because an unused unique request header is in the cache key. What change most directly improves reuse?</b></div><button type="button" class="option" onclick="answer(this,true,'q-12-4')">A. Remove the header from the cache policy key</button><button type="button" class="option" onclick="answer(this,false,'q-12-4')">B. Lower the minimum TTL to zero</button><button type="button" class="option" onclick="answer(this,false,'q-12-4')">C. Add more Route 53 records</button><button type="button" class="option" onclick="answer(this,false,'q-12-4')">D. Enable Global Accelerator</button>
+        <div class="feedback" id="q-12-4"><strong>Answer: A.</strong> Values included in the cache key create cache variants; removing an irrelevant unique header allows requests to share objects.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>A company wants to direct 10% of DNS responses to a new endpoint and 90% to the old endpoint during a gradual release. Which policy is designed for this?</b></div><button type="button" class="option" onclick="answer(this,false,'q-12-5')">A. Failover</button><button type="button" class="option" onclick="answer(this,true,'q-12-5')">B. Weighted</button><button type="button" class="option" onclick="answer(this,false,'q-12-5')">C. Geoproximity only</button><button type="button" class="option" onclick="answer(this,false,'q-12-5')">D. IP-based without CIDRs</button>
+        <div class="feedback" id="q-12-5"><strong>Answer: B.</strong> Weighted records distribute DNS responses according to relative weights and are commonly used for controlled traffic shifts.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="12"> Mark Lesson 12 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="11-resilience-dr.html">← Lesson 11</a><a class="nav-btn" href="13-data-analytics.html">Lesson 13 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

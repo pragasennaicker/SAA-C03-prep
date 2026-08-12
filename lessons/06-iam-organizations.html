@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 06: IAM, Organizations & Authorization · SAA-C03</title>
+<meta name="description" content="Identities, roles, policy evaluation, STS, SCPs and workforce access — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 06: IAM, Organizations & Authorization · SAA-C03">
+<meta property="og:description" content="Identities, roles, policy evaluation, STS, SCPs and workforce access — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-6">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 06</div>
+    <h1>IAM, Organizations &amp; Authorization</h1><p class="sub">Identities, roles, policy evaluation, STS, SCPs and workforce access</p><div class="badges"><span class="badge">Security</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>Who is allowed to do what, where, and under which boundaries?</div>
+    <div class="goal"><span>EXIT GOAL</span>Reason through IAM policy evaluation, temporary credentials, cross-account access and multi-account guardrails.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-6">Visual map</a><a href="#deep-6">Deep dive</a>
+    <a href="#decision-6">Decision table</a><a href="#scenario-6">Scenarios</a>
+    <a href="#decoder-6">Exam language</a><a href="#quiz-6">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-6">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="IAM, Organizations &amp; Authorization architecture diagram"><defs><marker id="arr-6" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">People / workloads</text><rect x="58.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Employee</text><rect x="58.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">EC2 / Lambda</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">Authentication</text><rect x="266.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Identity Center</text><rect x="266.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">IAM / federation</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">Temporary access</text><rect x="474.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">STS / AssumeRole</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">Authorization</text><rect x="682.0" y="129.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Identity policy</text><rect x="682.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Resource policy</text><rect x="682.0" y="273.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Permissions boundary</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">Organization guardrail</text><rect x="890.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">SCP</text><line x1="207.0" y1="266.0" x2="276.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-6)"/><line x1="415.0" y1="266.0" x2="484.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-6)"/><line x1="623.0" y1="230.0" x2="692.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-6)"/><line x1="831.0" y1="230.0" x2="900.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-6)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Effective access is an allowed request that survives every policy ceiling and explicit deny.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Grant roles, not copied keys</b><p>Use IAM roles and STS temporary credentials for workloads and federation; avoid distributing long-lived IAM user access keys.</p></div>
+      <div><span>②</span><b>Separate permission layers</b><p>Identity and resource policies grant permissions, permissions boundaries cap identities, and SCPs cap member-account permissions without granting any.</p></div>
+      <div><span>③</span><b>Control the organization centrally</b><p>Use Organizations OUs and SCPs for guardrails, while delegated administrators and service integrations centralize operations.</p></div>
+      <div><span>④</span><b>Evaluate the full request</b><p>An effective allow must survive explicit denies, SCPs, boundaries, session policies, identity policies, and applicable resource policies.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-6">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>Principals + temporary credentials</h3></div><ul><li>IAM users are long-lived identities and should be minimized for human access.</li><li>IAM roles are assumed and provide temporary credentials through AWS STS.</li><li>EC2, Lambda and other AWS workloads should use service roles instead of hard-coded access keys.</li><li>Cross-account access commonly uses a trust policy on a role plus permissions granted to the role.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>Policy evaluation</h3></div><ul><li>Start by asking whether an applicable explicit deny exists; explicit deny wins.</li><li>An allow must exist in the effective policy set unless access is granted through an applicable resource-based mechanism.</li><li>Identity policies say what a principal may do; resource policies say who may access a resource.</li><li>Permissions boundaries limit the maximum identity-based permissions a user/role can receive.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>Organizations + SCPs</h3></div><ul><li>AWS Organizations groups accounts into organizational units.</li><li>SCPs set maximum permissions for member accounts/OUs; they do not grant permissions.</li><li>Use multiple accounts to reduce blast radius and separate production, security/logging and workloads.</li><li>Resource Access Manager can share supported resources across accounts without duplicating them.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>IAM Identity Center</h3></div><ul><li>Centralizes workforce sign-in to many AWS accounts and applications.</li><li>Permission sets map workforce groups/users to account permissions.</li><li>External identity providers can federate users, avoiding IAM users in each account.</li><li>Distinguish workforce identity from customer identity (Cognito).</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Root + least privilege</h3></div><ul><li>Protect the root user with strong controls and avoid routine use.</li><li>Use MFA for privileged human access.</li><li>Continuously reduce broad permissions based on actual need.</li><li>Prefer short-lived credentials and role assumption over long-lived access keys.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-6">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Need</th><th>Mechanism</th><th>Why</th></tr></thead><tbody><tr><td>EC2 needs S3</td><td>Instance IAM role</td><td>Temporary workload credentials</td></tr><tr><td>Admin from Account A to B</td><td>AssumeRole / STS</td><td>Cross-account temporary credentials</td></tr><tr><td>Cap permissions of a delegated role</td><td>Permissions boundary</td><td>Maximum identity permission boundary</td></tr><tr><td>Block an action across an OU</td><td>SCP</td><td>Organization guardrail</td></tr><tr><td>Workforce SSO across accounts</td><td>IAM Identity Center</td><td>Central human access</td></tr><tr><td>App customer login</td><td>Cognito</td><td>Application identity</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-6">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(6,0,this)" class="scenario-tab active">Cross Account</button><button type="button" onclick="showScenario(6,1,this)" class="scenario-tab">Region Guard</button><button type="button" onclick="showScenario(6,2,this)" class="scenario-tab">Developer Cap</button></div><div class="scenario-panel active" id="sc-6-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Read data with a role</h3>
+          <p>An application in Account A needs limited access to a bucket in Account B without shared credentials. Create a role in B with bucket permissions and trust A to assume it through STS, adding external ID conditions for a third party. Copying access keys creates long-lived secret risk, while an SCP cannot grant bucket access.</p>
+          <div class="reason-strip"><span>1</span> Temporary credentials <b>→</b><span>2</span> Scoped trust <b>→</b><span>3</span> No key sharing</div>
+        </div><div class="scenario-panel" id="sc-6-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Restrict member-account Regions</h3>
+          <p>Security must prevent member accounts from creating most resources outside approved Regions, even for account administrators. Attach an SCP with the required deny conditions to the relevant OU, exempting global services carefully. IAM policies in each account are easier to alter, and an SCP alone does not grant permitted actions.</p>
+          <div class="reason-strip"><span>1</span> OU-wide guardrail <b>→</b><span>2</span> Admin constrained <b>→</b><span>3</span> Explicit deny</div>
+        </div><div class="scenario-panel" id="sc-6-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Delegate role creation safely</h3>
+          <p>Developers may create roles but must never grant permissions beyond a security-approved ceiling. Require a permissions boundary on created roles and restrict iam:PassRole to approved roles. A normal allow policy can be changed into broader access, while an SCP is too coarse for per-role delegated limits.</p>
+          <div class="reason-strip"><span>1</span> Maximum ceiling <b>→</b><span>2</span> Delegated creation <b>→</b><span>3</span> PassRole scoped</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-6">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“temporary credentials”</div><div class="think">→ IAM role / STS.</div></div><div class="decoder-item"><div class="phrase">“cross-account”</div><div class="think">→ AssumeRole and/or resource policy.</div></div><div class="decoder-item"><div class="phrase">“maximum permissions guardrail for OU”</div><div class="think">→ SCP.</div></div><div class="decoder-item"><div class="phrase">“workforce SSO”</div><div class="think">→ IAM Identity Center.</div></div><div class="decoder-item"><div class="phrase">“customer sign-up/sign-in”</div><div class="think">→ Cognito.</div></div><div class="decoder-item"><div class="phrase">“never store access keys on EC2”</div><div class="think">→ Use an instance role.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-6">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>An EC2 application needs access to DynamoDB without storing long-lived credentials on the instance. Which identity mechanism is best?</b></div><button type="button" class="option" onclick="answer(this,true,'q-6-1')">A. IAM role attached through an instance profile</button><button type="button" class="option" onclick="answer(this,false,'q-6-1')">B. Root user access keys</button><button type="button" class="option" onclick="answer(this,false,'q-6-1')">C. IAM user keys in user data</button><button type="button" class="option" onclick="answer(this,false,'q-6-1')">D. Shared credentials in an AMI</button>
+        <div class="feedback" id="q-6-1"><strong>Answer: A.</strong> The deciding constraint is avoiding long-lived secrets. An instance role supplies automatically rotated STS credentials.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>An SCP attached to an OU allows s3:GetObject, but a user in a member account has no IAM policy granting it. Can the user read objects?</b></div><button type="button" class="option" onclick="answer(this,false,'q-6-2')">A. Yes, because SCPs grant permissions</button><button type="button" class="option" onclick="answer(this,true,'q-6-2')">B. No, because SCPs only set permission guardrails</button><button type="button" class="option" onclick="answer(this,false,'q-6-2')">C. Yes, if the OU is nested</button><button type="button" class="option" onclick="answer(this,false,'q-6-2')">D. No, because S3 is excluded from SCPs</button>
+        <div class="feedback" id="q-6-2"><strong>Answer: B.</strong> The deciding fact is that SCPs do not grant permissions. An identity or resource policy must still provide an applicable allow.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>Developers can create IAM roles, but every created role must remain below a centrally approved maximum permission set. Which feature enforces that ceiling?</b></div><button type="button" class="option" onclick="answer(this,false,'q-6-3')">A. Access Analyzer archive rule</button><button type="button" class="option" onclick="answer(this,false,'q-6-3')">B. STS external ID</button><button type="button" class="option" onclick="answer(this,true,'q-6-3')">C. IAM permissions boundary</button><button type="button" class="option" onclick="answer(this,false,'q-6-3')">D. IAM credential report</button>
+        <div class="feedback" id="q-6-3"><strong>Answer: C.</strong> The deciding constraint is a maximum permission ceiling for delegated identities. A permissions boundary limits what identity policies can make effective.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>A vendor assumes a role in a customer account, and the customer wants protection against the confused deputy problem. What condition should be required?</b></div><button type="button" class="option" onclick="answer(this,false,'q-6-4')">A. aws:RequestedRegion</button><button type="button" class="option" onclick="answer(this,false,'q-6-4')">B. aws:MultiFactorAuthAge only</button><button type="button" class="option" onclick="answer(this,false,'q-6-4')">C. s3:prefix</button><button type="button" class="option" onclick="answer(this,true,'q-6-4')">D. sts:ExternalId</button>
+        <div class="feedback" id="q-6-4"><strong>Answer: D.</strong> The deciding constraint is identifying the vendor&#x27;s specific customer context. Requiring a unique external ID mitigates confused deputy role assumption.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>An organization must prevent even member-account administrators from disabling a required security service. Which centralized control is appropriate?</b></div><button type="button" class="option" onclick="answer(this,true,'q-6-5')">A. An SCP with an explicit deny</button><button type="button" class="option" onclick="answer(this,false,'q-6-5')">B. A role trust policy</button><button type="button" class="option" onclick="answer(this,false,'q-6-5')">C. An IAM group in each account</button><button type="button" class="option" onclick="answer(this,false,'q-6-5')">D. An STS session tag</button>
+        <div class="feedback" id="q-6-5"><strong>Answer: A.</strong> The deciding constraint is organization-level enforcement against member administrators. An applicable SCP explicit deny limits their effective permissions.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="6"> Mark Lesson 06 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="05-databases-caching.html">← Lesson 05</a><a class="nav-btn" href="07-app-data-security.html">Lesson 07 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

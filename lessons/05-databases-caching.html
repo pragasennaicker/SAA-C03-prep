@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 05: Databases & Caching · SAA-C03</title>
+<meta name="description" content="RDS, Aurora, DynamoDB, ElastiCache and purpose-built databases — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 05: Databases & Caching · SAA-C03">
+<meta property="og:description" content="RDS, Aurora, DynamoDB, ElastiCache and purpose-built databases — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-5">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 05</div>
+    <h1>Databases &amp; Caching</h1><p class="sub">RDS, Aurora, DynamoDB, ElastiCache and purpose-built databases</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>What data model and access pattern does the application actually need?</div>
+    <div class="goal"><span>EXIT GOAL</span>Differentiate availability, read scaling, caching and database-type decisions.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-5">Visual map</a><a href="#deep-5">Deep dive</a>
+    <a href="#decision-5">Decision table</a><a href="#scenario-5">Scenarios</a>
+    <a href="#decoder-5">Exam language</a><a href="#quiz-5">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-5">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Databases &amp; Caching architecture diagram"><defs><marker id="arr-5" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Applications</text><rect x="58.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Web/API</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">Relational</text><rect x="266.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">RDS</text><rect x="266.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Aurora</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">NoSQL</text><rect x="474.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">DynamoDB</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">Cache</text><rect x="682.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">ElastiCache</text><rect x="682.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">DAX</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">Purpose-built</text><rect x="890.0" y="129.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Neptune</text><rect x="890.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">DocumentDB</text><rect x="890.0" y="273.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Redshift</text><line x1="207.0" y1="230.0" x2="276.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-5)"/><line x1="415.0" y1="266.0" x2="484.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-5)"/><line x1="623.0" y1="230.0" x2="692.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-5)"/><line x1="831.0" y1="266.0" x2="900.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-5)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Select the data model first, then add availability, read scaling, global replication, and caching deliberately.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Choose the data model first</b><p>Use RDS or Aurora for relational joins and transactions; use DynamoDB when known key-based access patterns need massive managed scale.</p></div>
+      <div><span>②</span><b>Separate HA from read scale</b><p>RDS Multi-AZ provides synchronous standby failover, while read replicas serve reads and can support regional read scaling or DR.</p></div>
+      <div><span>③</span><b>Cache the right layer</b><p>ElastiCache removes repeated low-latency reads or stores ephemeral state; it does not replace the durable system of record.</p></div>
+      <div><span>④</span><b>Design DynamoDB keys for traffic</b><p>Partition-key cardinality and even traffic distribution prevent hot partitions; GSIs add alternate query patterns at extra cost.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-5">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>RDS availability vs scaling</h3></div><ul><li>Multi-AZ creates a highly available deployment/failover architecture; it is not primarily a read-scaling feature.</li><li>Read replicas offload read traffic and may be cross-Region depending on engine/features.</li><li>RDS Proxy pools/manages DB connections and can protect relational databases from connection storms.</li><li>Automated backups/snapshots serve recovery needs; retention and cross-Region/cross-account strategy depend on requirements.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>Aurora</h3></div><ul><li>Aurora uses distributed storage across Availability Zones and separates storage from database compute.</li><li>Aurora Replicas can scale reads and participate in failover.</li><li>Aurora Serverless variants fit variable or intermittent relational workloads where elastic database capacity is useful.</li><li>Global Database patterns support cross-Region read/locality and DR scenarios.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>DynamoDB</h3></div><ul><li>Key-value/document model designed around partition and sort keys.</li><li>Choose partition keys that distribute traffic; poor keys create hot partitions.</li><li>On-demand capacity simplifies unpredictable traffic; provisioned capacity can be economical for predictable workloads.</li><li>Global Tables provide multi-Region active-active style replication.</li><li>DAX is an in-memory cache purpose-built for DynamoDB; TTL and Streams support lifecycle/event patterns.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>Caching</h3></div><ul><li>ElastiCache reduces latency and database load for hot/repeated data.</li><li>Cache-aside is a common pattern: app checks cache, falls back to DB, then populates cache.</li><li>Use TTL/invalidation carefully so stale data remains acceptable.</li><li>Redis/Valkey-style capabilities suit richer data structures, replication and persistence options; Memcached is simpler distributed caching.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Purpose-built DBs</h3></div><ul><li>Neptune = graph relationships.</li><li>DocumentDB = MongoDB-compatible document use cases.</li><li>Keyspaces = Cassandra-compatible wide-column patterns.</li><li>Redshift = analytical warehouse, not OLTP.</li><li>Choose purpose-built services from the query/access pattern rather than trying to force every workload into one database.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-5">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Requirement</th><th>Choose</th><th>Reason</th></tr></thead><tbody><tr><td>Relational HA/failover</td><td>RDS/Aurora Multi-AZ</td><td>Availability</td></tr><tr><td>Read-heavy relational workload</td><td>Read replicas</td><td>Offload reads</td></tr><tr><td>Connection storm from Lambda</td><td>RDS Proxy</td><td>Connection pooling/protection</td></tr><tr><td>Massive key-value scale</td><td>DynamoDB</td><td>Serverless NoSQL</td></tr><tr><td>Microsecond DynamoDB cache</td><td>DAX</td><td>DynamoDB-specific cache</td></tr><tr><td>Graph traversal</td><td>Neptune</td><td>Graph model</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-5">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(5,0,this)" class="scenario-tab active">Relational HA</button><button type="button" onclick="showScenario(5,1,this)" class="scenario-tab">Global Keys</button><button type="button" onclick="showScenario(5,2,this)" class="scenario-tab">Read Cache</button></div><div class="scenario-panel active" id="sc-5-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Fail over a transactional database</h3>
+          <p>An order system needs SQL transactions and automatic in-Region failover without application-managed replication. Use RDS Multi-AZ or an Aurora cluster across AZs. A read replica is primarily asynchronous read scaling and may lose recent changes, while DynamoDB requires a data-model rewrite.</p>
+          <div class="reason-strip"><span>1</span> SQL transactions <b>→</b><span>2</span> Synchronous HA <b>→</b><span>3</span> Managed failover</div>
+        </div><div class="scenario-panel" id="sc-5-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Serve active-active user state</h3>
+          <p>Users in multiple Regions need local, low-latency key-value writes with managed multi-Region replication. Use DynamoDB global tables and design conflict-tolerant access patterns. Cross-Region RDS replicas are not active-active writers, and ElastiCache is not the durable source of truth.</p>
+          <div class="reason-strip"><span>1</span> Local writes <b>→</b><span>2</span> Multi-Region <b>→</b><span>3</span> Managed replication</div>
+        </div><div class="scenario-panel" id="sc-5-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Absorb repeated hot queries</h3>
+          <p>A read-heavy application repeatedly requests the same database records and can tolerate brief cache staleness. Add ElastiCache using cache-aside with expiration and invalidation. More Multi-AZ standbys do not serve application reads, while scaling the writer alone wastes database resources.</p>
+          <div class="reason-strip"><span>1</span> Sub-ms reads <b>→</b><span>2</span> Offload database <b>→</b><span>3</span> Staleness allowed</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-5">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“automatic standby failover”</div><div class="think">→ Multi-AZ.</div></div><div class="decoder-item"><div class="phrase">“scale reads”</div><div class="think">→ Read replica.</div></div><div class="decoder-item"><div class="phrase">“connection pooling for Lambda”</div><div class="think">→ RDS Proxy.</div></div><div class="decoder-item"><div class="phrase">“key-value at huge scale”</div><div class="think">→ DynamoDB.</div></div><div class="decoder-item"><div class="phrase">“graph relationships”</div><div class="think">→ Neptune.</div></div><div class="decoder-item"><div class="phrase">“data warehouse / analytics SQL”</div><div class="think">→ Redshift.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-5">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>A relational production database needs automatic failover within one Region and no read-scaling requirement. Which RDS configuration addresses this?</b></div><button type="button" class="option" onclick="answer(this,true,'q-5-1')">A. RDS Multi-AZ deployment</button><button type="button" class="option" onclick="answer(this,false,'q-5-1')">B. One cross-Region read replica</button><button type="button" class="option" onclick="answer(this,false,'q-5-1')">C. ElastiCache cluster</button><button type="button" class="option" onclick="answer(this,false,'q-5-1')">D. DynamoDB global table</button>
+        <div class="feedback" id="q-5-1"><strong>Answer: A.</strong> The deciding constraint is in-Region relational high availability. Multi-AZ synchronously maintains a standby and manages failover.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>A read-heavy RDS workload needs additional read capacity, and the application can tolerate replica lag. Which change is most direct?</b></div><button type="button" class="option" onclick="answer(this,false,'q-5-2')">A. Enable Multi-AZ only</button><button type="button" class="option" onclick="answer(this,true,'q-5-2')">B. Add RDS read replicas</button><button type="button" class="option" onclick="answer(this,false,'q-5-2')">C. Increase backup retention</button><button type="button" class="option" onclick="answer(this,false,'q-5-2')">D. Add a NAT gateway</button>
+        <div class="feedback" id="q-5-2"><strong>Answer: B.</strong> The deciding constraint is read scaling with tolerated lag. Read replicas asynchronously copy data and serve read-only traffic.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>A key-value application needs single-digit millisecond performance at very large scale with no server management. Access is by known partition keys. What fits?</b></div><button type="button" class="option" onclick="answer(this,false,'q-5-3')">A. Amazon Redshift</button><button type="button" class="option" onclick="answer(this,false,'q-5-3')">B. RDS for SQL Server</button><button type="button" class="option" onclick="answer(this,true,'q-5-3')">C. Amazon DynamoDB</button><button type="button" class="option" onclick="answer(this,false,'q-5-3')">D. Amazon Neptune</button>
+        <div class="feedback" id="q-5-3"><strong>Answer: C.</strong> The deciding constraints are key-based access, massive scale, and serverless operations. DynamoDB directly matches them.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>A globally distributed application requires active-active key-value writes in two AWS Regions with managed conflict resolution. Which feature should be used?</b></div><button type="button" class="option" onclick="answer(this,false,'q-5-4')">A. Aurora Replica Auto Scaling</button><button type="button" class="option" onclick="answer(this,false,'q-5-4')">B. RDS Multi-AZ DB cluster</button><button type="button" class="option" onclick="answer(this,false,'q-5-4')">C. DAX in one Region</button><button type="button" class="option" onclick="answer(this,true,'q-5-4')">D. DynamoDB global tables</button>
+        <div class="feedback" id="q-5-4"><strong>Answer: D.</strong> The deciding constraint is managed multi-Region active-active writing. DynamoDB global tables replicate writes among participating Regions.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>An application repeatedly reads the same catalog entries and can tolerate seconds of staleness. The database is CPU-bound. What is the best optimization?</b></div><button type="button" class="option" onclick="answer(this,true,'q-5-5')">A. Add ElastiCache with cache-aside</button><button type="button" class="option" onclick="answer(this,false,'q-5-5')">B. Convert Multi-AZ to Single-AZ</button><button type="button" class="option" onclick="answer(this,false,'q-5-5')">C. Disable database indexes</button><button type="button" class="option" onclick="answer(this,false,'q-5-5')">D. Increase automated backup frequency</button>
+        <div class="feedback" id="q-5-5"><strong>Answer: A.</strong> The deciding constraints are repeated reads and tolerated staleness. Cache-aside offloads hot reads while preserving the database as record.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="5"> Mark Lesson 05 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="04-storage-architecture.html">← Lesson 04</a><a class="nav-btn" href="06-iam-organizations.html">Lesson 06 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 03: EC2, Load Balancing & Auto Scaling · SAA-C03</title>
+<meta name="description" content="Instances, purchase models, ALB/NLB and elastic compute — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 03: EC2, Load Balancing & Auto Scaling · SAA-C03">
+<meta property="og:description" content="Instances, purchase models, ALB/NLB and elastic compute — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-3">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 03</div>
+    <h1>EC2, Load Balancing &amp; Auto Scaling</h1><p class="sub">Instances, purchase models, ALB/NLB and elastic compute</p><div class="badges"><span class="badge">Performance</span><span class="badge">Resilience</span><span class="badge">Cost</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>How do I run variable compute reliably and economically?</div>
+    <div class="goal"><span>EXIT GOAL</span>Select EC2 characteristics, load balancers and scaling policies based on traffic, protocol, availability and cost.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-3">Visual map</a><a href="#deep-3">Deep dive</a>
+    <a href="#decision-3">Decision table</a><a href="#scenario-3">Scenarios</a>
+    <a href="#decoder-3">Exam language</a><a href="#quiz-3">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-3">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="EC2, Load Balancing &amp; Auto Scaling architecture diagram"><defs><marker id="arr-3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="248.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Clients</text><rect x="58.0" y="201.0" width="212.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="164.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Web / mobile users</text><rect x="300.0" y="52" width="248.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="312.0" y="83" fill="#ff9900" font-size="15" font-weight="800">Edge / entry</text><rect x="318.0" y="165.0" width="212.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="424.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Route 53</text><rect x="318.0" y="237.0" width="212.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="424.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">ALB or NLB</text><rect x="560.0" y="52" width="248.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="572.0" y="83" fill="#c084fc" font-size="15" font-weight="800">Elastic compute</text><rect x="578.0" y="129.0" width="212.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="684.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Auto Scaling Group</text><rect x="578.0" y="201.0" width="212.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="684.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">EC2 across AZ A</text><rect x="578.0" y="273.0" width="212.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="684.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">EC2 across AZ B</text><rect x="820.0" y="52" width="248.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="832.0" y="83" fill="#4ade80" font-size="15" font-weight="800">State</text><rect x="838.0" y="165.0" width="212.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="944.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">EBS</text><rect x="838.0" y="237.0" width="212.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="944.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">RDS / shared data</text><line x1="259.0" y1="230.0" x2="328.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-3)"/><line x1="519.0" y1="266.0" x2="588.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-3)"/><line x1="779.0" y1="230.0" x2="848.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-3)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Separate request distribution, instance configuration, health replacement, and capacity scaling.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Choose the load-balancer layer</b><p>ALB makes Layer 7 host and path decisions for HTTP; NLB preserves Layer 4 performance, static IP needs, and TCP or UDP handling.</p></div>
+      <div><span>②</span><b>Scale replaceable capacity</b><p>Keep instances stateless behind a load balancer and let an Auto Scaling group replace unhealthy capacity across multiple AZs.</p></div>
+      <div><span>③</span><b>Separate launch from scaling</b><p>A launch template defines instance configuration; target tracking, step, scheduled, or predictive policies decide desired capacity.</p></div>
+      <div><span>④</span><b>Align every health signal</b><p>Use load balancer health checks with Auto Scaling so instances that boot but cannot serve the application are replaced.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-3">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>EC2 families + sizing</h3></div><ul><li>General purpose balances CPU/memory/network.</li><li>Compute optimized fits CPU-heavy processing.</li><li>Memory optimized fits large in-memory datasets and memory-heavy databases.</li><li>Storage optimized fits high local I/O workloads; accelerated instances use GPUs/accelerators.</li><li>Right-size from workload metrics rather than choosing the largest instance.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>ALB vs NLB</h3></div><ul><li>ALB is Layer 7 and understands HTTP/HTTPS; it supports host/path routing and modern app patterns.</li><li>NLB is Layer 4 for TCP/UDP/TLS, very high throughput/low latency and static IP-style requirements.</li><li>Gateway Load Balancer is for deploying/scaling virtual network appliances.</li><li>Cross-zone and health-check behavior matters for resilience.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>Auto Scaling</h3></div><ul><li>An ASG has minimum, desired and maximum capacity.</li><li>Target tracking keeps a metric near a chosen target and is common for elastic workloads.</li><li>Step/simple scaling reacts to thresholds; scheduled scaling helps predictable patterns.</li><li>Use ELB health checks and multiple AZs to replace unhealthy instances automatically.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>EC2 purchase models</h3></div><ul><li>On-Demand: flexibility, no long commitment.</li><li>Savings Plans: discount for committed compute spend/usage patterns.</li><li>Reserved capacity/pricing constructs are useful for steady predictable workloads depending on service/model.</li><li>Spot: deep discounts but interruption is possible; design fault-tolerant workloads.</li><li>Dedicated Hosts/Instances address isolation, compliance or licensing requirements.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Placement + storage</h3></div><ul><li>EBS persists independently of an EC2 instance lifecycle depending on configuration.</li><li>Instance store is ephemeral local storage and should not hold unique durable data.</li><li>Placement groups can optimize latency/throughput/failure spread for specialized workloads.</li><li>Use AMIs and launch templates for repeatable immutable capacity.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-3">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Requirement</th><th>Choose</th><th>Why</th></tr></thead><tbody><tr><td>HTTP host/path routing</td><td>ALB</td><td>Layer 7 awareness</td></tr><tr><td>High-performance TCP/UDP</td><td>NLB</td><td>Layer 4</td></tr><tr><td>Unpredictable stateless web traffic</td><td>ALB + ASG</td><td>Distribute + scale horizontally</td></tr><tr><td>Interruptible batch</td><td>Spot</td><td>Cost optimized</td></tr><tr><td>Steady baseline</td><td>Savings Plan / commitment</td><td>Discount predictable usage</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-3">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(3,0,this)" class="scenario-tab active">HTTP Routes</button><button type="button" onclick="showScenario(3,1,this)" class="scenario-tab">Static IP</button><button type="button" onclick="showScenario(3,2,this)" class="scenario-tab">Flash Sale</button></div><div class="scenario-panel active" id="sc-3-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Route by hostname and path</h3>
+          <p>One HTTPS entry point must route api.example.com and /images to different target groups. Use an ALB with host- and path-based listener rules and ACM certificates. An NLB does not inspect HTTP paths, and DNS routing cannot split requests by URL path.</p>
+          <div class="reason-strip"><span>1</span> Layer 7 rules <b>→</b><span>2</span> TLS support <b>→</b><span>3</span> Target groups</div>
+        </div><div class="scenario-panel" id="sc-3-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Serve allowlisted TCP traffic</h3>
+          <p>Partners require fixed IP addresses for a latency-sensitive TCP service deployed across AZs. Use an internet-facing NLB with Elastic IP addresses per enabled AZ. ALB addresses can change and ALB is intended for HTTP-family protocols, while Global Accelerator is unnecessary if regional entry points suffice.</p>
+          <div class="reason-strip"><span>1</span> Static addresses <b>→</b><span>2</span> Layer 4 <b>→</b><span>3</span> Cross-AZ service</div>
+        </div><div class="scenario-panel" id="sc-3-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Scale ahead of a known event</h3>
+          <p>A sale starts at a fixed time and instance initialization takes several minutes. Configure scheduled scaling to raise ASG capacity before the event, then use target tracking for live demand. Reactive scaling alone starts too late, and larger fixed instances waste capacity after the sale.</p>
+          <div class="reason-strip"><span>1</span> Known schedule <b>→</b><span>2</span> Warm capacity <b>→</b><span>3</span> Elastic follow-up</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-3">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“path-based routing”</div><div class="think">→ ALB.</div></div><div class="decoder-item"><div class="phrase">“TCP/UDP, static IP, very high throughput”</div><div class="think">→ NLB.</div></div><div class="decoder-item"><div class="phrase">“unpredictable traffic”</div><div class="think">→ Auto Scaling / serverless elasticity.</div></div><div class="decoder-item"><div class="phrase">“fault-tolerant batch”</div><div class="think">→ Spot can be attractive.</div></div><div class="decoder-item"><div class="phrase">“license tied to physical sockets/cores”</div><div class="think">→ Consider Dedicated Hosts.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-3">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>A web platform must route requests to different target groups based on hostname and URL path while terminating HTTPS. Which load balancer should it use?</b></div><button type="button" class="option" onclick="answer(this,false,'q-3-1')">A. Gateway Load Balancer</button><button type="button" class="option" onclick="answer(this,false,'q-3-1')">B. Network Load Balancer</button><button type="button" class="option" onclick="answer(this,true,'q-3-1')">C. Application Load Balancer</button><button type="button" class="option" onclick="answer(this,false,'q-3-1')">D. Classic Load Balancer</button>
+        <div class="feedback" id="q-3-1"><strong>Answer: C.</strong> The deciding constraints are Layer 7 host and path inspection. ALB listener rules provide both and can terminate HTTPS.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>External clients allowlist fixed IPv4 addresses for a high-throughput TCP application. Which regional load-balancing design satisfies this?</b></div><button type="button" class="option" onclick="answer(this,false,'q-3-2')">A. ALB with sticky sessions</button><button type="button" class="option" onclick="answer(this,false,'q-3-2')">B. CloudFront with an ALB origin</button><button type="button" class="option" onclick="answer(this,false,'q-3-2')">C. ASG without a load balancer</button><button type="button" class="option" onclick="answer(this,true,'q-3-2')">D. NLB with Elastic IPs per AZ</button>
+        <div class="feedback" id="q-3-2"><strong>Answer: D.</strong> The deciding constraints are static IP addresses and TCP performance. NLB supports Layer 4 traffic and per-AZ Elastic IPs.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>An ASG instance passes EC2 status checks but its web process is dead. The company wants automatic replacement. What should be configured?</b></div><button type="button" class="option" onclick="answer(this,true,'q-3-3')">A. ELB health checks for the ASG</button><button type="button" class="option" onclick="answer(this,false,'q-3-3')">B. Scheduled scaling every minute</button><button type="button" class="option" onclick="answer(this,false,'q-3-3')">C. A larger root EBS volume</button><button type="button" class="option" onclick="answer(this,false,'q-3-3')">D. NACL health probes</button>
+        <div class="feedback" id="q-3-3"><strong>Answer: A.</strong> The deciding constraint is application-level failure. Enabling ELB health checks lets the ASG replace targets that fail the load balancer check.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>Traffic tracks CPU utilization unpredictably throughout the day. The ASG should maintain CPU near 50 percent with minimal policy management. Which policy fits?</b></div><button type="button" class="option" onclick="answer(this,false,'q-3-4')">A. Scheduled scaling</button><button type="button" class="option" onclick="answer(this,true,'q-3-4')">B. Target tracking scaling</button><button type="button" class="option" onclick="answer(this,false,'q-3-4')">C. Manual desired capacity</button><button type="button" class="option" onclick="answer(this,false,'q-3-4')">D. Instance refresh</button>
+        <div class="feedback" id="q-3-4"><strong>Answer: B.</strong> The deciding constraint is maintaining a metric target under variable load. Target tracking adjusts capacity around the selected CPU value.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>A batch fleet can tolerate interruption and needs the lowest EC2 compute cost, but it must replace reclaimed capacity automatically. Which design is best?</b></div><button type="button" class="option" onclick="answer(this,false,'q-3-5')">A. Dedicated Hosts in one AZ</button><button type="button" class="option" onclick="answer(this,false,'q-3-5')">B. On-Demand instances without an ASG</button><button type="button" class="option" onclick="answer(this,true,'q-3-5')">C. EC2 Auto Scaling with diversified Spot capacity</button><button type="button" class="option" onclick="answer(this,false,'q-3-5')">D. Reserved Instances with fixed capacity</button>
+        <div class="feedback" id="q-3-5"><strong>Answer: C.</strong> The deciding constraints are interruption tolerance and minimum cost. Diversified Spot in an ASG reduces concentration risk and replaces lost instances.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="3"> Mark Lesson 03 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="02-connecting-networks.html">← Lesson 02</a><a class="nav-btn" href="04-storage-architecture.html">Lesson 04 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>

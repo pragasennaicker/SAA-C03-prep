@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 16: Cost Optimization & Architecture Trade-offs · SAA-C03</title>
+<meta name="description" content="Compute pricing, storage lifecycle, database sizing, network costs and cost tools — SAA-C03 visual lesson.">
+<meta property="og:title" content="Lesson 16: Cost Optimization & Architecture Trade-offs · SAA-C03">
+<meta property="og:description" content="Compute pricing, storage lifecycle, database sizing, network costs and cost tools — SAA-C03 visual lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/course.css">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="../index.html"><em>AWS</em> SAA-C03 · Visual Course</a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+</div></div>
+
+<main>
+<section class="chapter-page" id="lesson-16">
+
+  <div class="chapter-hero">
+    <a class="back" href="../index.html">← Course index</a>
+    <div class="chapter-no">LESSON 16</div>
+    <h1>Cost Optimization &amp; Architecture Trade-offs</h1><p class="sub">Compute pricing, storage lifecycle, database sizing, network costs and cost tools</p><div class="badges"><span class="badge">Cost</span></div>
+    <div class="key-question"><span>KEY QUESTION</span>What is the lowest-cost architecture that still meets every hard requirement?</div>
+    <div class="goal"><span>EXIT GOAL</span>Recognize hidden cost drivers and choose pricing/data-path/storage options without sacrificing stated security or resilience.</div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="#visual-16">Visual map</a><a href="#deep-16">Deep dive</a>
+    <a href="#decision-16">Decision table</a><a href="#scenario-16">Scenarios</a>
+    <a href="#decoder-16">Exam language</a><a href="#quiz-16">Quiz</a>
+  </div>
+
+  <div class="lesson-section" id="visual-16">
+    <div class="section-kicker">01 · VISUAL MODEL</div><h2>See the architecture before memorising the services</h2>
+    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Cost Optimization &amp; Architecture Trade-offs architecture diagram"><defs><marker id="arr-16" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff9900"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="52.0" y="83" fill="#59d8ff" font-size="15" font-weight="800">Measure</text><rect x="58.0" y="129.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Cost Explorer</text><rect x="58.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">CUR</text><rect x="58.0" y="273.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#59d8ff" stroke-width="1.5"/><text x="138.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Budgets</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="260.0" y="83" fill="#ff9900" font-size="15" font-weight="800">Compute</text><rect x="266.0" y="129.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Right-size</text><rect x="266.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Savings Plans</text><rect x="266.0" y="273.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#ff9900" stroke-width="1.5"/><text x="346.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Spot</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="468.0" y="83" fill="#c084fc" font-size="15" font-weight="800">Storage</text><rect x="474.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="200.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Lifecycle</text><rect x="474.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#c084fc" stroke-width="1.5"/><text x="554.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Intelligent-Tiering</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="676.0" y="83" fill="#4ade80" font-size="15" font-weight="800">Database</text><rect x="682.0" y="165.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="190.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Right-size</text><text x="762.0" y="207.0" text-anchor="middle" fill="#c2d2e4" font-size="12">/ serverless</text><rect x="682.0" y="237.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#4ade80" stroke-width="1.5"/><text x="762.0" y="272.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Read/caching choices</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="#0d192a" stroke="#263d58"/><text x="884.0" y="83" fill="#facc15" font-size="15" font-weight="800">Network</text><rect x="890.0" y="129.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="164.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">Endpoints</text><rect x="890.0" y="201.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="236.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">AZ/Region transfer</text><rect x="890.0" y="273.0" width="160.0" height="58" rx="12" fill="#15243a" stroke="#facc15" stroke-width="1.5"/><text x="970.0" y="308.0" text-anchor="middle" fill="#fff" font-size="13" font-weight="750">NAT paths</text><line x1="207.0" y1="230.0" x2="276.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-16)"/><line x1="415.0" y1="230.0" x2="484.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-16)"/><line x1="623.0" y1="266.0" x2="692.0" y2="266.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-16)"/><line x1="831.0" y1="266.0" x2="900.0" y2="230.0" stroke="#ff9900" stroke-width="3" marker-end="url(#arr-16)"/><text x="560" y="440" text-anchor="middle" fill="#8197ae" font-size="13">Cost decisions: measure the billing driver, right-size, tier, commit, and verify.</text></svg></div>
+        <div class="visual-rules">
+      <div><span>①</span><b>Optimize the billing dimension</b><p>Identify whether cost is driven by provisioned time, requests, bytes stored, bytes scanned, data transfer, NAT processing, IOPS, or licensed cores.</p></div>
+      <div><span>②</span><b>Commit only after baselining</b><p>Use Savings Plans or Reserved Instances for stable compute baselines; keep burst and uncertain demand on flexible pricing.</p></div>
+      <div><span>③</span><b>Tier by access evidence</b><p>Apply S3 lifecycle rules for known patterns or Intelligent-Tiering for uncertain patterns, while including retrieval fees and minimum storage durations.</p></div>
+      <div><span>④</span><b>Treat architecture as cost control</b><p>Show cache hits, compression, right-sized resources, Graviton compatibility, serverless idle behavior, and same-AZ or endpoint paths that avoid needless transfer.</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-section" id="deep-16">
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="deep-grid"><div class="deep-card">
+          <div class="deep-head"><span>1</span><h3>Compute economics</h3></div><ul><li>Right-size from observed utilization and performance requirements.</li><li>Use Auto Scaling so idle peak capacity is not permanently provisioned.</li><li>Savings Plans reduce cost for predictable committed compute usage.</li><li>Spot lowers price for interruption-tolerant workloads; combine with diversified/replaceable designs.</li><li>Serverless/Fargate may reduce idle infrastructure and ops cost but compare total usage economics.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>2</span><h3>Storage economics</h3></div><ul><li>S3 lifecycle transitions automate movement to cheaper classes as access decreases.</li><li>Intelligent-Tiering helps unknown/changing access patterns.</li><li>Delete obsolete snapshots, unattached volumes and expired objects according to retention requirements.</li><li>Provision EBS performance independently when possible instead of over-sizing capacity purely for performance.</li><li>One Zone classes cost less because they trade multi-AZ resilience.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>3</span><h3>Database economics</h3></div><ul><li>Right-size DB instance families and storage/IOPS.</li><li>Use serverless/autoscaling database capacity for variable workloads where appropriate.</li><li>Caching can reduce expensive repeated database reads but adds cache cost/complexity.</li><li>Read replicas solve performance; do not add them when there is no read-scale requirement.</li><li>Choose purpose-built DBs that match access patterns rather than scaling an unsuitable engine.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>4</span><h3>Network economics</h3></div><ul><li>NAT Gateway processing and data transfer can become material at scale.</li><li>Use VPC endpoints for supported AWS service paths where security/cost requirements favor them.</li><li>Cross-AZ and cross-Region data movement can cost money; architecture placement matters.</li><li>CloudFront can reduce repeated origin transfer/load for cacheable global content.</li><li>Direct Connect may change data-transfer economics for sustained hybrid traffic, but the decision includes port/provider costs.</li></ul>
+        </div><div class="deep-card">
+          <div class="deep-head"><span>5</span><h3>Cost tools</h3></div><ul><li>Cost Explorer analyzes historical spend/usage trends.</li><li>AWS Budgets creates thresholds and notifications.</li><li>Cost and Usage Report provides highly detailed billing/usage data for analysis.</li><li>Compute Optimizer provides rightsizing recommendations for supported resources.</li><li>Tags and multi-account structures improve allocation/accountability.</li></ul>
+        </div></div>
+  </div>
+
+  <div class="lesson-section" id="decision-16">
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="tablewrap"><table><thead><tr><th>Cost clue</th><th>Likely action</th><th>Watch for</th></tr></thead><tbody><tr><td>Steady compute baseline</td><td>Savings Plans</td><td>Commit only predictable portion</td></tr><tr><td>Fault-tolerant batch</td><td>Spot</td><td>Interruption</td></tr><tr><td>Old S3 objects</td><td>Lifecycle/archive</td><td>Retrieval requirements</td></tr><tr><td>Unknown S3 access</td><td>Intelligent-Tiering</td><td>Monitoring/automation economics</td></tr><tr><td>High S3 traffic through NAT</td><td>Gateway endpoint</td><td>Supported service path</td></tr><tr><td>Spend spike</td><td>Cost Explorer / CUR</td><td>Find driver</td></tr><tr><td>Threshold alert</td><td>AWS Budgets</td><td>Notify before/after threshold</td></tr></tbody></table></div>
+  </div>
+
+  <div class="lesson-section" id="scenario-16">
+    
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="scenario-tabs"><button type="button" onclick="showScenario(16,0,this)" class="scenario-tab active">Compute</button><button type="button" onclick="showScenario(16,1,this)" class="scenario-tab">Storage</button><button type="button" onclick="showScenario(16,2,this)" class="scenario-tab">Network</button></div><div class="scenario-panel active" id="sc-16-0">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Stable baseline with bursts</h3>
+          <p>Constraint: compute has a steady year-round baseline plus unpredictable peaks. Design: cover the measured baseline with a suitable Savings Plan and run peaks on demand or Spot where interruptible. Why alternatives fail: committing to peak wastes money, and Spot is unsafe for noninterruptible baseline capacity.</p>
+          <div class="reason-strip"><span>1</span> Commit only baseline <b>→</b><span>2</span> On-Demand handles uncertainty <b>→</b><span>3</span> Spot fits interruption</div>
+        </div><div class="scenario-panel" id="sc-16-1">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Unknown object access</h3>
+          <p>Constraint: millions of long-lived objects have changing, unpredictable access frequency. Design: S3 Intelligent-Tiering moves eligible objects among access tiers automatically. Why alternatives fail: rigid lifecycle dates can misclassify changing access, and Standard keeps every object at the higher frequent-access rate.</p>
+          <div class="reason-strip"><span>1</span> Monitoring learns access <b>→</b><span>2</span> No retrieval fee for access tiers <b>→</b><span>3</span> Archive tiers are optional</div>
+        </div><div class="scenario-panel" id="sc-16-2">
+          <div class="scenario-label">WORKED SCENARIO</div><h3>Expensive private downloads</h3>
+          <p>Constraint: private instances download large S3 datasets through NAT gateways, creating processing charges. Design: add an S3 gateway endpoint and route S3 traffic privately. Why alternatives fail: a larger NAT gateway does not reduce per-byte processing, and an internet gateway cannot serve private instances directly.</p>
+          <div class="reason-strip"><span>1</span> Gateway endpoint avoids NAT <b>→</b><span>2</span> S3 route stays private <b>→</b><span>3</span> No endpoint hourly charge</div>
+        </div>
+  </div>
+
+  <div class="lesson-section" id="decoder-16">
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“steady predictable use”</div><div class="think">→ Savings Plans / commitment.</div></div><div class="decoder-item"><div class="phrase">“interruptible workload”</div><div class="think">→ Spot.</div></div><div class="decoder-item"><div class="phrase">“unknown S3 access pattern”</div><div class="think">→ Intelligent-Tiering.</div></div><div class="decoder-item"><div class="phrase">“budget threshold notification”</div><div class="think">→ AWS Budgets.</div></div><div class="decoder-item"><div class="phrase">“find why spend increased”</div><div class="think">→ Cost Explorer / CUR.</div></div><div class="decoder-item"><div class="phrase">“minimize NAT processing for S3”</div><div class="think">→ Gateway endpoint.</div></div></div>
+  </div>
+
+  <div class="lesson-section" id="quiz-16">
+    
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="quiz-card"><div class="qtop"><span>Q1</span><b>A company has a predictable minimum EC2 spend for three years but may change instance families and Regions. Which discount offers the broadest compute flexibility?</b></div><button type="button" class="option" onclick="answer(this,true,'q-16-1')">A. Compute Savings Plan</button><button type="button" class="option" onclick="answer(this,false,'q-16-1')">B. Standard Reserved Instance</button><button type="button" class="option" onclick="answer(this,false,'q-16-1')">C. Dedicated Host reservation only</button><button type="button" class="option" onclick="answer(this,false,'q-16-1')">D. Spot Instance</button>
+        <div class="feedback" id="q-16-1"><strong>Answer: A.</strong> Compute Savings Plans apply across eligible EC2 families, sizes, operating systems, tenancy, and Regions, plus Fargate and Lambda.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>Private subnets transfer terabytes to S3 through a NAT gateway every day. Which change most directly removes NAT data-processing charges for this traffic?</b></div><button type="button" class="option" onclick="answer(this,true,'q-16-2')">A. Add an S3 gateway VPC endpoint</button><button type="button" class="option" onclick="answer(this,false,'q-16-2')">B. Buy a NAT gateway reservation</button><button type="button" class="option" onclick="answer(this,false,'q-16-2')">C. Add a second internet gateway</button><button type="button" class="option" onclick="answer(this,false,'q-16-2')">D. Enable S3 Transfer Acceleration</button>
+        <div class="feedback" id="q-16-2"><strong>Answer: A.</strong> An S3 gateway endpoint routes supported S3 traffic without traversing the NAT gateway and has no hourly endpoint charge.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>Objects have unpredictable access that changes over time, and operations wants automatic tiering without writing lifecycle timing guesses. Which class fits?</b></div><button type="button" class="option" onclick="answer(this,true,'q-16-3')">A. S3 Intelligent-Tiering</button><button type="button" class="option" onclick="answer(this,false,'q-16-3')">B. S3 Standard only</button><button type="button" class="option" onclick="answer(this,false,'q-16-3')">C. S3 One Zone-IA for every object</button><button type="button" class="option" onclick="answer(this,false,'q-16-3')">D. S3 Glacier Deep Archive immediately</button>
+        <div class="feedback" id="q-16-3"><strong>Answer: A.</strong> Intelligent-Tiering monitors access and automatically moves eligible objects among tiers while preserving millisecond access in online tiers.</div></div><div class="quiz-card"><div class="qtop"><span>Q4</span><b>A fault-tolerant batch fleet can lose workers and resume jobs from checkpoints. Which EC2 purchasing option usually offers the deepest discount?</b></div><button type="button" class="option" onclick="answer(this,true,'q-16-4')">A. Spot Instances</button><button type="button" class="option" onclick="answer(this,false,'q-16-4')">B. On-Demand Capacity Reservations</button><button type="button" class="option" onclick="answer(this,false,'q-16-4')">C. Dedicated Hosts</button><button type="button" class="option" onclick="answer(this,false,'q-16-4')">D. Standard On-Demand only</button>
+        <div class="feedback" id="q-16-4"><strong>Answer: A.</strong> Spot uses spare EC2 capacity at steep discounts but can be interrupted, making checkpointed fault-tolerant batch a strong fit.</div></div><div class="quiz-card"><div class="qtop"><span>Q5</span><b>Athena costs increased after analysts began querying raw JSON logs across all dates. Which redesign lowers scanned bytes without changing the query service?</b></div><button type="button" class="option" onclick="answer(this,true,'q-16-5')">A. Store partitioned Parquet and filter partitions</button><button type="button" class="option" onclick="answer(this,false,'q-16-5')">B. Copy JSON through a NAT gateway</button><button type="button" class="option" onclick="answer(this,false,'q-16-5')">C. Increase CloudWatch retention</button><button type="button" class="option" onclick="answer(this,false,'q-16-5')">D. Purchase EC2 Reserved Instances</button>
+        <div class="feedback" id="q-16-5"><strong>Answer: A.</strong> Athena charges primarily by bytes scanned; columnar compression and partition pruning directly reduce scanned data.</div></div>
+  </div>
+
+  <div class="complete">
+    <label><input type="checkbox" class="complete-check" data-lesson="16"> Mark Lesson 16 complete</label>
+    <div class="nav-group"><a class="nav-btn" href="15-monitoring-ops.html">← Lesson 15</a><a class="nav-btn" href="17-final-patterns.html">Lesson 17 →</a></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
+<a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="../assets/js/course.js"></script>
+</body></html>
