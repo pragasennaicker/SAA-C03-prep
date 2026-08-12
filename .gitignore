@@ -1,4 +1,19 @@
+# Agent / local AI workflow (do not publish)
+AGENTS.md
+REVIEW.md
+.cursor/
+handoffs/
+plans/
+scripts/
+
+# Python cache
+__pycache__/
+.pycache/
+*.pyc
+
+# OS
+.DS_Store
+
 # Temporary extract artifacts
 _extracted_*.html
 _lessons_meta.json
-.DS_Store

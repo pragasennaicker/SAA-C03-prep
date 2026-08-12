@@ -64,7 +64,6 @@ lessons/                   # one HTML page per lesson
 appendix/service-atlas.html
 assets/css/course.css
 assets/js/course.js
-scripts/                   # content upgrade source used to regenerate quizzes/scenarios
 ```
 
 ## GitHub Pages
