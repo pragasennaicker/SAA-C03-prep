@@ -43,9 +43,9 @@ a{color:var(--teal-strong)}
 strong,b{color:var(--text-strong)}
 .topbar{position:sticky;top:0;z-index:100;background:var(--topbar-bg);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
 .topin{max-width:1260px;margin:auto;padding:9px 20px;display:flex;align-items:center;gap:13px}
-.brand{font-weight:950;white-space:nowrap;text-decoration:none;color:inherit}
+.brand{font-weight:950;white-space:nowrap;text-decoration:none;color:inherit;flex:none}
 .brand em{font-style:normal;color:var(--accent)}
-.prog{height:7px;flex:1;border-radius:99px;background:var(--line);overflow:hidden}
+.prog{height:7px;flex:1;min-width:0;border-radius:99px;background:var(--line);overflow:hidden}
 .prog div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--teal));transition:.25s}
 #progText{color:var(--muted);font-size:.78rem;white-space:nowrap}
 .theme-toggle{
@@ -135,6 +135,7 @@ summary small{float:right;color:var(--muted);font-weight:500}
 .lesson-section h2{font-size:clamp(1.55rem,3vw,2.25rem);margin:6px 0 18px}
 .arch{border:1px solid var(--line);border-radius:18px;padding:12px;background:var(--arch-bg);overflow:auto;box-shadow:var(--shadow)}
 .arch svg{width:100%;height:auto;display:block;min-width:820px}
+.arch-drawing svg{min-width:880px}
 .visual-rules{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 .visual-rules>div{border:1px solid var(--line);border-radius:12px;padding:13px;background:var(--bg2)}
 .visual-rules span{display:block;color:var(--accent);font-size:1.2rem}
@@ -190,6 +191,7 @@ td:nth-child(2){color:var(--text-strong);font-weight:750}
   .visual-rules{grid-template-columns:1fr 1fr}
   .atlas-grid{grid-template-columns:1fr}
   #progText{display:none}
+  .brand{font-size:.82rem}
   .title-row{flex-direction:column;gap:14px}
   .keywords{flex:none;width:100%}
   .map-label{width:auto;align-self:flex-start}
