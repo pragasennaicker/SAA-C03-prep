@@ -104,6 +104,17 @@ summary small{float:right;color:var(--muted);font-weight:500}
 .atlas-item p{margin:3px 0;color:var(--muted);font-size:.82rem}
 .sources{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
 .sources a{text-decoration:none;padding:8px 10px;border-radius:9px;border:1px solid var(--line);background:var(--bg2);font-size:.82rem}
+.lesson-intro{
+  background:var(--panel2)
+}
+.lesson-intro-inner{max-width:1260px;margin:auto;padding:0 20px}
+.lesson-intro .chapter-hero{border-bottom:none;padding:40px 0 36px}
+.lesson-intro .keywords,
+.lesson-intro .key-concept,
+.lesson-intro .goal,
+.lesson-intro .back{background:var(--bg)}
+body:has(.lesson-intro){background:var(--bg)}
+body:has(.lesson-intro) .topbar{background:var(--panel2);border-bottom:none;backdrop-filter:none}
 .chapter-hero{padding:48px 0 25px;border-bottom:1px solid var(--line)}
 .back{display:inline-block;background:var(--bg2);color:var(--soft);border:1px solid var(--line);border-radius:9px;padding:8px 10px;text-decoration:none}
 .back:hover{border-color:var(--accent)}
@@ -128,10 +139,10 @@ summary small{float:right;color:var(--muted);font-weight:500}
 }
 .keyword-def[hidden]{display:none!important}
 .badges{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
-.key-question,.goal{margin-top:15px;border-radius:13px;padding:14px 16px;background:var(--bg2);border:1px solid var(--line);color:var(--text)}
-.key-question{border-left:4px solid var(--teal)}
+.key-concept,.goal{margin-top:15px;border-radius:13px;padding:14px 16px;background:var(--bg2);border:1px solid var(--line);color:var(--text)}
+.key-concept{border-left:4px solid var(--teal)}
 .goal{border-left:4px solid var(--accent)}
-.key-question span,.goal span{display:block;font-size:.67rem;letter-spacing:.11em;font-weight:900;color:var(--muted);margin-bottom:4px}
+.key-concept span,.goal span{display:block;font-size:.67rem;letter-spacing:.11em;font-weight:900;color:var(--muted);margin-bottom:4px}
 .chapter-nav{position:sticky;top:43px;z-index:60;display:flex;gap:5px;overflow:auto;padding:8px 0;background:var(--topbar-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .chapter-nav a{white-space:nowrap;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:5px 8px;color:var(--soft);font-size:.76rem;background:var(--bg2)}
 .lesson-section{padding:40px 0;border-bottom:1px solid var(--line)}
