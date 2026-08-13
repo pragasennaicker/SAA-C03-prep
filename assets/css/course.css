@@ -13,7 +13,7 @@ html[data-theme="dark"]{
   --glow-a:rgba(79,143,238,.12);--glow-b:rgba(125,175,165,.1);
   --dot-glow:0 0 10px rgba(125,175,165,.55);
   --diagram-lane:#1C1E21;--diagram-node:#11325F;--diagram-ink:#FFFFFF;--diagram-muted:#D5D8DD;
-  --shadow:0 18px 48px rgba(0,0,0,.35);--font:"Source Sans 3",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --shadow:0 18px 48px rgba(0,0,0,.35);--hover-shadow:0 10px 26px rgba(0,0,0,.42);--font:"Source Sans 3",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
   --orange:var(--accent);--cyan:var(--teal);--yellow:var(--warm)
 }
 html[data-theme="light"]{
@@ -29,7 +29,7 @@ html[data-theme="light"]{
   --glow-a:rgba(26,68,128,.08);--glow-b:rgba(17,94,89,.07);
   --dot-glow:0 0 8px rgba(17,94,89,.25);
   --diagram-lane:#F9FAFB;--diagram-node:#E1EBF9;--diagram-ink:#1C1E21;--diagram-muted:#595959;
-  --shadow:0 18px 48px rgba(16,17,20,.08)
+  --shadow:0 18px 48px rgba(16,17,20,.08);--hover-shadow:0 10px 26px rgba(16,17,20,.12)
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -61,15 +61,18 @@ main{max-width:1260px;margin:auto;padding:0 20px 90px}
 .hero h1,.chapter-hero h1{font-size:clamp(2.4rem,5vw,4.8rem);line-height:1.02;margin:10px 0 16px}
 .chapter-hero h1,.title-row h1{color:var(--accent)}
 .lead,.sub{color:var(--muted);font-size:1.1rem;max-width:920px}
-.domain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0}
-.domain{border:1px solid var(--line);border-radius:16px;padding:16px;background:linear-gradient(180deg,var(--card-shine),transparent)}
-.domain .pct{font-size:1.75rem;font-weight:950}
+.hero .sub{margin:20px 0 0}
+.domain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:10px 0 26px}
+.domain{border:1px solid var(--line);border-radius:16px;padding:16px;background:linear-gradient(180deg,var(--card-shine),transparent);transition:.15s}
+.domain:hover{transform:translateY(-2px);border-color:var(--accent);background:linear-gradient(180deg,var(--accent-soft),transparent);box-shadow:var(--hover-shadow)}
+.domain .pct{font-size:1.75rem;font-weight:950;color:var(--accent)}
 .domain p{margin:3px 0;color:var(--muted);font-size:.86rem}
 .course-map{border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--bg2);margin:24px 0}
 .map-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
-.map-label{width:120px;color:var(--muted);font-size:.8rem;font-weight:800}
-.map-pill{padding:6px 9px;border-radius:9px;background:var(--panel);border:1px solid var(--border-strong);font-size:.78rem;text-decoration:none;color:inherit}
-.map-pill:hover{border-color:var(--accent)}
+.map-label{width:168px;flex-shrink:0;color:var(--accent);font-size:.8rem;font-weight:800;line-height:1.2}
+.map-pill{padding:6px 9px;border-radius:9px;background:var(--panel);border:1px solid var(--border-strong);font-size:.78rem;text-decoration:none;color:inherit;transition:.15s}
+.map-pill:hover{transform:translateY(-2px);border-color:var(--accent);background:linear-gradient(180deg,var(--accent-soft),var(--panel));box-shadow:var(--hover-shadow)}
+.map-num{color:var(--accent);font-weight:800}
 .map-arrow{color:var(--accent)}
 .info-note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:14px 16px;border-radius:11px;color:var(--soft);margin:20px 0}
 .disclaimer{border-left:4px solid var(--teal);background:var(--teal-soft);padding:14px 16px;border-radius:11px;color:var(--soft);margin:20px 0;font-size:.92rem}
@@ -82,7 +85,7 @@ main{max-width:1260px;margin:auto;padding:0 20px 90px}
 .reset{background:var(--bg2);color:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
 .lesson-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .lesson-card{display:grid;grid-template-columns:52px 1fr 13px;gap:13px;width:100%;text-align:left;background:var(--bg2);border:1px solid var(--line);color:var(--text-strong);border-radius:16px;padding:17px;text-decoration:none;transition:.15s}
-.lesson-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.lesson-card:hover{transform:translateY(-2px);border-color:var(--accent);background:linear-gradient(180deg,var(--accent-soft),var(--bg2));box-shadow:var(--hover-shadow)}
 .card-num{color:var(--accent);font-size:1.3rem;font-weight:950}
 .card-copy h3{margin:0 0 4px;color:var(--text-strong)}
 .card-copy p{margin:0;color:var(--muted);font-size:.85rem}

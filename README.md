@@ -24,7 +24,7 @@ Or open `index.html` directly in a browser (progress still saves via `localStora
 
 For each lesson:
 
-1. **Draw** the visual model from memory.
+1. **Draw** the architecture drawing from memory.
 2. **Trace** the request/data path and the control that permits or blocks it.
 3. **Stress** AZ and Region failure modes (and RPO/RTO where relevant).
 4. **Decide** using the decision table and exam-language decoder.
