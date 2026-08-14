@@ -254,8 +254,206 @@ function wireArchBuild() {
       });
     }
 
+    wireArchViewport(root);
     render(null);
   });
+}
+
+function wireArchViewport(root) {
+  const canvas = root.querySelector('.arch-build-canvas');
+  const svg = canvas && canvas.querySelector('svg');
+  if (!canvas || !svg || canvas.dataset.zoomWired === '1') return;
+  canvas.dataset.zoomWired = '1';
+
+  const stage = document.createElement('div');
+  stage.className = 'arch-build-stage';
+  svg.parentNode.insertBefore(stage, svg);
+  stage.appendChild(svg);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+  const zoomGroup = document.createElement('div');
+  zoomGroup.className = 'arch-build-zoom';
+  zoomGroup.setAttribute('role', 'group');
+  zoomGroup.setAttribute('aria-label', 'Zoom drawing');
+  zoomGroup.innerHTML =
+    '<button type="button" class="scenario-tab" data-arch-zoom-out aria-label="Zoom out">\u2212</button>' +
+    '<span class="arch-build-zoom-label" data-arch-zoom-label>100%</span>' +
+    '<button type="button" class="scenario-tab" data-arch-zoom-in aria-label="Zoom in">+</button>' +
+    '<button type="button" class="scenario-tab" data-arch-zoom-fit>Fit</button>';
+  const actions = root.querySelector('.arch-build-actions');
+  if (actions) actions.insertBefore(zoomGroup, actions.firstChild);
+  else canvas.parentNode.insertBefore(zoomGroup, canvas);
+
+  const btnIn = zoomGroup.querySelector('[data-arch-zoom-in]');
+  const btnOut = zoomGroup.querySelector('[data-arch-zoom-out]');
+  const btnFit = zoomGroup.querySelector('[data-arch-zoom-fit]');
+  const label = zoomGroup.querySelector('[data-arch-zoom-label]');
+
+  const MIN = 1;
+  const MAX = 4;
+  const STEP = 1.25;
+  let scale = 1;
+  let tx = 0;
+  let ty = 0;
+
+  function clampPan() {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    if (scale <= MIN + 0.001) {
+      tx = 0;
+      ty = 0;
+      return;
+    }
+    const maxX = w * (scale - 1);
+    const maxY = h * (scale - 1);
+    tx = Math.min(0, Math.max(-maxX, tx));
+    ty = Math.min(0, Math.max(-maxY, ty));
+  }
+
+  function apply() {
+    clampPan();
+    stage.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+    const isFit = scale <= MIN + 0.01;
+    label.textContent = Math.round(scale * 100) + '%';
+    btnOut.disabled = isFit;
+    btnIn.disabled = scale >= MAX - 0.01;
+    canvas.classList.toggle('is-zoomed', !isFit);
+  }
+
+  function zoomAt(clientX, clientY, next) {
+    next = Math.min(MAX, Math.max(MIN, next));
+    const rect = canvas.getBoundingClientRect();
+    const px = clientX - rect.left;
+    const py = clientY - rect.top;
+    const wx = (px - tx) / scale;
+    const wy = (py - ty) / scale;
+    scale = next;
+    tx = px - wx * scale;
+    ty = py - wy * scale;
+    apply();
+  }
+
+  function zoomTowardCenter(factor) {
+    const rect = canvas.getBoundingClientRect();
+    zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, scale * factor);
+  }
+
+  function fit() {
+    scale = MIN;
+    tx = 0;
+    ty = 0;
+    apply();
+  }
+
+  btnIn.addEventListener('click', () => zoomTowardCenter(STEP));
+  btnOut.addEventListener('click', () => zoomTowardCenter(1 / STEP));
+  btnFit.addEventListener('click', fit);
+
+  canvas.tabIndex = 0;
+  canvas.setAttribute(
+    'aria-label',
+    'Architecture drawing. Drag to pan. Ctrl plus scroll or pinch to zoom.'
+  );
+  canvas.title = 'Ctrl + scroll or pinch to zoom · drag to pan';
+
+  canvas.addEventListener('wheel', (e) => {
+    if (!(e.ctrlKey || e.metaKey)) return;
+    e.preventDefault();
+    const factor = Math.exp(-e.deltaY * 0.01);
+    zoomAt(e.clientX, e.clientY, scale * factor);
+  }, { passive: false });
+
+  const pointers = new Map();
+  let dragging = false;
+  let lastX = 0;
+  let lastY = 0;
+  let pinchDist = 0;
+  let pinchScale = 1;
+  let pinchTx = 0;
+  let pinchTy = 0;
+
+  canvas.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('button')) return;
+    canvas.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2) {
+      const pts = [...pointers.values()];
+      const dx = pts[0].x - pts[1].x;
+      const dy = pts[0].y - pts[1].y;
+      pinchDist = Math.hypot(dx, dy) || 1;
+      pinchScale = scale;
+      pinchTx = tx;
+      pinchTy = ty;
+      dragging = false;
+      canvas.classList.remove('is-panning');
+    } else if (scale > MIN) {
+      dragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      canvas.classList.add('is-panning');
+    }
+  });
+
+  canvas.addEventListener('pointermove', (e) => {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2 && pinchDist) {
+      const pts = [...pointers.values()];
+      const dx = pts[0].x - pts[1].x;
+      const dy = pts[0].y - pts[1].y;
+      const dist = Math.hypot(dx, dy) || 1;
+      const midX = (pts[0].x + pts[1].x) / 2;
+      const midY = (pts[0].y + pts[1].y) / 2;
+      const rect = canvas.getBoundingClientRect();
+      const px = midX - rect.left;
+      const py = midY - rect.top;
+      const next = Math.min(MAX, Math.max(MIN, pinchScale * (dist / pinchDist)));
+      const wx = (px - pinchTx) / pinchScale;
+      const wy = (py - pinchTy) / pinchScale;
+      scale = next;
+      tx = px - wx * scale;
+      ty = py - wy * scale;
+      apply();
+    } else if (dragging && scale > MIN) {
+      tx += e.clientX - lastX;
+      ty += e.clientY - lastY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      apply();
+    }
+  });
+
+  function endPointer(e) {
+    pointers.delete(e.pointerId);
+    if (pointers.size < 2) pinchDist = 0;
+    if (pointers.size === 0) {
+      dragging = false;
+      canvas.classList.remove('is-panning');
+    }
+  }
+  canvas.addEventListener('pointerup', endPointer);
+  canvas.addEventListener('pointercancel', endPointer);
+
+  canvas.addEventListener('dblclick', (e) => {
+    if (e.target.closest('button')) return;
+    if (scale >= MAX - 0.01) fit();
+    else zoomAt(e.clientX, e.clientY, Math.min(MAX, scale * STEP));
+  });
+
+  canvas.addEventListener('keydown', (e) => {
+    if (e.key === '+' || e.key === '=') {
+      e.preventDefault();
+      zoomTowardCenter(STEP);
+    } else if (e.key === '-' || e.key === '_') {
+      e.preventDefault();
+      zoomTowardCenter(1 / STEP);
+    } else if (e.key === '0') {
+      e.preventDefault();
+      fit();
+    }
+  });
+
+  apply();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
