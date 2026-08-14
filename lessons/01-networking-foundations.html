@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260813e">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260813f">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -37,31 +37,179 @@
 <section class="chapter-page" id="lesson-1">
 
   <div class="chapter-nav">
-    <a href="#visual-1">Mental model</a><a href="#drawing-1">Architecture</a><a href="#deep-1">Deep dive</a>
+    <a href="#drawing-1">Architecture</a><a href="#deep-1">Deep dive</a>
     <a href="#decision-1">Decision table</a><a href="#scenario-1">Scenarios</a>
     <a href="#decoder-1">Exam language</a><a href="#quiz-1">Quiz</a>
   </div>
 
-  <div class="lesson-section" id="visual-1">
-    <div class="section-kicker">01 · MENTAL MODEL</div><h2>Build a mental model of how the key components fit together</h2>
-    <div class="arch"><svg viewBox="0 0 1120 470" role="img" aria-label="Networking Foundations architecture diagram"><defs><marker id="arr-1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="var(--accent)"/></marker></defs><rect x="40.0" y="52" width="196.0" height="350" rx="18" fill="var(--diagram-lane)" stroke="var(--line)"/><text x="52.0" y="83" fill="var(--teal)" font-size="15" font-weight="800">Internet</text><rect x="58.0" y="201.0" width="160.0" height="58" rx="12" fill="var(--diagram-node)" stroke="var(--teal)" stroke-width="1.5"/><text x="138.0" y="236.0" text-anchor="middle" fill="var(--diagram-ink)" font-size="13" font-weight="750">User / client</text><rect x="248.0" y="52" width="196.0" height="350" rx="18" fill="var(--diagram-lane)" stroke="var(--line)"/><text x="260.0" y="83" fill="var(--accent)" font-size="15" font-weight="800">VPC edge</text><rect x="266.0" y="201.0" width="160.0" height="58" rx="12" fill="var(--diagram-node)" stroke="var(--accent)" stroke-width="1.5"/><text x="346.0" y="236.0" text-anchor="middle" fill="var(--diagram-ink)" font-size="13" font-weight="750">Internet Gateway</text><rect x="456.0" y="52" width="196.0" height="350" rx="18" fill="var(--diagram-lane)" stroke="var(--line)"/><text x="468.0" y="83" fill="var(--purple)" font-size="15" font-weight="800">Public subnets</text><rect x="474.0" y="165.0" width="160.0" height="58" rx="12" fill="var(--diagram-node)" stroke="var(--purple)" stroke-width="1.5"/><text x="554.0" y="200.0" text-anchor="middle" fill="var(--diagram-ink)" font-size="13" font-weight="750">ALB</text><rect x="474.0" y="237.0" width="160.0" height="58" rx="12" fill="var(--diagram-node)" stroke="var(--purple)" stroke-width="1.5"/><text x="554.0" y="272.0" text-anchor="middle" fill="var(--diagram-ink)" font-size="13" font-weight="750">NAT Gateway</text><rect x="664.0" y="52" width="196.0" height="350" rx="18" fill="var(--diagram-lane)" stroke="var(--line)"/><text x="676.0" y="83" fill="var(--teal)" font-size="15" font-weight="800">Private subnets</text><rect x="682.0" y="165.0" width="160.0" height="58" rx="12" fill="var(--diagram-node)" stroke="var(--teal)" stroke-width="1.5"/><text x="762.0" y="190.0" text-anchor="middle" fill="var(--diagram-ink)" font-size="13" font-weight="750">EC2 /</text><text x="762.0" y="207.0" text-anchor="middle" fill="var(--diagram-muted)" font-size="12">ECS application</text><rect x="682.0" y="237.0" width="160.0" height="58" rx="12" fill="var(--diagram-node)" stroke="var(--teal)" stroke-width="1.5"/><text x="762.0" y="272.0" text-anchor="middle" fill="var(--diagram-ink)" font-size="13" font-weight="750">RDS / private data</text><rect x="872.0" y="52" width="196.0" height="350" rx="18" fill="var(--diagram-lane)" stroke="var(--line)"/><text x="884.0" y="83" fill="var(--warm)" font-size="15" font-weight="800">Private AWS access</text><rect x="890.0" y="201.0" width="160.0" height="58" rx="12" fill="var(--diagram-node)" stroke="var(--warm)" stroke-width="1.5"/><text x="970.0" y="236.0" text-anchor="middle" fill="var(--diagram-ink)" font-size="13" font-weight="750">S3 Gateway Endpoint</text><line x1="207.0" y1="230.0" x2="276.0" y2="230.0" stroke="var(--accent)" stroke-width="3" marker-end="url(#arr-1)"/><line x1="415.0" y1="230.0" x2="484.0" y2="266.0" stroke="var(--accent)" stroke-width="3" marker-end="url(#arr-1)"/><line x1="623.0" y1="266.0" x2="692.0" y2="266.0" stroke="var(--accent)" stroke-width="3" marker-end="url(#arr-1)"/><line x1="831.0" y1="266.0" x2="900.0" y2="230.0" stroke="var(--accent)" stroke-width="3" marker-end="url(#arr-1)"/><text x="560" y="440" text-anchor="middle" fill="var(--muted)" font-size="13">Network decisions become clear when every packet has a route, a state model, and the narrowest private path.</text></svg></div>
-        <div class="info-note svg-note"><b>Diagram cue:</b> Public vs private is a route-table property. Security Groups are stateful; NACLs are not.</div>
-    <div class="visual-rules">
-      <div><span>①</span><b>Route before reachability</b><p>Trace the subnet route table first: an internet gateway serves public IPv4 paths, while a NAT gateway gives private subnets outbound-only internet access.</p></div>
-      <div><span>②</span><b>State lives in security groups</b><p>Security groups are stateful and attach to ENIs; network ACLs are stateless subnet boundaries, so return traffic must be allowed explicitly.</p></div>
-      <div><span>③</span><b>Private service paths</b><p>Gateway endpoints keep S3 and DynamoDB traffic off NAT, while interface endpoints use PrivateLink ENIs and security groups for supported services.</p></div>
-      <div><span>④</span><b>Availability by AZ</b><p>A NAT gateway is zonal. Place one per active Availability Zone and route each private subnet locally to avoid cross-AZ dependency and charges.</p></div>
-    </div>
-  </div>
-
   <div class="lesson-section" id="drawing-1">
-    <div class="section-kicker">02 · ARCHITECTURE DRAWING</div><h2>A two-AZ VPC you can reproduce from memory</h2>
-    <div class="arch arch-drawing"><svg viewBox="0 0 1120 640" role="img" aria-label="Two-AZ VPC with IGW, ALB, NAT gateways, private app tier, RDS, and S3 gateway endpoint"><defs><marker id="ad-1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="var(--accent)"/></marker></defs><rect x="20" y="300" width="120" height="54" rx="10" fill="var(--diagram-node)" stroke="var(--teal)" stroke-width="1.6"/><text x="80.0" y="332.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">Users</text><rect x="160" y="24" width="940" height="590" rx="16" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="7 5"/><text x="172" y="44" fill="var(--accent)" font-size="13" font-weight="800">AWS Region</text><rect x="178" y="52" width="904" height="530" rx="16" fill="var(--diagram-lane)" stroke="var(--teal)" stroke-width="1.6"/><text x="190" y="72" fill="var(--teal)" font-size="13" font-weight="800">VPC 10.0.0.0/16</text><rect x="196" y="82" width="150" height="46" rx="10" fill="var(--diagram-node)" stroke="var(--accent)" stroke-width="1.6"/><text x="271.0" y="110.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">Internet Gateway</text><rect x="370" y="82" width="150" height="46" rx="10" fill="var(--diagram-node)" stroke="var(--accent)" stroke-width="1.6"/><text x="445.0" y="110.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">Application LB</text><rect x="740" y="82" width="180" height="46" rx="10" fill="var(--diagram-node)" stroke="var(--warm)" stroke-width="1.6"/><text x="830.0" y="110.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">S3 gateway EP</text><rect x="196" y="150" width="420" height="400" rx="16" fill="var(--panel2)" stroke="var(--purple)" stroke-width="1.6"/><text x="208" y="170" fill="var(--purple)" font-size="13" font-weight="800">Availability Zone A</text><rect x="228" y="178" width="356" height="100" rx="16" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="1.6"/><text x="240" y="198" fill="var(--teal)" font-size="13" font-weight="800">Public subnet</text><rect x="248" y="206" width="150" height="50" rx="10" fill="var(--diagram-node)" stroke="var(--teal)" stroke-width="1.6"/><text x="323.0" y="236.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">NAT Gateway</text><rect x="228" y="296" width="356" height="230" rx="16" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><text x="240" y="316" fill="var(--accent)" font-size="13" font-weight="800">Private subnet</text><rect x="248" y="330" width="150" height="50" rx="10" fill="var(--diagram-node)" stroke="var(--teal)" stroke-width="1.6"/><text x="323.0" y="360.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">App EC2</text><rect x="248" y="400" width="150" height="50" rx="10" fill="var(--diagram-node)" stroke="var(--warm)" stroke-width="1.6"/><text x="323.0" y="430.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">RDS primary</text><rect x="640" y="150" width="420" height="400" rx="16" fill="var(--panel2)" stroke="var(--purple)" stroke-width="1.6"/><text x="652" y="170" fill="var(--purple)" font-size="13" font-weight="800">Availability Zone B</text><rect x="672" y="178" width="356" height="100" rx="16" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="1.6"/><text x="684" y="198" fill="var(--teal)" font-size="13" font-weight="800">Public subnet</text><rect x="692" y="206" width="150" height="50" rx="10" fill="var(--diagram-node)" stroke="var(--teal)" stroke-width="1.6"/><text x="767.0" y="236.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">NAT Gateway</text><rect x="672" y="296" width="356" height="230" rx="16" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><text x="684" y="316" fill="var(--accent)" font-size="13" font-weight="800">Private subnet</text><rect x="692" y="330" width="150" height="50" rx="10" fill="var(--diagram-node)" stroke="var(--teal)" stroke-width="1.6"/><text x="767.0" y="360.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">App EC2</text><rect x="692" y="400" width="150" height="50" rx="10" fill="var(--diagram-node)" stroke="var(--warm)" stroke-width="1.6"/><text x="767.0" y="430.0" fill="var(--diagram-ink)" font-size="12" font-weight="750" text-anchor="middle">RDS standby</text><line x1="140" y1="327" x2="196" y2="105" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#ad-1)"/><line x1="346" y1="105" x2="370" y2="105" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#ad-1)"/><line x1="445" y1="128" x2="323" y2="330" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#ad-1)"/><line x1="445" y1="128" x2="767" y2="330" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#ad-1)"/><line x1="398" y1="355" x2="248" y2="425" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#ad-1)"/><line x1="323" y1="330" x2="248" y2="231" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#ad-1)"/><line x1="398" y1="355" x2="740" y2="128" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#ad-1)"/><text x="560.0" y="626" fill="var(--muted)" font-size="13" font-weight="600" text-anchor="middle">Inbound: Users → IGW → ALB → private app. Outbound patches use same-AZ NAT. S3 uses a gateway endpoint.</text></svg></div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> Public vs private is the subnet route table. NAT is zonal; the ALB is regional; the S3 gateway endpoint keeps object traffic off NAT.</div>
+    <div class="section-kicker">01 · ARCHITECTURE DRAWING</div>
+    <h2>Build a two-AZ VPC one control at a time</h2>
+    <div class="arch-build" data-arch-build>
+      <div class="arch-build-toolbar">
+        <div class="scenario-tabs" role="group" aria-label="Add architecture pieces">
+          <button type="button" class="scenario-tab" data-arch-layer="vpc" aria-pressed="false">VPC</button>
+          <button type="button" class="scenario-tab" data-arch-layer="subnets" data-arch-needs="vpc" aria-pressed="false">Subnets</button>
+          <button type="button" class="scenario-tab" data-arch-layer="igw" data-arch-needs="vpc" aria-pressed="false">IGW</button>
+          <button type="button" class="scenario-tab" data-arch-layer="alb" data-arch-needs="subnets" aria-pressed="false">ALB</button>
+          <button type="button" class="scenario-tab" data-arch-layer="nat" data-arch-needs="subnets" aria-pressed="false">NAT Gateway</button>
+          <button type="button" class="scenario-tab" data-arch-layer="compute" data-arch-needs="subnets" aria-pressed="false">Compute</button>
+          <button type="button" class="scenario-tab" data-arch-layer="database" data-arch-needs="compute" aria-pressed="false">Database</button>
+          <button type="button" class="scenario-tab" data-arch-layer="endpoint" data-arch-needs="vpc" aria-pressed="false">VPC Endpoint</button>
+          <button type="button" class="scenario-tab" data-arch-layer="sg" data-arch-needs="compute" aria-pressed="false">Security Group</button>
+          <button type="button" class="scenario-tab" data-arch-layer="nacl" data-arch-needs="subnets" aria-pressed="false">NACL</button>
+        </div>
+        <div class="arch-build-actions">
+          <button type="button" class="scenario-tab" data-arch-all>Show all</button>
+          <button type="button" class="scenario-tab" data-arch-reset>Reset</button>
+        </div>
+      </div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="vpc"><div class="scenario-label">ARCHITECTURE</div><h3>VPC</h3><p>A Virtual Private Cloud is a logically isolated network in one Region. You choose the CIDR — here 10.0.0.0/16 — and every later decision (subnets, routes, endpoints) lives inside this box.</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="subnets"><div class="scenario-label">ARCHITECTURE</div><h3>Subnets</h3><p>Each subnet is a CIDR slice that lives in one Availability Zone. Public versus private is not a subnet type flag — it is whether the route table has a route to an Internet Gateway.</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="igw"><div class="scenario-label">ARCHITECTURE</div><h3>Internet Gateway</h3><p>Attach an IGW to the VPC so resources with a public IP and a matching route can reach the internet. The IGW is regional, not zonal.</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="alb"><div class="scenario-label">ARCHITECTURE</div><h3>Application Load Balancer</h3><p>An internet-facing ALB is regional, with nodes in public subnets. Users hit the load balancer, not the app instances. That is the usual Layer-7 entry for HTTP.</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="nat"><div class="scenario-label">ARCHITECTURE</div><h3>NAT Gateway</h3><p>A NAT Gateway in a public subnet lets private IPv4 resources start outbound internet connections without accepting inbound ones. It is zonal: one per active AZ, with each private subnet routed locally.</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="compute"><div class="scenario-label">ARCHITECTURE</div><h3>Private compute</h3><p>App instances stay in private subnets and have no public IP. Inbound HTTP comes only through the ALB. Outbound patches use the same-AZ NAT Gateway.</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="database"><div class="scenario-label">ARCHITECTURE</div><h3>RDS Multi-AZ</h3><p>Primary and standby across AZs. The database has no public path; the app security group should be the only client on the database port.</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="endpoint"><div class="scenario-label">ARCHITECTURE</div><h3>S3 gateway endpoint</h3><p>A gateway endpoint keeps Amazon S3 traffic on the AWS private network and off NAT. Gateway endpoints exist for S3 and DynamoDB; other services use interface endpoints (PrivateLink).</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="sg"><div class="scenario-label">ARCHITECTURE</div><h3>Security Group</h3><p>A stateful allow-list on the Elastic Network Interface. If you allow a request in, the matching reply is allowed back. You can write allow rules only — there is no deny.</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="nacl"><div class="scenario-label">ARCHITECTURE</div><h3>Network ACL</h3><p>An optional, stateless filter at the subnet boundary. It supports explicit deny, and you must allow return traffic, including the high-numbered ephemeral ports used for replies.</p></div>
+      <div class="arch-copy" hidden aria-hidden="true" data-arch-copy="all"><div class="scenario-label">ARCHITECTURE</div><h3>The full two-AZ path</h3><p>Inbound: Users → IGW → ALB → private app. Outbound patches use same-AZ NAT. S3 uses a gateway endpoint. Security groups are stateful on the ENI; NACLs are stateless at the subnet.</p></div>
+      <div class="arch arch-drawing arch-build-canvas">
+        <p class="arch-build-hint" data-arch-empty>Click <b>VPC</b> to start the drawing.</p>
+        <svg viewBox="0 0 1180 760" role="img" aria-label="Interactive two-AZ VPC architecture drawing">
+          <defs>
+            <marker id="ad-1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#232F3E"/></marker>
+          </defs>
+
+          <g class="arch-layer" data-arch-need="igw">
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_General-Icons/Res_48_Light/Res_Users_48_Light.svg" x="28" y="348" width="48" height="48"/>
+            <text x="52" y="414" text-anchor="middle" fill="#16191F" font-size="12" font-weight="700">Users</text>
+          </g>
+
+          <g class="arch-layer" data-arch-need="vpc">
+            <rect x="108" y="16" width="1052" height="728" rx="8" fill="none" stroke="#232F3E" stroke-width="2"/>
+            <image href="../assets/aws-icons/Architecture-Group-Icons_07312026/AWS-Cloud_32.svg" x="118" y="24" width="22" height="22"/>
+            <text x="146" y="41" fill="#232F3E" font-size="13" font-weight="800">AWS Cloud</text>
+            <rect x="128" y="58" width="1012" height="666" rx="8" fill="none" stroke="#00A4A6" stroke-width="1.8" stroke-dasharray="6 4"/>
+            <image href="../assets/aws-icons/Architecture-Group-Icons_07312026/Region_32.svg" x="138" y="66" width="22" height="22"/>
+            <text x="166" y="83" fill="#00A4A6" font-size="13" font-weight="800">Region</text>
+            <rect x="148" y="102" width="860" height="600" rx="8" fill="#F7F4FF" stroke="#8C4FFF" stroke-width="2"/>
+            <image href="../assets/aws-icons/Architecture-Group-Icons_07312026/Virtual-private-cloud-VPC_32.svg" x="158" y="110" width="22" height="22"/>
+            <text x="186" y="127" fill="#8C4FFF" font-size="13" font-weight="800">VPC 10.0.0.0/16</text>
+          </g>
+
+          <g class="arch-layer" data-arch-need="subnets">
+            <rect x="166" y="196" width="410" height="486" rx="8" fill="#FFF8F3" stroke="#ED7100" stroke-width="1.6" stroke-dasharray="5 4"/>
+            <text x="178" y="216" fill="#ED7100" font-size="12" font-weight="800">Availability Zone A</text>
+            <rect x="586" y="196" width="410" height="486" rx="8" fill="#FFF8F3" stroke="#ED7100" stroke-width="1.6" stroke-dasharray="5 4"/>
+            <text x="598" y="216" fill="#ED7100" font-size="12" font-weight="800">Availability Zone B</text>
+            <rect x="182" y="232" width="378" height="128" rx="8" fill="#F4F9E7" stroke="#7AA116" stroke-width="1.8"/>
+            <image href="../assets/aws-icons/Architecture-Group-Icons_07312026/Public-subnet_32.svg" x="190" y="240" width="20" height="20"/>
+            <text x="216" y="256" fill="#7AA116" font-size="12" font-weight="800">Public subnet 10.0.0.0/24</text>
+            <rect x="602" y="232" width="378" height="128" rx="8" fill="#F4F9E7" stroke="#7AA116" stroke-width="1.8"/>
+            <image href="../assets/aws-icons/Architecture-Group-Icons_07312026/Public-subnet_32.svg" x="610" y="240" width="20" height="20"/>
+            <text x="636" y="256" fill="#7AA116" font-size="12" font-weight="800">Public subnet 10.0.1.0/24</text>
+            <rect x="182" y="376" width="378" height="286" rx="8" fill="#E8F7F7" stroke="#00A4A6" stroke-width="1.8"/>
+            <image href="../assets/aws-icons/Architecture-Group-Icons_07312026/Private-subnet_32.svg" x="190" y="384" width="20" height="20"/>
+            <text x="216" y="400" fill="#00A4A6" font-size="12" font-weight="800">Private subnet 10.0.10.0/24</text>
+            <rect x="602" y="376" width="378" height="286" rx="8" fill="#E8F7F7" stroke="#00A4A6" stroke-width="1.8"/>
+            <image href="../assets/aws-icons/Architecture-Group-Icons_07312026/Private-subnet_32.svg" x="610" y="384" width="20" height="20"/>
+            <text x="636" y="400" fill="#00A4A6" font-size="12" font-weight="800">Private subnet 10.0.11.0/24</text>
+          </g>
+
+          <g class="arch-layer" data-arch-need="igw">
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Networking-Content-Delivery/Res_Amazon-VPC_Internet-Gateway_48.svg" x="176" y="132" width="48" height="48"/>
+            <text x="200" y="196" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">IGW</text>
+            <line x1="76" y1="372" x2="168" y2="156" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+          </g>
+
+          <g class="arch-layer" data-arch-need="alb">
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Networking-Content-Delivery/Res_Elastic-Load-Balancing_Application-Load-Balancer_48.svg" x="320" y="132" width="48" height="48"/>
+            <text x="344" y="196" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">ALB</text>
+          </g>
+
+          <g class="arch-layer" data-arch-need="igw,alb">
+            <line x1="224" y1="156" x2="320" y2="156" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+          </g>
+
+          <g class="arch-layer" data-arch-need="nat">
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Networking-Content-Delivery/Res_Amazon-VPC_NAT-Gateway_48.svg" x="214" y="268" width="48" height="48"/>
+            <text x="238" y="332" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">NAT Gateway</text>
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Networking-Content-Delivery/Res_Amazon-VPC_NAT-Gateway_48.svg" x="634" y="268" width="48" height="48"/>
+            <text x="658" y="332" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">NAT Gateway</text>
+          </g>
+
+          <g class="arch-layer" data-arch-need="compute">
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Compute/Res_Amazon-EC2_Instance_48.svg" x="214" y="430" width="48" height="48"/>
+            <text x="238" y="494" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">App EC2</text>
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Compute/Res_Amazon-EC2_Instance_48.svg" x="634" y="430" width="48" height="48"/>
+            <text x="658" y="494" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">App EC2</text>
+          </g>
+
+          <g class="arch-layer" data-arch-need="alb,compute">
+            <line x1="344" y1="180" x2="238" y2="430" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+            <line x1="344" y1="180" x2="658" y2="430" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+          </g>
+
+          <g class="arch-layer" data-arch-need="compute,nat">
+            <line x1="238" y1="430" x2="238" y2="316" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+            <line x1="658" y1="430" x2="658" y2="316" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+          </g>
+
+          <g class="arch-layer" data-arch-need="database">
+            <image href="../assets/aws-icons/Architecture-Service-Icons_07312026/Arch_Databases/48/Arch_Amazon-RDS_48.svg" x="360" y="430" width="48" height="48"/>
+            <text x="384" y="494" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">RDS primary</text>
+            <image href="../assets/aws-icons/Architecture-Service-Icons_07312026/Arch_Databases/48/Arch_Amazon-RDS_48.svg" x="780" y="430" width="48" height="48"/>
+            <text x="804" y="494" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">RDS standby</text>
+            <line x1="262" y1="454" x2="360" y2="454" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+            <line x1="682" y1="454" x2="780" y2="454" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+          </g>
+
+          <g class="arch-layer" data-arch-need="endpoint">
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Networking-Content-Delivery/Res_Amazon-VPC_Endpoints_48.svg" x="880" y="132" width="48" height="48"/>
+            <text x="904" y="196" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">S3 gateway EP</text>
+            <image href="../assets/aws-icons/Architecture-Service-Icons_07312026/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg" x="1058" y="132" width="48" height="48"/>
+            <text x="1082" y="196" text-anchor="middle" fill="#16191F" font-size="11" font-weight="700">Amazon S3</text>
+            <line x1="928" y1="156" x2="1058" y2="156" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+          </g>
+
+          <g class="arch-layer" data-arch-need="compute,endpoint">
+            <line x1="262" y1="454" x2="904" y2="180" stroke="#232F3E" stroke-width="2" marker-end="url(#ad-1)"/>
+          </g>
+
+          <g class="arch-layer" data-arch-need="sg">
+            <rect x="200" y="416" width="76" height="88" rx="6" fill="none" stroke="#DD344C" stroke-width="1.8" stroke-dasharray="5 3"/>
+            <text x="238" y="512" text-anchor="middle" fill="#DD344C" font-size="10" font-weight="800">SG</text>
+            <rect x="620" y="416" width="76" height="88" rx="6" fill="none" stroke="#DD344C" stroke-width="1.8" stroke-dasharray="5 3"/>
+            <text x="658" y="512" text-anchor="middle" fill="#DD344C" font-size="10" font-weight="800">SG</text>
+            <rect x="346" y="416" width="76" height="88" rx="6" fill="none" stroke="#DD344C" stroke-width="1.8" stroke-dasharray="5 3"/>
+            <text x="384" y="512" text-anchor="middle" fill="#DD344C" font-size="10" font-weight="800">SG</text>
+            <rect x="766" y="416" width="76" height="88" rx="6" fill="none" stroke="#DD344C" stroke-width="1.8" stroke-dasharray="5 3"/>
+            <text x="804" y="512" text-anchor="middle" fill="#DD344C" font-size="10" font-weight="800">SG</text>
+          </g>
+
+          <g class="arch-layer" data-arch-need="nacl">
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Networking-Content-Delivery/Res_Amazon-VPC_Network-Access-Control-List_48.svg" x="500" y="248" width="36" height="36"/>
+            <text x="518" y="300" text-anchor="middle" fill="#16191F" font-size="10" font-weight="700">NACL</text>
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Networking-Content-Delivery/Res_Amazon-VPC_Network-Access-Control-List_48.svg" x="920" y="248" width="36" height="36"/>
+            <text x="938" y="300" text-anchor="middle" fill="#16191F" font-size="10" font-weight="700">NACL</text>
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Networking-Content-Delivery/Res_Amazon-VPC_Network-Access-Control-List_48.svg" x="500" y="392" width="36" height="36"/>
+            <text x="518" y="444" text-anchor="middle" fill="#16191F" font-size="10" font-weight="700">NACL</text>
+            <image href="../assets/aws-icons/Resource-Icons_07312026/Res_Networking-Content-Delivery/Res_Amazon-VPC_Network-Access-Control-List_48.svg" x="920" y="392" width="36" height="36"/>
+            <text x="938" y="444" text-anchor="middle" fill="#16191F" font-size="10" font-weight="700">NACL</text>
+          </g>
+        </svg>
+      </div>
+      <div class="scenario-panel active arch-build-caption" data-arch-caption>
+        <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
+      </div>
+    </div>
+    <div class="info-note svg-note"><b>Drawing cue:</b> Public vs private is the subnet route table. NAT is zonal; the ALB is regional; the S3 gateway endpoint keeps object traffic off NAT. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-1">
-    <div class="section-kicker">03 · DEEP DIVE</div><h2>What you actually need to understand</h2>
+    <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
     <div class="deep-grid"><div class="deep-card">
           <div class="deep-head"><span>1</span><h3>VPC + CIDR</h3></div><ul><li>The VPC CIDR is the private address space for the network.</li><li>Subnets are carved from that space and belong to one Availability Zone.</li><li>Plan non-overlapping CIDRs when future peering, Transit Gateway or hybrid routing is likely.</li><li>IPv4 routing uses longest-prefix match: the most specific matching route wins.</li></ul>
         </div><div class="deep-card">
@@ -76,13 +224,13 @@
   </div>
 
   <div class="lesson-section" id="decision-1">
-    <div class="section-kicker">04 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
+    <div class="section-kicker">03 · DECISION TABLE</div><h2>Turn requirements into architecture decisions</h2>
     <div class="tablewrap"><table><thead><tr><th>Requirement</th><th>Best-fit component</th><th>Why</th></tr></thead><tbody><tr><td>Internet-facing HTTP entry</td><td>Public ALB + IGW</td><td>Layer-7 entry point in public subnets</td></tr><tr><td>Private EC2 needs package updates</td><td>NAT Gateway</td><td>Outbound internet without direct inbound exposure</td></tr><tr><td>Private EC2 sends heavy traffic to S3</td><td>S3 Gateway Endpoint</td><td>Private service path; avoids NAT for that traffic</td></tr><tr><td>Explicitly block a CIDR at subnet boundary</td><td>NACL</td><td>Supports explicit deny</td></tr><tr><td>Allow app tier to DB on port 5432</td><td>DB Security Group referencing app SG</td><td>Stateful, resource-level least privilege</td></tr></tbody></table></div>
   </div>
 
   <div class="lesson-section" id="scenario-1">
     
-    <div class="section-kicker">05 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
+    <div class="section-kicker">04 · WORKED SCENARIOS</div><h2>Apply the concepts as an architect</h2>
     <div class="scenario-tabs"><button type="button" onclick="showScenario(1,0,this)" class="scenario-tab active">Private S3</button><button type="button" onclick="showScenario(1,1,this)" class="scenario-tab">Outbound HA</button><button type="button" onclick="showScenario(1,2,this)" class="scenario-tab">Filter Layers</button></div><div class="scenario-panel active" id="sc-1-0">
           <div class="scenario-label">WORKED SCENARIO</div><h3>Reach S3 without NAT</h3>
           <p>Private EC2 instances need S3 access but must not traverse the internet or pay NAT processing charges. Add an S3 gateway endpoint and restrict its endpoint policy and bucket policy. An internet gateway does not make private instances reachable, and an interface endpoint adds unnecessary hourly cost here.</p>
@@ -99,13 +247,13 @@
   </div>
 
   <div class="lesson-section" id="decoder-1">
-    <div class="section-kicker">06 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
+    <div class="section-kicker">05 · EXAM LANGUAGE DECODER</div><h2>Words in the question that should trigger a design instinct</h2>
     <div class="decoder-grid"><div class="decoder-item"><div class="phrase">“publicly accessible”</div><div class="think">→ Look for IGW + public addressing + routing/security.</div></div><div class="decoder-item"><div class="phrase">“private instances need updates”</div><div class="think">→ Think NAT Gateway.</div></div><div class="decoder-item"><div class="phrase">“explicit deny”</div><div class="think">→ Think NACL or a higher-level security control; Security Groups have allow rules only.</div></div><div class="decoder-item"><div class="phrase">“access S3 without internet/NAT”</div><div class="think">→ Think S3 Gateway Endpoint.</div></div><div class="decoder-item"><div class="phrase">“highly available VPC”</div><div class="think">→ Spread subnets/resources across AZs; avoid one-AZ NAT dependency.</div></div></div>
   </div>
 
   <div class="lesson-section" id="quiz-1">
     
-    <div class="section-kicker">07 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
+    <div class="section-kicker">06 · KNOWLEDGE CHECK</div><h2>Five SAA-style questions</h2>
     <div class="quiz-card"><div class="qtop"><span>Q1</span><b>Private EC2 instances must download objects from S3 without internet routes and with the lowest recurring network cost. Which design meets the requirement?</b></div><button type="button" class="option" onclick="answer(this,true,'q-1-1')">A. Add an S3 gateway endpoint</button><button type="button" class="option" onclick="answer(this,false,'q-1-1')">B. Add a NAT gateway in every AZ</button><button type="button" class="option" onclick="answer(this,false,'q-1-1')">C. Assign public IPv4 addresses</button><button type="button" class="option" onclick="answer(this,false,'q-1-1')">D. Add an internet gateway route</button>
         <div class="feedback" id="q-1-1"><strong>Answer: A.</strong> The deciding constraints are private routing and low recurring cost; an S3 gateway endpoint has no hourly endpoint or NAT processing charge.</div></div><div class="quiz-card"><div class="qtop"><span>Q2</span><b>A subnet must reject one malicious source CIDR even when an attached application security group allows its port. Which control should be changed?</b></div><button type="button" class="option" onclick="answer(this,false,'q-1-2')">A. Security group outbound rule</button><button type="button" class="option" onclick="answer(this,true,'q-1-2')">B. Network ACL inbound deny rule</button><button type="button" class="option" onclick="answer(this,false,'q-1-2')">C. Internet gateway route</button><button type="button" class="option" onclick="answer(this,false,'q-1-2')">D. VPC DHCP option set</button>
         <div class="feedback" id="q-1-2"><strong>Answer: B.</strong> The deciding constraint is an explicit subnet-level deny. Network ACLs support ordered allow and deny rules, whereas security groups allow only.</div></div><div class="quiz-card"><div class="qtop"><span>Q3</span><b>Instances in two private subnets across two AZs require highly available IPv4 internet egress. Which architecture removes a single-AZ dependency?</b></div><button type="button" class="option" onclick="answer(this,false,'q-1-3')">A. One NAT instance in one AZ</button><button type="button" class="option" onclick="answer(this,false,'q-1-3')">B. One egress-only internet gateway</button><button type="button" class="option" onclick="answer(this,true,'q-1-3')">C. A NAT gateway per AZ with local routes</button><button type="button" class="option" onclick="answer(this,false,'q-1-3')">D. One internet gateway per private subnet</button>
@@ -125,5 +273,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260812c"></script>
+<script src="../assets/js/course.js?v=20260813a"></script>
 </body></html>

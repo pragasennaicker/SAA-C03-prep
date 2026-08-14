@@ -1,0 +1,6 @@
+Official AWS Architecture Icons — Q3 2026 (31 July 2026)
+Package: Icon-package_07312026
+Source: https://aws.amazon.com/architecture/icons/
+AWS, Amazon Web Services, and the AWS logo are trademarks of Amazon.com, Inc. or its affiliates.
+These icons are used unchanged to create architecture diagrams, as allowed by the AWS Architecture Icons terms.
+Do not modify the icon artwork.

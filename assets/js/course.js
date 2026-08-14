@@ -157,10 +157,112 @@ function wireKeywords() {
   });
 }
 
+function wireArchBuild() {
+  document.querySelectorAll('[data-arch-build]').forEach((root) => {
+    if (root.dataset.wired === '1') return;
+    root.dataset.wired = '1';
+    const buttons = [...root.querySelectorAll('[data-arch-layer]')];
+    const layers = [...root.querySelectorAll('.arch-layer')];
+    const caption = root.querySelector('[data-arch-caption]');
+    const empty = root.querySelector('[data-arch-empty]');
+    const captions = {};
+    root.querySelectorAll('[data-arch-copy]').forEach((el) => {
+      captions[el.getAttribute('data-arch-copy')] = el.innerHTML;
+    });
+    const needs = {};
+    buttons.forEach((btn) => {
+      needs[btn.dataset.archLayer] = (btn.getAttribute('data-arch-needs') || '')
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+    });
+    const names = buttons.map((b) => b.dataset.archLayer);
+    const dependents = {};
+    names.forEach((name) => { dependents[name] = []; });
+    names.forEach((name) => {
+      (needs[name] || []).forEach((req) => {
+        if (dependents[req]) dependents[req].push(name);
+      });
+    });
+
+    const active = new Set();
+
+    function requiredFor(name, seen = new Set()) {
+      if (seen.has(name)) return seen;
+      seen.add(name);
+      (needs[name] || []).forEach((req) => requiredFor(req, seen));
+      return seen;
+    }
+
+    function removeWithDependents(name, seen = new Set()) {
+      if (seen.has(name)) return seen;
+      seen.add(name);
+      (dependents[name] || []).forEach((dep) => removeWithDependents(dep, seen));
+      return seen;
+    }
+
+    function render(focus) {
+      buttons.forEach((btn) => {
+        const on = active.has(btn.dataset.archLayer);
+        btn.classList.toggle('active', on);
+        btn.setAttribute('aria-pressed', String(on));
+      });
+      layers.forEach((g) => {
+        const required = (g.getAttribute('data-arch-need') || '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+        const on = required.length > 0 && required.every((name) => active.has(name));
+        g.classList.toggle('is-on', on);
+      });
+      if (empty) empty.hidden = active.size > 0;
+      if (caption) {
+        if (focus && active.has(focus) && captions[focus]) {
+          caption.innerHTML = captions[focus];
+        } else if (active.size === 0) {
+          caption.innerHTML = '<p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>';
+        }
+      }
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.archLayer;
+        if (active.has(name)) {
+          removeWithDependents(name).forEach((n) => active.delete(n));
+          render(null);
+        } else {
+          requiredFor(name).forEach((n) => active.add(n));
+          render(name);
+        }
+      });
+    });
+
+    const showAll = root.querySelector('[data-arch-all]');
+    const reset = root.querySelector('[data-arch-reset]');
+    if (showAll) {
+      showAll.addEventListener('click', () => {
+        names.forEach((n) => active.add(n));
+        render(null);
+        if (caption && captions.all) caption.innerHTML = captions.all;
+      });
+    }
+    if (reset) {
+      reset.addEventListener('click', () => {
+        active.clear();
+        render(null);
+      });
+    }
+
+    render(null);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme(getTheme());
   wireThemeToggle();
   wireKeywords();
+  wireArchBuild();
   updateProgressUI();
   document.querySelectorAll('.complete-check').forEach((el) => {
     el.addEventListener('change', () => saveProgressFromCheckbox(el));
