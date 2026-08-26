@@ -1,6 +1,8 @@
 const TOTAL = 17;
 const PROGRESS_KEY = 'saaC03VisualProgress';
 const THEME_KEY = 'saaC03Theme';
+const MARKED_KEY = 'saaC03Marked';
+const ANSWERS_KEY = 'saaC03Answers';
 
 function getDone() {
   try {
@@ -76,8 +78,134 @@ function answer(el, correct, id) {
       if ((x.getAttribute('onclick') || '').includes(',true,')) x.classList.add('correct');
     });
   }
-  const fb = document.getElementById(id);
+  const fb = card.querySelector('.feedback') || document.getElementById(id);
   if (fb) fb.style.display = 'block';
+  const uid = card.dataset.uid;
+  if (!uid) return;
+  recordAnswer(uid, correct);
+  updateRevisionBadges();
+  if (card.classList.contains('review-card')) {
+    paintReviewStatus(card);
+    updateReviewTabCounts();
+  }
+}
+
+function readStore(key, fallback) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key));
+    return value == null ? fallback : value;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function getMarked() {
+  const value = readStore(MARKED_KEY, []);
+  return Array.isArray(value) ? value.filter((uid) => typeof uid === 'string') : [];
+}
+
+function setMarked(list) {
+  localStorage.setItem(MARKED_KEY, JSON.stringify([...new Set(list)]));
+}
+
+function getAnswers() {
+  const value = readStore(ANSWERS_KEY, {});
+  return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+}
+
+// `missed` stays true once a question has been answered wrong, so a question
+// stays in the review list after it is answered correctly on a retry.
+function recordAnswer(uid, correct) {
+  const answers = getAnswers();
+  const previous = answers[uid] || {};
+  answers[uid] = {
+    correct: Boolean(correct),
+    missed: previous.missed === true || !correct,
+    at: new Date().toISOString()
+  };
+  localStorage.setItem(ANSWERS_KEY, JSON.stringify(answers));
+}
+
+function missedUids() {
+  const answers = getAnswers();
+  return Object.keys(answers).filter((uid) => answers[uid] && answers[uid].missed === true);
+}
+
+function revisionCount() {
+  const uids = new Set(getMarked());
+  missedUids().forEach((uid) => uids.add(uid));
+  return uids.size;
+}
+
+function updateRevisionBadges() {
+  const total = revisionCount();
+  document.querySelectorAll('[data-review-count]').forEach((el) => {
+    el.textContent = String(total);
+    el.hidden = total === 0;
+  });
+}
+
+function paintMarkButton(btn, on) {
+  const num = btn.dataset.qnum || '';
+  btn.classList.toggle('is-marked', on);
+  btn.setAttribute('aria-pressed', String(on));
+  btn.setAttribute(
+    'aria-label',
+    on ? 'Question ' + num + ' is marked for revision. Select to remove it.'
+       : 'Mark question ' + num + ' for revision'
+  );
+  btn.title = on ? 'Remove from revision list' : 'Mark for revision';
+  const ico = btn.querySelector('.mark-ico');
+  const text = btn.querySelector('.mark-text');
+  if (ico) ico.textContent = on ? '\u2605' : '\u2606';
+  if (text) text.textContent = on ? 'Marked' : 'Mark';
+}
+
+function wireMarkButtons(root) {
+  const marked = new Set(getMarked());
+  (root || document).querySelectorAll('.mark-btn').forEach((btn) => {
+    paintMarkButton(btn, marked.has(btn.dataset.mark));
+    if (btn.dataset.wired === '1') return;
+    btn.dataset.wired = '1';
+    btn.addEventListener('click', () => {
+      const uid = btn.dataset.mark;
+      const list = getMarked();
+      const on = !list.includes(uid);
+      setMarked(on ? list.concat(uid) : list.filter((x) => x !== uid));
+      paintMarkButton(btn, on);
+      updateRevisionBadges();
+      const inReview = btn.closest('#reviewApp');
+      if (inReview) {
+        updateReviewTabCounts();
+        if (!on && reviewTab === 'marked') renderReview();
+      }
+    });
+  });
+}
+
+function showMissedChips() {
+  const answers = getAnswers();
+  document.querySelectorAll('.quiz-card[data-uid]').forEach((card) => {
+    if (card.closest('#reviewApp')) return;
+    const record = answers[card.dataset.uid];
+    const existing = card.querySelector('.missed-chip');
+    if (!record || record.missed !== true) {
+      if (existing) existing.remove();
+      return;
+    }
+    const label = record.correct
+      ? 'You missed this before, then got it right'
+      : 'You answered this incorrectly before';
+    if (existing) {
+      existing.textContent = label;
+      return;
+    }
+    const chip = document.createElement('div');
+    chip.className = 'missed-chip';
+    chip.textContent = label;
+    const qtop = card.querySelector('.qtop');
+    if (qtop) qtop.insertAdjacentElement('afterend', chip);
+  });
 }
 
 function systemTheme() {
@@ -456,12 +584,226 @@ function wireArchViewport(root) {
   apply();
 }
 
+let reviewBank = null;
+let reviewTab = 'marked';
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, (ch) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[ch]));
+}
+
+// Question numbers are positional within a lesson; uids are what state is keyed on.
+function reviewQuestions() {
+  if (!reviewBank) return [];
+  const seen = {};
+  return reviewBank.questions.map((item) => {
+    seen[item.lesson] = (seen[item.lesson] || 0) + 1;
+    return Object.assign({}, item, { num: seen[item.lesson] });
+  });
+}
+
+function reviewLessonMeta(lesson) {
+  const lessons = (reviewBank && reviewBank.lessons) || [];
+  return lessons.find((l) => l.n === lesson) || { n: lesson, slug: '', title: 'Lesson ' + lesson };
+}
+
+function reviewSelection(tab) {
+  const questions = reviewQuestions();
+  if (tab === 'missed') {
+    const missed = new Set(missedUids());
+    return questions.filter((item) => missed.has(item.uid));
+  }
+  const marked = new Set(getMarked());
+  return questions.filter((item) => marked.has(item.uid));
+}
+
+function reviewStatusHTML(uid) {
+  const record = getAnswers()[uid];
+  if (!record || record.missed !== true) return '';
+  if (!record.correct) {
+    return '<span class="review-status is-missed">Answered incorrectly</span>';
+  }
+  // The remove action belongs to the incorrect list; the marked list has its own toggle.
+  const forget = reviewTab === 'missed'
+    ? '<button type="button" class="review-forget" data-forget="' + uid + '">'
+      + 'Remove from revision list</button>'
+    : '';
+  return '<span class="review-status is-fixed">Answered correct on retry</span>' + forget;
+}
+
+function forgetAnswer(uid) {
+  const answers = getAnswers();
+  if (!(uid in answers)) return;
+  delete answers[uid];
+  localStorage.setItem(ANSWERS_KEY, JSON.stringify(answers));
+}
+
+function paintReviewStatus(card) {
+  const slot = card.querySelector('[data-review-status]');
+  if (slot) slot.innerHTML = reviewStatusHTML(card.dataset.uid);
+}
+
+function buildReviewCard(item) {
+  const qid = 'q-' + item.lesson + '-' + item.num;
+  const lesson = reviewLessonMeta(item.lesson);
+  const correctIndex = item.options.findIndex((opt) => opt.correct);
+  const options = item.options.map((opt) => (
+    '<button type="button" class="option" onclick="answer(this,' + Boolean(opt.correct)
+    + ",'" + qid + "')\">" + escapeHTML(opt.text) + '</button>'
+  )).join('');
+  let feedback = '<strong>Answer: ' + String.fromCharCode(65 + correctIndex) + '.</strong> '
+    + escapeHTML(item.explain);
+  if (item.good_to_know) {
+    feedback += ' <br><br><strong>Good to know:</strong> ' + escapeHTML(item.good_to_know);
+  }
+  const href = 'lessons/' + lesson.slug + '.html#card-' + qid;
+  return '<div class="quiz-card review-card" id="card-' + qid + '" data-uid="' + item.uid + '">'
+    + '<div class="review-meta">'
+    + '<a class="review-origin" href="' + href + '">Lesson '
+    + String(item.lesson).padStart(2, '0') + ' · ' + escapeHTML(lesson.title)
+    + ' · Q' + item.num + '</a>'
+    + '<span data-review-status>' + reviewStatusHTML(item.uid) + '</span>'
+    + '</div>'
+    + '<div class="qtop"><span>Q' + item.num + '</span><b>' + escapeHTML(item.q) + '</b>'
+    + '<button type="button" class="mark-btn" data-mark="' + item.uid + '" data-qnum="'
+    + item.num + '" aria-pressed="false" title="Mark for revision">'
+    + '<span class="mark-ico" aria-hidden="true">\u2606</span>'
+    + '<span class="mark-text">Mark</span></button></div>'
+    + options
+    + '<div class="feedback" id="' + qid + '">' + feedback + '</div>'
+    + '</div>';
+}
+
+function updateReviewTabCounts() {
+  if (!reviewBank) return;
+  document.querySelectorAll('[data-review-tab]').forEach((btn) => {
+    const slot = btn.querySelector('[data-tab-count]');
+    if (slot) slot.textContent = String(reviewSelection(btn.dataset.reviewTab).length);
+  });
+}
+
+function renderReview() {
+  const list = document.getElementById('reviewList');
+  if (!list || !reviewBank) return;
+
+  document.querySelectorAll('[data-review-tab]').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.reviewTab === reviewTab);
+    btn.setAttribute('aria-selected', String(btn.dataset.reviewTab === reviewTab));
+  });
+  updateReviewTabCounts();
+
+  const items = reviewSelection(reviewTab);
+  if (!items.length) {
+    list.innerHTML = '<div class="review-empty">'
+      + (reviewTab === 'marked'
+        ? '<b>Nothing marked yet.</b><p>Open any lesson, and choose <em>Mark</em> on a quiz question to keep it here for later revision.</p>'
+        : '<b>No incorrect answers recorded.</b><p>Answer lesson quiz questions and any you get wrong will collect here, so you can work through your weak spots.</p>')
+      + '</div>';
+    return;
+  }
+
+  const groups = [];
+  items.forEach((item) => {
+    const last = groups[groups.length - 1];
+    if (last && last.lesson === item.lesson) last.items.push(item);
+    else groups.push({ lesson: item.lesson, items: [item] });
+  });
+
+  list.innerHTML = groups.map((group) => {
+    const lesson = reviewLessonMeta(group.lesson);
+    return '<div class="review-group">'
+      + '<h2 class="review-group-title">'
+      + '<span class="review-group-no">' + String(group.lesson).padStart(2, '0') + '</span>'
+      + '<a href="lessons/' + lesson.slug + '.html">' + escapeHTML(lesson.title) + '</a>'
+      + '<span class="review-group-count">' + group.items.length + '</span></h2>'
+      + group.items.map(buildReviewCard).join('')
+      + '</div>';
+  }).join('');
+
+  wireMarkButtons(list);
+}
+
+function wireReviewControls() {
+  document.querySelectorAll('[data-review-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      reviewTab = btn.dataset.reviewTab;
+      renderReview();
+    });
+  });
+
+  const list = document.getElementById('reviewList');
+  if (list) {
+    list.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-forget]');
+      if (!btn) return;
+      forgetAnswer(btn.dataset.forget);
+      updateRevisionBadges();
+      renderReview();
+    });
+  }
+
+  const clearMarks = document.getElementById('clearMarks');
+  if (clearMarks) {
+    clearMarks.addEventListener('click', () => {
+      if (!confirm('Remove every question from your marked-for-revision list?')) return;
+      localStorage.removeItem(MARKED_KEY);
+      updateRevisionBadges();
+      renderReview();
+    });
+  }
+
+  const clearAnswers = document.getElementById('clearAnswers');
+  if (clearAnswers) {
+    clearAnswers.addEventListener('click', () => {
+      if (!confirm('Clear your quiz answer history, including the incorrect list?')) return;
+      localStorage.removeItem(ANSWERS_KEY);
+      updateRevisionBadges();
+      renderReview();
+    });
+  }
+}
+
+function initReview() {
+  const app = document.getElementById('reviewApp');
+  if (!app) return;
+  wireReviewControls();
+
+  const list = document.getElementById('reviewList');
+  fetch(app.dataset.bank, { cache: 'no-cache' })
+    .then((res) => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then((bank) => {
+      reviewBank = bank;
+      renderReview();
+    })
+    .catch(() => {
+      if (!list) return;
+      list.innerHTML = '<div class="review-empty">'
+        + '<b>Could not load the question bank.</b>'
+        + '<p>This page reads <code>assets/data/questions.json</code>, which browsers only '
+        + 'allow over http. Open the course through GitHub Pages, or serve it locally with '
+        + '<code>python3 -m http.server 8000</code> rather than opening the file directly.</p>'
+        + '</div>';
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme(getTheme());
   wireThemeToggle();
   wireKeywords();
   wireArchBuild();
   updateProgressUI();
+  wireMarkButtons();
+  showMissedChips();
+  updateRevisionBadges();
+  initReview();
   document.querySelectorAll('.complete-check').forEach((el) => {
     el.addEventListener('change', () => saveProgressFromCheckbox(el));
   });

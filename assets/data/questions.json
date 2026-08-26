@@ -1,0 +1,2688 @@
+{
+  "version": 1,
+  "next_uid": 108,
+  "lessons": [
+    {
+      "n": 1,
+      "slug": "01-networking-foundations",
+      "title": "Networking Foundations"
+    },
+    {
+      "n": 2,
+      "slug": "02-connecting-networks",
+      "title": "Connecting Networks & Global Routing"
+    },
+    {
+      "n": 3,
+      "slug": "03-ec2-load-balancing",
+      "title": "EC2, Load Balancing & Auto Scaling"
+    },
+    {
+      "n": 4,
+      "slug": "04-storage-architecture",
+      "title": "Storage Architecture"
+    },
+    {
+      "n": 5,
+      "slug": "05-databases-caching",
+      "title": "Databases & Caching"
+    },
+    {
+      "n": 6,
+      "slug": "06-iam-organizations",
+      "title": "IAM, Organizations & Authorization"
+    },
+    {
+      "n": 7,
+      "slug": "07-app-data-security",
+      "title": "Application Security & Data Protection"
+    },
+    {
+      "n": 8,
+      "slug": "08-serverless-apis",
+      "title": "Serverless, APIs & Front Ends"
+    },
+    {
+      "n": 9,
+      "slug": "09-containers-compute",
+      "title": "Containers & Compute Choices"
+    },
+    {
+      "n": 10,
+      "slug": "10-messaging-events",
+      "title": "Messaging, Integration & Event-Driven Design"
+    },
+    {
+      "n": 11,
+      "slug": "11-resilience-dr",
+      "title": "Resilience, Backup & Disaster Recovery"
+    },
+    {
+      "n": 12,
+      "slug": "12-edge-global",
+      "title": "Edge, Global Performance & DNS"
+    },
+    {
+      "n": 13,
+      "slug": "13-data-analytics",
+      "title": "Data, Analytics & Streaming"
+    },
+    {
+      "n": 14,
+      "slug": "14-migration-hybrid",
+      "title": "Migration, Transfer & Hybrid Storage"
+    },
+    {
+      "n": 15,
+      "slug": "15-monitoring-ops",
+      "title": "Monitoring, Governance & Operations"
+    },
+    {
+      "n": 16,
+      "slug": "16-cost-optimization",
+      "title": "Cost Optimization & Architecture Trade-offs"
+    },
+    {
+      "n": 17,
+      "slug": "17-final-patterns",
+      "title": "Final Architecture Patterns & Exam Strategy"
+    }
+  ],
+  "questions": [
+    {
+      "uid": "n001",
+      "lesson": 1,
+      "q": "A company is creating a new VPC and needs to allocate an IPv4 CIDR block that supports at least 4,000 active hosts across various subnets. Which CIDR block size provides the minimum sufficient number of IP addresses while allowing room for expansion?",
+      "options": [
+        {
+          "text": "A. /24",
+          "correct": false
+        },
+        {
+          "text": "B. /20",
+          "correct": true
+        },
+        {
+          "text": "C. /22",
+          "correct": false
+        },
+        {
+          "text": "D. /26",
+          "correct": false
+        }
+      ],
+      "explain": "A /20 CIDR provides 4,096 IPv4 addresses, the smallest listed size that can cover 4,000 hosts with room to grow. /22 is only 1,024 addresses. AWS still reserves five addresses in each subnet you carve from the block.",
+      "good_to_know": "/22 would be the minimum-sufficient pick if the requirement were about 1,000 hosts, not 4,000. /24 (256 addresses) and /26 (64) are far too small."
+    },
+    {
+      "uid": "n002",
+      "lesson": 1,
+      "q": "What makes a subnet in an Amazon VPC officially classified as a public subnet?",
+      "options": [
+        {
+          "text": "A. It has an Elastic IP assigned to every EC2 instance automatically upon launch.",
+          "correct": false
+        },
+        {
+          "text": "B. It allows inbound traffic from on-premises data centers via AWS Direct Connect.",
+          "correct": false
+        },
+        {
+          "text": "C. Its associated route table contains a route pointing to an Internet Gateway for internet-bound traffic.",
+          "correct": true
+        },
+        {
+          "text": "D. It is directly associated with a managed NAT Gateway.",
+          "correct": false
+        }
+      ],
+      "explain": "A subnet is public when its route table has a route for internet-bound traffic (typically 0.0.0.0/0) that targets an Internet Gateway. Public IPs and NAT do not by themselves make the subnet public.",
+      "good_to_know": "A NAT Gateway must sit in a public subnet, so seeing a NAT is a clue the subnet already has an IGW route — but the NAT itself is not what classifies it. Elastic IPs matter for instance reachability after the subnet is already public."
+    },
+    {
+      "uid": "n003",
+      "lesson": 1,
+      "q": "An application running in a private subnet needs to securely connect to an external third-party payment processing API over the internet. Which component must be deployed in a public subnet to handle this outbound traffic?",
+      "options": [
+        {
+          "text": "A. NAT Gateway",
+          "correct": true
+        },
+        {
+          "text": "B. Internet Gateway",
+          "correct": false
+        },
+        {
+          "text": "C. Egress-Only Internet Gateway",
+          "correct": false
+        },
+        {
+          "text": "D. Virtual Private Gateway",
+          "correct": false
+        }
+      ],
+      "explain": "A NAT Gateway in a public subnet translates private source IPv4 addresses to a public Elastic IP so private instances can start outbound internet connections. The Internet Gateway is attached to the VPC, not placed in a subnet; an egress-only internet gateway is for IPv6.",
+      "good_to_know": "An Internet Gateway must still be attached so the NAT’s public subnet can reach the internet; you just do not deploy the IGW in a subnet. For native IPv6 outbound from private subnets, use an egress-only internet gateway instead of NAT."
+    },
+    {
+      "uid": "n004",
+      "lesson": 1,
+      "q": "A security compliance policy mandates that all IPv6 traffic originating from microservices in a private VPC subnet must be able to send requests to external web APIs, but external entities must not be able to connect to these microservices using IPv6. What should be configured?",
+      "options": [
+        {
+          "text": "A. An Internet Gateway attached to the VPC.",
+          "correct": false
+        },
+        {
+          "text": "B. A NAT Gateway configured with IPv6 translation rules.",
+          "correct": false
+        },
+        {
+          "text": "C. A Virtual Private Gateway with IPv6 filtering enabled.",
+          "correct": false
+        },
+        {
+          "text": "D. An Egress-Only Internet Gateway attached to the VPC with route table entries.",
+          "correct": true
+        }
+      ],
+      "explain": "An egress-only internet gateway allows outbound IPv6 from the VPC and blocks unsolicited inbound IPv6 from the internet. Add a ::/0 route to it.",
+      "good_to_know": "A standard Internet Gateway plus IPv6 can send outbound IPv6 but also allows unsolicited inbound IPv6 if addressing and security permit it — that is why egress-only exists. NAT64 on a NAT Gateway is for IPv6-only clients talking to IPv4 destinations (the 64:ff9b::/96 prefix), not native IPv6 to IPv6 APIs."
+    },
+    {
+      "uid": "n005",
+      "lesson": 1,
+      "q": "A junior administrator asks a solutions architect why a managed NAT Gateway was recommended over a self-managed EC2 NAT instance. Which of the following is a primary advantage of a managed NAT Gateway?",
+      "options": [
+        {
+          "text": "A. It allows custom iptables rule configurations for deep packet inspection and port forwarding.",
+          "correct": false
+        },
+        {
+          "text": "B. It is fully managed by AWS, scales up automatically, and does not require manual OS patching or active-passive cluster setup.",
+          "correct": true
+        },
+        {
+          "text": "C. It costs significantly less than running a small EC2 instance 24/7.",
+          "correct": false
+        },
+        {
+          "text": "D. It supports inbound destination NAT and custom port mapping for inbound services.",
+          "correct": false
+        }
+      ],
+      "explain": "A managed NAT Gateway is operated by AWS: it scales, needs no guest OS patching, and does not require you to build active-passive NAT instance failover. It does not give you iptables, inbound DNAT, or a guaranteed lower price than a tiny instance.",
+      "good_to_know": "Choose a NAT instance when you need custom iptables, port forwarding, or inbound destination NAT. A managed NAT Gateway cannot do those, and it usually costs more than a tiny instance, not less."
+    },
+    {
+      "uid": "n006",
+      "lesson": 1,
+      "q": "A solutions architect is designing a multi-AZ web application architecture in a VPC spanning three Availability Zones. The private instances across all three AZs require resilient, highly available outbound internet access. How should the architect implement this?",
+      "options": [
+        {
+          "text": "A. Deploy a single NAT Gateway in the primary AZ and route all 3 AZs' private traffic through it.",
+          "correct": false
+        },
+        {
+          "text": "B. Enable Multi-AZ on a single zonal NAT Gateway so AWS automatically mirrors it into the other two Availability Zones.",
+          "correct": false
+        },
+        {
+          "text": "C. Deploy a separate NAT Gateway in each of the three Availability Zones and configure separate route tables for each AZ's private subnet.",
+          "correct": true
+        },
+        {
+          "text": "D. Configure an Auto Scaling group of NAT instances behind an Internal Network Load Balancer.",
+          "correct": false
+        }
+      ],
+      "explain": "A zonal NAT Gateway lives in one Availability Zone. For AZ-independent IPv4 egress, place a NAT in each AZ and point each private subnet at its same-AZ NAT. One NAT in a single AZ is a cross-AZ dependency if that AZ fails. A zonal NAT has no Multi-AZ mirror toggle.",
+      "good_to_know": "A regional NAT Gateway (availability mode = regional) is a different resource that can provide multi-AZ high availability by expanding with your workloads. Choose that when the question offers regional NAT, not when it describes one zonal NAT failing over by itself. A single zonal NAT in one AZ does give every private subnet outbound access until that AZ fails — HA wording is what makes it wrong."
+    },
+    {
+      "uid": "n007",
+      "lesson": 1,
+      "q": "An Amazon EC2 instance in a web tier is attached to a Security Group that allows inbound traffic on port 443 from anywhere. When a client makes an HTTPS request, does the instance need an explicit outbound rule in the same Security Group to send the response back?",
+      "options": [
+        {
+          "text": "A. No, because Security Groups are stateful; return traffic is automatically permitted regardless of outbound rules.",
+          "correct": true
+        },
+        {
+          "text": "B. Yes, Security Groups are stateless, so port 443 must be explicitly opened in the outbound rule set.",
+          "correct": false
+        },
+        {
+          "text": "C. Yes, but only if the response payload size exceeds standard maximum transmission unit (MTU) limits.",
+          "correct": false
+        },
+        {
+          "text": "D. No, but an explicit outbound rule is required if the protocol uses TCP instead of UDP.",
+          "correct": false
+        }
+      ],
+      "explain": "Security groups are stateful. If inbound HTTPS is allowed, the matching response is tracked and allowed out without a separate outbound rule for that flow.",
+      "good_to_know": "If this were a Network ACL, you would need an explicit outbound allow for the client ephemeral ports, because NACLs are stateless. Statefulness is a security-group property, not a TCP-versus-UDP property."
+    },
+    {
+      "uid": "n008",
+      "lesson": 1,
+      "q": "A systems engineer implements a Network ACL on a database subnet and explicitly allows inbound traffic on port 3306. The database instances stop responding to application queries. What is the most likely cause?",
+      "options": [
+        {
+          "text": "A. Network ACLs are attached at the instance level instead of the subnet level.",
+          "correct": false
+        },
+        {
+          "text": "B. The database instance lacks an assigned Elastic IP address.",
+          "correct": false
+        },
+        {
+          "text": "C. Network ACLs require Security Groups to also be disabled on the instances.",
+          "correct": false
+        },
+        {
+          "text": "D. Network ACLs are stateless, and the outbound rules do not permit return traffic on the ephemeral port range required by the response.",
+          "correct": true
+        }
+      ],
+      "explain": "Network ACLs are stateless. Allowing inbound 3306 is not enough; outbound rules must also allow the return path, including ephemeral client ports.",
+      "good_to_know": "The same inbound-only allow on a security group would still let replies back, because security groups are stateful. This “inbound allowed but the app is unreachable” pattern is the NACL trap."
+    },
+    {
+      "uid": "n009",
+      "lesson": 1,
+      "q": "An enterprise application runs in a subnet protected by a Network ACL. Clients on the internet connect to a web server on port 443. Which outbound rule range must be allowed in the subnet's Network ACL to support return traffic to the clients?",
+      "options": [
+        {
+          "text": "A. Ports 0-1023",
+          "correct": false
+        },
+        {
+          "text": "B. Ports 1024-65535",
+          "correct": true
+        },
+        {
+          "text": "C. Port 443 only",
+          "correct": false
+        },
+        {
+          "text": "D. Ports 80-443",
+          "correct": false
+        }
+      ],
+      "explain": "Clients use ephemeral source ports. The NACL must allow outbound return traffic to those ports, commonly 1024–65535, not only destination port 443.",
+      "good_to_know": "Allowing outbound 443 only would be enough on a security group for this return path. Linux ephemeral ports are often 32768–60999, but AWS NACL examples use 1024–65535, which is the exam range."
+    },
+    {
+      "uid": "n010",
+      "lesson": 1,
+      "q": "How do Security Groups and Network ACLs differ in how they evaluate rules when traffic passes through them?",
+      "options": [
+        {
+          "text": "A. Security Groups evaluate rules in numeric order, while Network ACLs evaluate all rules simultaneously.",
+          "correct": false
+        },
+        {
+          "text": "B. Security Groups are stateless and apply at the subnet level, while Network ACLs are stateful and apply at the instance level.",
+          "correct": false
+        },
+        {
+          "text": "C. Security Groups evaluate all rules before deciding to allow traffic, whereas Network ACLs evaluate rules in numerical order and stop at the first matching rule.",
+          "correct": true
+        },
+        {
+          "text": "D. Both evaluate rules in numerical order, but Security Groups permit implicit deny while NACLs permit implicit allow.",
+          "correct": false
+        }
+      ],
+      "explain": "A security group considers all of its rules and allows the packet if any allow matches. A network ACL walks rule numbers in order and applies the first match, then stops. Both end with an implicit deny if nothing allowed the traffic.",
+      "good_to_know": "Option D reverses the implicit action: NACLs never implicitly allow. Security groups are not evaluated by rule number."
+    },
+    {
+      "uid": "n011",
+      "lesson": 1,
+      "q": "VPC A is peered with VPC B, and VPC B is peered with VPC C. However, VPC A and VPC C are not peered. Can an EC2 instance in VPC A directly communicate with an EC2 instance in VPC C using their private IP addresses?",
+      "options": [
+        {
+          "text": "A. No, because VPC peering relationships are non-transitive.",
+          "correct": true
+        },
+        {
+          "text": "B. Yes, as long as VPC B enables IP packet forwarding in its route tables.",
+          "correct": false
+        },
+        {
+          "text": "C. Yes, AWS automatically builds a transitive communication mesh between all connected VPCs in the same region.",
+          "correct": false
+        },
+        {
+          "text": "D. No, unless both VPC A and VPC C share the same Internet Gateway ID.",
+          "correct": false
+        }
+      ],
+      "explain": "VPC peering is not transitive. A cannot reach C through B. You need an explicit peering (or another hub such as Transit Gateway) between A and C.",
+      "good_to_know": "An explicit A–C peering or a Transit Gateway hub would allow private communication. VPC B cannot be turned into a transit router by “enabling forwarding” in its route tables."
+    },
+    {
+      "uid": "n012",
+      "lesson": 1,
+      "q": "A company wants its EC2 instances in a private subnet to securely access Amazon S3 without traversing a NAT Gateway or exposing traffic to the public internet. Which service configuration satisfies this requirement?",
+      "options": [
+        {
+          "text": "A. An Interface VPC Endpoint for Amazon EC2, which privately forwards all S3 object traffic.",
+          "correct": false
+        },
+        {
+          "text": "B. A VPC Peering connection directly to the public S3 bucket endpoint address.",
+          "correct": false
+        },
+        {
+          "text": "C. A Virtual Private Gateway routed via an on-premises web proxy.",
+          "correct": false
+        },
+        {
+          "text": "D. A Gateway VPC Endpoint for Amazon S3 added to the private subnet's route table.",
+          "correct": true
+        }
+      ],
+      "explain": "An S3 gateway endpoint adds a prefix-list route in the subnet route table so S3 traffic stays on the AWS network and off NAT. Gateway endpoints exist for S3 and DynamoDB and have no hourly endpoint charge. An EC2 interface endpoint does not carry S3 object traffic.",
+      "good_to_know": "Amazon S3 also supports interface endpoints (PrivateLink). Those also keep in-VPC traffic off NAT and off the public internet, but they use ENIs, incur hourly and data-processing charges, and are the usual choice when on-premises, peered, or Transit Gateway clients must reach S3 privately — something a gateway endpoint cannot do."
+    },
+    {
+      "uid": "n013",
+      "lesson": 1,
+      "q": "An architect needs to allow private EC2 instances in a highly restricted VPC to communicate with Amazon SNS APIs using private IP addresses within the VPC CIDR block. A Gateway endpoint option is not available for Amazon SNS. What should be implemented?",
+      "options": [
+        {
+          "text": "A. A NAT Gateway with custom port-forwarding rules for SNS.",
+          "correct": false
+        },
+        {
+          "text": "B. An Interface VPC Endpoint powered by AWS PrivateLink for Amazon SNS.",
+          "correct": true
+        },
+        {
+          "text": "C. An Internet Gateway with an explicit resource policy restriction.",
+          "correct": false
+        },
+        {
+          "text": "D. A Site-to-Site VPN connection back to the VPC.",
+          "correct": false
+        }
+      ],
+      "explain": "Gateway endpoints exist only for S3 and DynamoDB. SNS uses an interface endpoint (PrivateLink): ENIs with private IPs in your subnets.",
+      "good_to_know": "A NAT Gateway could reach the public SNS API, but that is not private IPs inside the VPC CIDR and usually fails a “highly restricted VPC” constraint."
+    },
+    {
+      "uid": "n014",
+      "lesson": 1,
+      "q": "An engineer creates a new subnet in a VPC, but forgets to explicitly associate it with a custom route table during creation. What routing behavior does this new subnet experience?",
+      "options": [
+        {
+          "text": "A. It receives no routing table and automatically drops all network packets.",
+          "correct": false
+        },
+        {
+          "text": "B. It automatically inherits the routing configurations of the first public subnet created in the VPC.",
+          "correct": false
+        },
+        {
+          "text": "C. It is automatically associated with the VPC's main route table.",
+          "correct": true
+        },
+        {
+          "text": "D. It is quarantined by AWS until an administrator manually attaches a NAT Gateway.",
+          "correct": false
+        }
+      ],
+      "explain": "A subnet with no explicit association uses the VPC main route table. That is why the main table is often left without an internet route so forgotten subnets stay private.",
+      "good_to_know": "Associating a custom route table later replaces the main-table association for that subnet only. Other subnets are unchanged."
+    },
+    {
+      "uid": "n015",
+      "lesson": 1,
+      "q": "What is the maximum allowed IPv4 CIDR block size that you can specify when creating a new Amazon VPC?",
+      "options": [
+        {
+          "text": "A. /16",
+          "correct": true
+        },
+        {
+          "text": "B. /8",
+          "correct": false
+        },
+        {
+          "text": "C. /20",
+          "correct": false
+        },
+        {
+          "text": "D. /24",
+          "correct": false
+        }
+      ],
+      "explain": "A VPC IPv4 CIDR must be between /16 (65,536 addresses) and /28. You cannot create a VPC with a /8.",
+      "good_to_know": "/20 and /24 are valid VPC CIDRs; they are smaller blocks. The largest you may specify is /16 and the smallest is /28."
+    },
+    {
+      "uid": "n016",
+      "lesson": 1,
+      "q": "An existing production VPC has a CIDR block of 10.0.0.0/16 and is rapidly running out of available private IP addresses. What mechanism can an administrator use to expand the IP address pool of the existing VPC without migrating workloads?",
+      "options": [
+        {
+          "text": "A. Resize the primary CIDR block from /16 to /12 directly within the AWS VPC console.",
+          "correct": false
+        },
+        {
+          "text": "B. Create a peered VPC and dynamically merge the route tables together.",
+          "correct": false
+        },
+        {
+          "text": "C. Attach a secondary Internet Gateway to handle expansion IP pools.",
+          "correct": false
+        },
+        {
+          "text": "D. Associate an additional IPv4 CIDR block (secondary CIDR) with the existing VPC.",
+          "correct": true
+        }
+      ],
+      "explain": "You cannot enlarge the primary CIDR in place. You associate a secondary IPv4 CIDR with the VPC (each block still /16–/28) and create new subnets from it.",
+      "good_to_know": "Peering a second VPC with spare CIDR adds another network, not more addresses in this VPC. Security groups, route tables, and DNS stay separate."
+    },
+    {
+      "uid": "n017",
+      "lesson": 1,
+      "q": "How many Internet Gateways can be attached to a single Amazon VPC at any given time?",
+      "options": [
+        {
+          "text": "A. Up to 3, one for each active Availability Zone in the region.",
+          "correct": false
+        },
+        {
+          "text": "B. Exactly one Internet Gateway can be attached to a VPC at any given time.",
+          "correct": true
+        },
+        {
+          "text": "C. Unlimited, as long as each is associated with a distinct subnet route table.",
+          "correct": false
+        },
+        {
+          "text": "D. Up to 5 per VPC by default, extendable via service quota requests.",
+          "correct": false
+        }
+      ],
+      "explain": "A VPC attaches to at most one Internet Gateway. The IGW is regional, not one-per-AZ.",
+      "good_to_know": "Several VPC quotas default to five (for example IPv4 CIDR blocks per VPC). Internet Gateway attachment is not one of them — it is exactly one."
+    },
+    {
+      "uid": "n018",
+      "lesson": 1,
+      "q": "In a Network ACL, how are evaluation rules processed when a packet matches multiple conflicting rules (for example, rule 100 allows traffic, and rule 110 denies traffic)?",
+      "options": [
+        {
+          "text": "A. The most restrictive rule always wins regardless of rule number sequence.",
+          "correct": false
+        },
+        {
+          "text": "B. The most permissive rule takes precedence in all cases.",
+          "correct": false
+        },
+        {
+          "text": "C. Rules are evaluated in numerical order, and the first rule that matches the packet applies immediately, stopping further evaluation.",
+          "correct": true
+        },
+        {
+          "text": "D. Both rules are evaluated simultaneously, and if a conflict arises, the packet is dropped.",
+          "correct": false
+        }
+      ],
+      "explain": "NACL rules are processed from lowest number to highest. The first matching rule wins, so rule 100 allow would apply and rule 110 would never be evaluated for that packet.",
+      "good_to_know": "If the deny were numbered lower than the allow (for example rule 90 deny, rule 100 allow), the deny would win. “Most restrictive” is never the NACL rule; first match is."
+    },
+    {
+      "uid": "n019",
+      "lesson": 1,
+      "q": "A database tier running on Amazon EC2 needs to accept incoming traffic only from the web tier EC2 instances, while denying all other inbound access. How should the database Security Group be configured?",
+      "options": [
+        {
+          "text": "A. Add an inbound rule for the database port referencing the web tier's Security Group ID as the source.",
+          "correct": true
+        },
+        {
+          "text": "B. Add an inbound rule referencing the public IP address range of the web tier subnet.",
+          "correct": false
+        },
+        {
+          "text": "C. Use an explicit deny rule in a Network ACL for all IP addresses except the web subnet CIDR.",
+          "correct": false
+        },
+        {
+          "text": "D. Attach an Egress-Only Internet Gateway to filter incoming database connections.",
+          "correct": false
+        }
+      ],
+      "explain": "Reference the web-tier security group as the source on the database port. That tracks the instances themselves instead of brittle public IPs. Security groups have no deny rules; an egress-only internet gateway does not filter inbound IPv4 to a database.",
+      "good_to_know": "A private web-subnet CIDR source can work if that CIDR is stable, but it is brittle as instances scale. A NACL explicit deny is the tool for a subnet-wide deny of a hostile CIDR, not a substitute for the database security group."
+    },
+    {
+      "uid": "n020",
+      "lesson": 1,
+      "q": "A private subnet route table contains 10.0.0.0/16 → local, 0.0.0.0/0 → NAT Gateway, and a prefix-list route to an S3 gateway endpoint. An instance in that subnet sends a packet to Amazon S3. Which route wins, and why?",
+      "options": [
+        {
+          "text": "A. 0.0.0.0/0 → NAT Gateway, because it is the default route for all destinations.",
+          "correct": false
+        },
+        {
+          "text": "B. The S3 prefix-list route, because IPv4 uses longest-prefix match and that destination is more specific than 0.0.0.0/0.",
+          "correct": true
+        },
+        {
+          "text": "C. 10.0.0.0/16 → local, because S3 is an AWS service and therefore stays inside the VPC CIDR.",
+          "correct": false
+        },
+        {
+          "text": "D. No route matches until an Internet Gateway is added to the private table.",
+          "correct": false
+        }
+      ],
+      "explain": "The most specific matching destination wins. The S3 prefix list is narrower than 0.0.0.0/0, so S3 stays on the gateway endpoint and off NAT.",
+      "good_to_know": "The local 10.0.0.0/16 route would win for destinations inside this VPC, not for S3 public ranges. An Internet Gateway on a private table would make the subnet public; it is not required for the prefix-list path."
+    },
+    {
+      "uid": "n021",
+      "lesson": 1,
+      "q": "A secure multi-tier architecture requires systems administrators to SSH into private backend application instances for routine maintenance. What is the standard AWS architecture pattern to achieve this securely?",
+      "options": [
+        {
+          "text": "A. Install a NAT Gateway configured to forward incoming TCP port 22 packets to private instances.",
+          "correct": false
+        },
+        {
+          "text": "B. Deploy a hardened bastion host (jump box) in a public subnet with strict Security Groups restricting port 22 access to corporate IP ranges.",
+          "correct": true
+        },
+        {
+          "text": "C. Temporarily assign public IP addresses to every private application instance during maintenance.",
+          "correct": false
+        },
+        {
+          "text": "D. Attach an Internet Gateway directly to the private subnet's route table.",
+          "correct": false
+        }
+      ],
+      "explain": "A bastion in a public subnet is the usual controlled SSH entry. NAT Gateways do not forward inbound SSH; putting an IGW route on the private subnet would make it public.",
+      "good_to_know": "AWS Systems Manager Session Manager is often preferred when the question wants no inbound SSH port and no jump host to patch. Keep the bastion when they explicitly ask for SSH from corporate IP ranges."
+    },
+    {
+      "uid": "n022",
+      "lesson": 1,
+      "q": "When an Amazon VPC subnet is created with a CIDR block of 192.168.1.0/24, how many total IP addresses are reserved by AWS for internal networking and rendered unavailable for assignment to EC2 instances?",
+      "options": [
+        {
+          "text": "A. 1 IP address (the network base address 192.168.1.0)",
+          "correct": false
+        },
+        {
+          "text": "B. 2 IP addresses (network address and broadcast address)",
+          "correct": false
+        },
+        {
+          "text": "C. 5 IP addresses (base network, router, DNS server, future use, and broadcast address)",
+          "correct": true
+        },
+        {
+          "text": "D. 0 IP addresses, as all 256 addresses within a /24 are fully assignable to EC2 instances.",
+          "correct": false
+        }
+      ],
+      "explain": "AWS reserves the first four addresses and the last address in every subnet CIDR: network, VPC router, DNS, future use, and broadcast. A /24 therefore has 251 usable addresses.",
+      "good_to_know": "On a classic network you reserve two addresses (network and broadcast). AWS always reserves five, which is why a /24 yields 251 usable addresses, not 254."
+    },
+    {
+      "uid": "n023",
+      "lesson": 1,
+      "q": "After creating a Gateway VPC Endpoint for Amazon S3 in a VPC, what action must the administrator take to ensure traffic destined for S3 uses the endpoint rather than exiting through the internet or NAT gateway?",
+      "options": [
+        {
+          "text": "A. Add an entry to the subnet's route table where the destination is the S3 prefix list ID and the target is the Gateway VPC Endpoint ID.",
+          "correct": true
+        },
+        {
+          "text": "B. Change the default route (0.0.0.0/0) target directly to point to the S3 Gateway Endpoint ID.",
+          "correct": false
+        },
+        {
+          "text": "C. Delete all other route entries from the VPC route table.",
+          "correct": false
+        },
+        {
+          "text": "D. Attach a public Elastic IP address directly to the Gateway Endpoint object.",
+          "correct": false
+        }
+      ],
+      "explain": "A gateway endpoint works through a more-specific prefix-list route whose target is the endpoint. Do not replace 0.0.0.0/0 with the endpoint; other internet traffic still needs NAT or an IGW.",
+      "good_to_know": "If you select route tables when you create the gateway endpoint, AWS inserts this prefix-list route for you. You still confirm it is present. Pointing 0.0.0.0/0 at the endpoint would steal all other internet traffic."
+    },
+    {
+      "uid": "n024",
+      "lesson": 1,
+      "q": "A security team wants to audit rejected incoming TCP connection attempts across all subnets in a VPC. Where should they configure VPC Flow Logs and what record fields should they analyze?",
+      "options": [
+        {
+          "text": "A. Configure Flow Logs on the external Internet Gateway only and inspect src-port.",
+          "correct": false
+        },
+        {
+          "text": "B. Configure Flow Logs on individual EBS volumes and check block validation metrics.",
+          "correct": false
+        },
+        {
+          "text": "C. Configure Flow Logs on AWS IAM policies and evaluate authentication tokens.",
+          "correct": false
+        },
+        {
+          "text": "D. Configure Flow Logs at the VPC or subnet level and filter records where action is REJECT and protocol is 6.",
+          "correct": true
+        }
+      ],
+      "explain": "Capture flow logs on the VPC or the subnets. REJECT is the action for blocked packets; protocol 6 is TCP. Flow logs are not an EBS or IAM feature.",
+      "good_to_know": "You can also attach flow logs to a single ENI when you only care about one instance. For every subnet, VPC-level capture is the widest. Protocol 17 is UDP; 6 is TCP."
+    },
+    {
+      "uid": "n025",
+      "lesson": 1,
+      "q": "A company creates one subnet, 10.0.0.0/24, and expects it to provide high availability across two Availability Zones in the Region. What is true of Amazon VPC subnets?",
+      "options": [
+        {
+          "text": "A. A subnet spans every Availability Zone in the Region once its CIDR is large enough.",
+          "correct": false
+        },
+        {
+          "text": "B. Each subnet exists in exactly one Availability Zone; high availability requires a subnet in each AZ you use.",
+          "correct": true
+        },
+        {
+          "text": "C. Enabling Multi-AZ on the subnet automatically mirrors it into a second Availability Zone.",
+          "correct": false
+        },
+        {
+          "text": "D. Placing a NAT Gateway in the subnet makes that subnet regional and Multi-AZ.",
+          "correct": false
+        }
+      ],
+      "explain": "A subnet is a CIDR slice that lives in one Availability Zone. Two AZs means at least two subnets. A /24 does not span AZs, and there is no Multi-AZ toggle on a subnet.",
+      "good_to_know": "A NAT Gateway is zonal too; it does not change the subnet’s AZ. Regional services such as an Internet Gateway or an ALB still place nodes or attachments in specific subnets."
+    },
+    {
+      "uid": "n026",
+      "lesson": 2,
+      "q": "Fifty VPCs need transitive connectivity to each other and to on-premises networks with centralized route segmentation. Which service best fits?",
+      "options": [
+        {
+          "text": "A. VPC peering mesh",
+          "correct": false
+        },
+        {
+          "text": "B. AWS Transit Gateway",
+          "correct": true
+        },
+        {
+          "text": "C. AWS PrivateLink",
+          "correct": false
+        },
+        {
+          "text": "D. Route 53 private hosted zone",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are transitive routing and scale. Transit Gateway provides a managed hub with multiple route tables."
+    },
+    {
+      "uid": "n027",
+      "lesson": 2,
+      "q": "A partner must consume one TCP service privately from a VPC whose CIDR overlaps the provider VPC. The provider must not share network routes. What should be used?",
+      "options": [
+        {
+          "text": "A. VPC peering",
+          "correct": false
+        },
+        {
+          "text": "B. Transit Gateway peering",
+          "correct": false
+        },
+        {
+          "text": "C. PrivateLink endpoint service",
+          "correct": true
+        },
+        {
+          "text": "D. Site-to-site VPN",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are overlapping CIDRs and service-only exposure. PrivateLink maps endpoint ENIs to a published service without routed connectivity."
+    },
+    {
+      "uid": "n028",
+      "lesson": 2,
+      "q": "A company needs a dedicated, predictable path from its data center to AWS, but all application traffic must also be encrypted in transit. Which design works?",
+      "options": [
+        {
+          "text": "A. Direct Connect only",
+          "correct": false
+        },
+        {
+          "text": "B. Internet gateway with TLS termination disabled",
+          "correct": false
+        },
+        {
+          "text": "C. VPC peering over Direct Connect",
+          "correct": false
+        },
+        {
+          "text": "D. VPN over Direct Connect",
+          "correct": true
+        }
+      ],
+      "explain": "The deciding constraints are dedicated performance and encryption. Direct Connect supplies the path, while the VPN supplies IPsec encryption."
+    },
+    {
+      "uid": "n029",
+      "lesson": 2,
+      "q": "On-premises DNS servers must resolve records in Route 53 private hosted zones. Which component accepts those DNS queries inside the VPC?",
+      "options": [
+        {
+          "text": "A. Route 53 Resolver inbound endpoint",
+          "correct": true
+        },
+        {
+          "text": "B. Route 53 Resolver outbound endpoint",
+          "correct": false
+        },
+        {
+          "text": "C. Public hosted zone alias",
+          "correct": false
+        },
+        {
+          "text": "D. Transit Gateway Connect",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding direction is on premises to AWS. A Resolver inbound endpoint receives forwarded queries for private AWS namespaces."
+    },
+    {
+      "uid": "n030",
+      "lesson": 2,
+      "q": "Two VPCs have a peering connection, and one is connected to a third VPC. The first VPC cannot reach the third through the second. What explains this?",
+      "options": [
+        {
+          "text": "A. Peering supports only IPv6 transit",
+          "correct": false
+        },
+        {
+          "text": "B. VPC peering is non-transitive",
+          "correct": true
+        },
+        {
+          "text": "C. Route 53 blocks peered routes",
+          "correct": false
+        },
+        {
+          "text": "D. Security groups cannot reference peers",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding topology rule is that VPC peering is non-transitive; each required VPC pair needs a direct connection or a routing hub."
+    },
+    {
+      "uid": "n031",
+      "lesson": 2,
+      "q": "A company attempts to create a VPC Peering connection between VPC A (10.0.0.0/16) and VPC B (10.0.128.0/17). The operation fails or routing behaves erratically. Upon inspection, it is found that parts of the CIDR blocks overlap or conflict with existing routes. What is the core restriction regarding CIDR blocks in VPC Peering?",
+      "options": [
+        {
+          "text": "A. VPC Peering is not supported across different AWS accounts within the same region.",
+          "correct": false
+        },
+        {
+          "text": "B. Both peered VPCs must possess identical netmask CIDR lengths.",
+          "correct": false
+        },
+        {
+          "text": "C. Peered VPCs are prohibited from using standard RFC 1918 private address spaces.",
+          "correct": false
+        },
+        {
+          "text": "D. The CIDR blocks of the peered VPCs cannot overlap or have matching routing conflicts.",
+          "correct": true
+        }
+      ],
+      "explain": "Peered VPC CIDRs must not overlap. 10.0.128.0/17 sits inside 10.0.0.0/16, so peering cannot be used. Cross-account peering is supported when CIDRs are unique.",
+      "good_to_know": "Peering across AWS accounts and across Regions is supported when CIDRs do not overlap. Identical netmask lengths are not required."
+    },
+    {
+      "uid": "n032",
+      "lesson": 2,
+      "q": "An enterprise is implementing AWS Client VPN to allow remote workers to connect to private backend instances. After establishing the VPN session successfully, traffic from remote clients fails to reach instances in the private subnets. Which configuration step is most likely missing?",
+      "options": [
+        {
+          "text": "A. Attaching a managed NAT Gateway directly to the Client VPN endpoint interface.",
+          "correct": false
+        },
+        {
+          "text": "B. Adding target network subnet associations, authorization rules, and route table entries routing traffic to the private subnets.",
+          "correct": true
+        },
+        {
+          "text": "C. Changing the VPC primary CIDR block to a globally public routing range.",
+          "correct": false
+        },
+        {
+          "text": "D. Disabling all Network ACLs across the entire VPC architecture.",
+          "correct": false
+        }
+      ],
+      "explain": "A working Client VPN session is not enough. Associate target networks, authorize access to the destination CIDRs, and install routes so client traffic is sent to the private subnets.",
+      "good_to_know": "A successful VPN session already means at least one target network is associated. The leftover is often authorization rules (and extra routes if the destination is outside the VPC local CIDR), plus the instance security group allowing the Client VPN security group."
+    },
+    {
+      "uid": "n033",
+      "lesson": 3,
+      "q": "A web platform must route requests to different target groups based on hostname and URL path while terminating HTTPS. Which load balancer should it use?",
+      "options": [
+        {
+          "text": "A. Gateway Load Balancer",
+          "correct": false
+        },
+        {
+          "text": "B. Network Load Balancer",
+          "correct": false
+        },
+        {
+          "text": "C. Application Load Balancer",
+          "correct": true
+        },
+        {
+          "text": "D. Classic Load Balancer",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are Layer 7 host and path inspection. ALB listener rules provide both and can terminate HTTPS."
+    },
+    {
+      "uid": "n034",
+      "lesson": 3,
+      "q": "External clients allowlist fixed IPv4 addresses for a high-throughput TCP application. Which regional load-balancing design satisfies this?",
+      "options": [
+        {
+          "text": "A. ALB with sticky sessions",
+          "correct": false
+        },
+        {
+          "text": "B. CloudFront with an ALB origin",
+          "correct": false
+        },
+        {
+          "text": "C. ASG without a load balancer",
+          "correct": false
+        },
+        {
+          "text": "D. NLB with Elastic IPs per AZ",
+          "correct": true
+        }
+      ],
+      "explain": "The deciding constraints are static IP addresses and TCP performance. NLB supports Layer 4 traffic and per-AZ Elastic IPs."
+    },
+    {
+      "uid": "n035",
+      "lesson": 3,
+      "q": "An ASG instance passes EC2 status checks but its web process is dead. The company wants automatic replacement. What should be configured?",
+      "options": [
+        {
+          "text": "A. ELB health checks for the ASG",
+          "correct": true
+        },
+        {
+          "text": "B. Scheduled scaling every minute",
+          "correct": false
+        },
+        {
+          "text": "C. A larger root EBS volume",
+          "correct": false
+        },
+        {
+          "text": "D. NACL health probes",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is application-level failure. Enabling ELB health checks lets the ASG replace targets that fail the load balancer check."
+    },
+    {
+      "uid": "n036",
+      "lesson": 3,
+      "q": "Traffic tracks CPU utilization unpredictably throughout the day. The ASG should maintain CPU near 50 percent with minimal policy management. Which policy fits?",
+      "options": [
+        {
+          "text": "A. Scheduled scaling",
+          "correct": false
+        },
+        {
+          "text": "B. Target tracking scaling",
+          "correct": true
+        },
+        {
+          "text": "C. Manual desired capacity",
+          "correct": false
+        },
+        {
+          "text": "D. Instance refresh",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is maintaining a metric target under variable load. Target tracking adjusts capacity around the selected CPU value."
+    },
+    {
+      "uid": "n037",
+      "lesson": 3,
+      "q": "A batch fleet can tolerate interruption and needs the lowest EC2 compute cost, but it must replace reclaimed capacity automatically. Which design is best?",
+      "options": [
+        {
+          "text": "A. Dedicated Hosts in one AZ",
+          "correct": false
+        },
+        {
+          "text": "B. On-Demand instances without an ASG",
+          "correct": false
+        },
+        {
+          "text": "C. EC2 Auto Scaling with diversified Spot capacity",
+          "correct": true
+        },
+        {
+          "text": "D. Reserved Instances with fixed capacity",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are interruption tolerance and minimum cost. Diversified Spot in an ASG reduces concentration risk and replaces lost instances."
+    },
+    {
+      "uid": "n038",
+      "lesson": 4,
+      "q": "Linux instances in three AZs need simultaneous access to a shared POSIX filesystem that grows automatically. Which storage service is appropriate?",
+      "options": [
+        {
+          "text": "A. A single gp3 EBS volume",
+          "correct": false
+        },
+        {
+          "text": "B. Amazon EFS",
+          "correct": true
+        },
+        {
+          "text": "C. S3 Glacier Flexible Retrieval",
+          "correct": false
+        },
+        {
+          "text": "D. Instance store",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are concurrent multi-AZ NFS access and elastic capacity. EFS is a regional managed filesystem built for this pattern."
+    },
+    {
+      "uid": "n039",
+      "lesson": 4,
+      "q": "A high-performance computing workload needs a parallel filesystem integrated with S3 and optimized for very high throughput. Which service should be selected?",
+      "options": [
+        {
+          "text": "A. FSx for Windows File Server",
+          "correct": false
+        },
+        {
+          "text": "B. EFS One Zone",
+          "correct": false
+        },
+        {
+          "text": "C. FSx for Lustre",
+          "correct": true
+        },
+        {
+          "text": "D. EBS sc1",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are parallel HPC I/O and S3 integration. FSx for Lustre is optimized for this workload."
+    },
+    {
+      "uid": "n040",
+      "lesson": 4,
+      "q": "An EC2 database needs durable low-latency block storage, and the instance and volume will remain in one Availability Zone. Which choice fits?",
+      "options": [
+        {
+          "text": "A. Amazon S3",
+          "correct": false
+        },
+        {
+          "text": "B. Amazon EFS",
+          "correct": false
+        },
+        {
+          "text": "C. FSx for OpenZFS",
+          "correct": false
+        },
+        {
+          "text": "D. Provisioned IOPS EBS",
+          "correct": true
+        }
+      ],
+      "explain": "The deciding constraints are attached block semantics and predictable low-latency IOPS. Provisioned IOPS EBS is designed for such databases."
+    },
+    {
+      "uid": "n041",
+      "lesson": 4,
+      "q": "Objects are accessed with unpredictable frequency, must remain immediately available, and should automatically move to the cheapest suitable access tier. What fits?",
+      "options": [
+        {
+          "text": "A. S3 Intelligent-Tiering",
+          "correct": true
+        },
+        {
+          "text": "B. S3 One Zone-IA",
+          "correct": false
+        },
+        {
+          "text": "C. S3 Glacier Deep Archive",
+          "correct": false
+        },
+        {
+          "text": "D. EBS Cold HDD",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are unknown access patterns and immediate availability. Intelligent-Tiering monitors access and moves objects among eligible tiers."
+    },
+    {
+      "uid": "n042",
+      "lesson": 4,
+      "q": "A Windows application requires managed SMB shares, Active Directory authentication, and Windows ACL support. Which service meets all requirements?",
+      "options": [
+        {
+          "text": "A. Amazon EFS",
+          "correct": false
+        },
+        {
+          "text": "B. FSx for Windows File Server",
+          "correct": true
+        },
+        {
+          "text": "C. S3 File Gateway only",
+          "correct": false
+        },
+        {
+          "text": "D. EBS Multi-Attach",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are SMB, AD, and Windows ACL semantics. FSx for Windows File Server natively provides them."
+    },
+    {
+      "uid": "n043",
+      "lesson": 5,
+      "q": "A relational production database needs automatic failover within one Region and no read-scaling requirement. Which RDS configuration addresses this?",
+      "options": [
+        {
+          "text": "A. RDS Multi-AZ deployment",
+          "correct": true
+        },
+        {
+          "text": "B. One cross-Region read replica",
+          "correct": false
+        },
+        {
+          "text": "C. ElastiCache cluster",
+          "correct": false
+        },
+        {
+          "text": "D. DynamoDB global table",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is in-Region relational high availability. Multi-AZ synchronously maintains a standby and manages failover."
+    },
+    {
+      "uid": "n044",
+      "lesson": 5,
+      "q": "A read-heavy RDS workload needs additional read capacity, and the application can tolerate replica lag. Which change is most direct?",
+      "options": [
+        {
+          "text": "A. Enable Multi-AZ only",
+          "correct": false
+        },
+        {
+          "text": "B. Add RDS read replicas",
+          "correct": true
+        },
+        {
+          "text": "C. Increase backup retention",
+          "correct": false
+        },
+        {
+          "text": "D. Add a NAT gateway",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is read scaling with tolerated lag. Read replicas asynchronously copy data and serve read-only traffic."
+    },
+    {
+      "uid": "n045",
+      "lesson": 5,
+      "q": "A key-value application needs single-digit millisecond performance at very large scale with no server management. Access is by known partition keys. What fits?",
+      "options": [
+        {
+          "text": "A. Amazon Redshift",
+          "correct": false
+        },
+        {
+          "text": "B. RDS for SQL Server",
+          "correct": false
+        },
+        {
+          "text": "C. Amazon DynamoDB",
+          "correct": true
+        },
+        {
+          "text": "D. Amazon Neptune",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are key-based access, massive scale, and serverless operations. DynamoDB directly matches them."
+    },
+    {
+      "uid": "n046",
+      "lesson": 5,
+      "q": "A globally distributed application requires active-active key-value writes in two AWS Regions with managed conflict resolution. Which feature should be used?",
+      "options": [
+        {
+          "text": "A. Aurora Replica Auto Scaling",
+          "correct": false
+        },
+        {
+          "text": "B. RDS Multi-AZ DB cluster",
+          "correct": false
+        },
+        {
+          "text": "C. DAX in one Region",
+          "correct": false
+        },
+        {
+          "text": "D. DynamoDB global tables",
+          "correct": true
+        }
+      ],
+      "explain": "The deciding constraint is managed multi-Region active-active writing. DynamoDB global tables replicate writes among participating Regions."
+    },
+    {
+      "uid": "n047",
+      "lesson": 5,
+      "q": "An application repeatedly reads the same catalog entries and can tolerate seconds of staleness. The database is CPU-bound. What is the best optimization?",
+      "options": [
+        {
+          "text": "A. Add ElastiCache with cache-aside",
+          "correct": true
+        },
+        {
+          "text": "B. Convert Multi-AZ to Single-AZ",
+          "correct": false
+        },
+        {
+          "text": "C. Disable database indexes",
+          "correct": false
+        },
+        {
+          "text": "D. Increase automated backup frequency",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are repeated reads and tolerated staleness. Cache-aside offloads hot reads while preserving the database as record."
+    },
+    {
+      "uid": "n048",
+      "lesson": 6,
+      "q": "An EC2 application needs access to DynamoDB without storing long-lived credentials on the instance. Which identity mechanism is best?",
+      "options": [
+        {
+          "text": "A. IAM role attached through an instance profile",
+          "correct": true
+        },
+        {
+          "text": "B. Root user access keys",
+          "correct": false
+        },
+        {
+          "text": "C. IAM user keys in user data",
+          "correct": false
+        },
+        {
+          "text": "D. Shared credentials in an AMI",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is avoiding long-lived secrets. An instance role supplies automatically rotated STS credentials."
+    },
+    {
+      "uid": "n049",
+      "lesson": 6,
+      "q": "An SCP attached to an OU allows s3:GetObject, but a user in a member account has no IAM policy granting it. Can the user read objects?",
+      "options": [
+        {
+          "text": "A. Yes, because SCPs grant permissions",
+          "correct": false
+        },
+        {
+          "text": "B. No, because SCPs only set permission guardrails",
+          "correct": true
+        },
+        {
+          "text": "C. Yes, if the OU is nested",
+          "correct": false
+        },
+        {
+          "text": "D. No, because S3 is excluded from SCPs",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding fact is that SCPs do not grant permissions. An identity or resource policy must still provide an applicable allow."
+    },
+    {
+      "uid": "n050",
+      "lesson": 6,
+      "q": "Developers can create IAM roles, but every created role must remain below a centrally approved maximum permission set. Which feature enforces that ceiling?",
+      "options": [
+        {
+          "text": "A. Access Analyzer archive rule",
+          "correct": false
+        },
+        {
+          "text": "B. STS external ID",
+          "correct": false
+        },
+        {
+          "text": "C. IAM permissions boundary",
+          "correct": true
+        },
+        {
+          "text": "D. IAM credential report",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is a maximum permission ceiling for delegated identities. A permissions boundary limits what identity policies can make effective."
+    },
+    {
+      "uid": "n051",
+      "lesson": 6,
+      "q": "A vendor assumes a role in a customer account, and the customer wants protection against the confused deputy problem. What condition should be required?",
+      "options": [
+        {
+          "text": "A. aws:RequestedRegion",
+          "correct": false
+        },
+        {
+          "text": "B. aws:MultiFactorAuthAge only",
+          "correct": false
+        },
+        {
+          "text": "C. s3:prefix",
+          "correct": false
+        },
+        {
+          "text": "D. sts:ExternalId",
+          "correct": true
+        }
+      ],
+      "explain": "The deciding constraint is identifying the vendor's specific customer context. Requiring a unique external ID mitigates confused deputy role assumption."
+    },
+    {
+      "uid": "n052",
+      "lesson": 6,
+      "q": "An organization must prevent even member-account administrators from disabling a required security service. Which centralized control is appropriate?",
+      "options": [
+        {
+          "text": "A. An SCP with an explicit deny",
+          "correct": true
+        },
+        {
+          "text": "B. A role trust policy",
+          "correct": false
+        },
+        {
+          "text": "C. An IAM group in each account",
+          "correct": false
+        },
+        {
+          "text": "D. An STS session tag",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is organization-level enforcement against member administrators. An applicable SCP explicit deny limits their effective permissions."
+    },
+    {
+      "uid": "n053",
+      "lesson": 7,
+      "q": "A public ALB must block SQL injection patterns and throttle clients that exceed a request threshold. Which service directly supplies both controls?",
+      "options": [
+        {
+          "text": "A. AWS WAF",
+          "correct": true
+        },
+        {
+          "text": "B. AWS Shield Standard",
+          "correct": false
+        },
+        {
+          "text": "C. Amazon GuardDuty",
+          "correct": false
+        },
+        {
+          "text": "D. AWS KMS",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are HTTP payload inspection and rate-based blocking. AWS WAF web ACL rules provide both."
+    },
+    {
+      "uid": "n054",
+      "lesson": 7,
+      "q": "An application needs database passwords stored securely and rotated on a schedule without embedding them in deployment artifacts. Which service is designed for this?",
+      "options": [
+        {
+          "text": "A. AWS Artifact",
+          "correct": false
+        },
+        {
+          "text": "B. AWS Secrets Manager",
+          "correct": true
+        },
+        {
+          "text": "C. AWS Shield Advanced",
+          "correct": false
+        },
+        {
+          "text": "D. Amazon Inspector",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is managed secret rotation. Secrets Manager stores, retrieves, and rotates supported credentials."
+    },
+    {
+      "uid": "n055",
+      "lesson": 7,
+      "q": "Security teams want managed detection of anomalous API behavior and communication with known malicious IP addresses. Which service should they enable?",
+      "options": [
+        {
+          "text": "A. AWS WAF",
+          "correct": false
+        },
+        {
+          "text": "B. AWS Certificate Manager",
+          "correct": false
+        },
+        {
+          "text": "C. Amazon GuardDuty",
+          "correct": true
+        },
+        {
+          "text": "D. AWS Firewall Manager only",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is threat detection from behavioral and network signals. GuardDuty analyzes AWS data sources and emits findings."
+    },
+    {
+      "uid": "n056",
+      "lesson": 7,
+      "q": "A team encrypts data with a customer managed KMS key, but an IAM allow still fails. Which policy is foundational to permitting use of that key?",
+      "options": [
+        {
+          "text": "A. NACL policy",
+          "correct": false
+        },
+        {
+          "text": "B. Organizations tag policy",
+          "correct": false
+        },
+        {
+          "text": "C. WAF web ACL",
+          "correct": false
+        },
+        {
+          "text": "D. KMS key policy",
+          "correct": true
+        }
+      ],
+      "explain": "The deciding resource is a KMS key. Its key policy is the primary authorization mechanism and must enable the principal or IAM delegation."
+    },
+    {
+      "uid": "n057",
+      "lesson": 7,
+      "q": "A company wants enhanced DDoS protection, cost-protection benefits, and access to the DDoS Response Team for critical applications. What should it use?",
+      "options": [
+        {
+          "text": "A. AWS Shield Advanced",
+          "correct": true
+        },
+        {
+          "text": "B. AWS WAF managed SQL rules",
+          "correct": false
+        },
+        {
+          "text": "C. Amazon Macie",
+          "correct": false
+        },
+        {
+          "text": "D. Amazon Detective",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are advanced DDoS support and cost protection. Those are Shield Advanced capabilities beyond Shield Standard."
+    },
+    {
+      "uid": "n058",
+      "lesson": 8,
+      "q": "A public mobile API needs sign-up, sign-in, password recovery, and JWT validation before Lambda runs. Which design has the least custom identity code?",
+      "options": [
+        {
+          "text": "A. Cognito user pool authorizer on API Gateway",
+          "correct": true
+        },
+        {
+          "text": "B. Cognito identity pool without a user pool",
+          "correct": false
+        },
+        {
+          "text": "C. Lambda execution role passed to users",
+          "correct": false
+        },
+        {
+          "text": "D. API keys stored in the mobile app",
+          "correct": false
+        }
+      ],
+      "explain": "A user pool supplies the user directory and tokens; API Gateway can validate those tokens before invoking Lambda."
+    },
+    {
+      "uid": "n059",
+      "lesson": 8,
+      "q": "A Lambda consumer reads an SQS queue, but its downstream database supports only 40 concurrent writers. Which control most directly protects the database?",
+      "options": [
+        {
+          "text": "A. Increase Lambda memory",
+          "correct": false
+        },
+        {
+          "text": "B. Set reserved concurrency on the function",
+          "correct": true
+        },
+        {
+          "text": "C. Enable provisioned concurrency only",
+          "correct": false
+        },
+        {
+          "text": "D. Shorten the SQS visibility timeout",
+          "correct": false
+        }
+      ],
+      "explain": "Reserved concurrency places a hard ceiling on concurrent function executions; provisioned concurrency primarily controls readiness and cold starts."
+    },
+    {
+      "uid": "n060",
+      "lesson": 8,
+      "q": "A web application needs managed GraphQL queries plus server-pushed updates when DynamoDB items change. Which service best fits with the least operations?",
+      "options": [
+        {
+          "text": "A. API Gateway REST API",
+          "correct": false
+        },
+        {
+          "text": "B. Application Load Balancer",
+          "correct": false
+        },
+        {
+          "text": "C. AWS AppSync",
+          "correct": true
+        },
+        {
+          "text": "D. CloudFront Functions",
+          "correct": false
+        }
+      ],
+      "explain": "AppSync provides managed GraphQL APIs, resolvers, and subscriptions for real-time updates."
+    },
+    {
+      "uid": "n061",
+      "lesson": 8,
+      "q": "An asynchronous Lambda invocation fails repeatedly because a third-party endpoint is unavailable. Where should the team retain exhausted events for later analysis?",
+      "options": [
+        {
+          "text": "A. Lambda destination or dead-letter queue",
+          "correct": true
+        },
+        {
+          "text": "B. API Gateway stage cache",
+          "correct": false
+        },
+        {
+          "text": "C. Cognito identity pool",
+          "correct": false
+        },
+        {
+          "text": "D. Lambda layer",
+          "correct": false
+        }
+      ],
+      "explain": "After asynchronous retry attempts, Lambda can route failed events to an on-failure destination or a supported DLQ."
+    },
+    {
+      "uid": "n062",
+      "lesson": 8,
+      "q": "A latency-sensitive Lambda has predictable morning traffic and unacceptable cold-start delays. Which feature prepares execution environments ahead of requests?",
+      "options": [
+        {
+          "text": "A. Reserved concurrency",
+          "correct": false
+        },
+        {
+          "text": "B. Provisioned concurrency",
+          "correct": true
+        },
+        {
+          "text": "C. SQS long polling",
+          "correct": false
+        },
+        {
+          "text": "D. API Gateway throttling",
+          "correct": false
+        }
+      ],
+      "explain": "Provisioned concurrency keeps initialized execution environments ready; reserved concurrency guarantees and limits capacity but does not pre-initialize it."
+    },
+    {
+      "uid": "n063",
+      "lesson": 9,
+      "q": "A team wants to run ECS tasks without patching instances or managing cluster capacity providers. Which compute choice best satisfies the requirement?",
+      "options": [
+        {
+          "text": "A. ECS on Fargate",
+          "correct": true
+        },
+        {
+          "text": "B. ECS on dedicated hosts",
+          "correct": false
+        },
+        {
+          "text": "C. EKS self-managed nodes",
+          "correct": false
+        },
+        {
+          "text": "D. Docker directly on EC2",
+          "correct": false
+        }
+      ],
+      "explain": "Fargate provides serverless compute for ECS tasks, removing EC2 host provisioning and patching."
+    },
+    {
+      "uid": "n064",
+      "lesson": 9,
+      "q": "A company must reuse Helm charts and Kubernetes operators after moving to AWS. Which managed orchestration service is the appropriate target?",
+      "options": [
+        {
+          "text": "A. Amazon ECS",
+          "correct": false
+        },
+        {
+          "text": "B. Amazon EKS",
+          "correct": true
+        },
+        {
+          "text": "C. AWS Batch only",
+          "correct": false
+        },
+        {
+          "text": "D. Elastic Beanstalk worker tier",
+          "correct": false
+        }
+      ],
+      "explain": "EKS exposes a managed Kubernetes control plane compatible with Kubernetes tooling and APIs."
+    },
+    {
+      "uid": "n065",
+      "lesson": 9,
+      "q": "An ECS task in awsvpc network mode needs distinct inbound rules from other tasks. Which resource can be assigned directly to that task networking?",
+      "options": [
+        {
+          "text": "A. A security group on its ENI",
+          "correct": true
+        },
+        {
+          "text": "B. An IAM user access key",
+          "correct": false
+        },
+        {
+          "text": "C. A CloudFront origin policy",
+          "correct": false
+        },
+        {
+          "text": "D. An ECR lifecycle rule",
+          "correct": false
+        }
+      ],
+      "explain": "awsvpc mode gives each task an elastic network interface to which security groups can be attached."
+    },
+    {
+      "uid": "n066",
+      "lesson": 9,
+      "q": "Private ECS tasks must pull ECR images without traversing a NAT gateway. Which design keeps image access on the AWS network?",
+      "options": [
+        {
+          "text": "A. ECR API and DKR interface endpoints plus S3 gateway endpoint",
+          "correct": true
+        },
+        {
+          "text": "B. Internet gateway on each task ENI",
+          "correct": false
+        },
+        {
+          "text": "C. CloudFront distribution for ECR",
+          "correct": false
+        },
+        {
+          "text": "D. Route 53 Resolver outbound endpoint",
+          "correct": false
+        }
+      ],
+      "explain": "Private ECR pulls use ECR interface endpoints and the S3 gateway endpoint for image layers."
+    },
+    {
+      "uid": "n067",
+      "lesson": 9,
+      "q": "An ECS service behind an ALB must maintain six healthy copies during deployments and failures. Which setting represents that application capacity?",
+      "options": [
+        {
+          "text": "A. ECR repository count",
+          "correct": false
+        },
+        {
+          "text": "B. ECS service desired count",
+          "correct": true
+        },
+        {
+          "text": "C. Number of EKS control planes",
+          "correct": false
+        },
+        {
+          "text": "D. Docker image layer count",
+          "correct": false
+        }
+      ],
+      "explain": "The ECS service scheduler maintains the desired task count and replaces unhealthy tasks."
+    },
+    {
+      "uid": "n068",
+      "lesson": 10,
+      "q": "Three services must each receive every order event and process at different rates without losing messages during outages. Which architecture is best?",
+      "options": [
+        {
+          "text": "A. One shared standard SQS queue",
+          "correct": false
+        },
+        {
+          "text": "B. SNS topic with one SQS queue per service",
+          "correct": true
+        },
+        {
+          "text": "C. Direct synchronous Lambda calls",
+          "correct": false
+        },
+        {
+          "text": "D. One Step Functions Express execution",
+          "correct": false
+        }
+      ],
+      "explain": "SNS provides fan-out, while a separate SQS queue gives every service an independent durable backlog."
+    },
+    {
+      "uid": "n069",
+      "lesson": 10,
+      "q": "A payment processor requires ordered messages per customer while different customers can run in parallel. Which SQS feature provides this behavior?",
+      "options": [
+        {
+          "text": "A. Standard queue delay seconds",
+          "correct": false
+        },
+        {
+          "text": "B. FIFO queue message group IDs",
+          "correct": true
+        },
+        {
+          "text": "C. Queue access policy",
+          "correct": false
+        },
+        {
+          "text": "D. Dead-letter redrive allow policy",
+          "correct": false
+        }
+      ],
+      "explain": "FIFO message groups preserve order within each group while allowing multiple groups to be processed concurrently."
+    },
+    {
+      "uid": "n070",
+      "lesson": 10,
+      "q": "A workflow can run for several hours and needs an auditable execution history, human waits, and exactly-once workflow execution semantics. Which service fits?",
+      "options": [
+        {
+          "text": "A. Step Functions Standard",
+          "correct": true
+        },
+        {
+          "text": "B. Step Functions Express",
+          "correct": false
+        },
+        {
+          "text": "C. SNS FIFO only",
+          "correct": false
+        },
+        {
+          "text": "D. SQS standard queue only",
+          "correct": false
+        }
+      ],
+      "explain": "Standard Workflows support long-running, auditable executions and exactly-once workflow execution semantics."
+    },
+    {
+      "uid": "n071",
+      "lesson": 10,
+      "q": "An SQS consumer repeatedly fails a poison message and blocks useful retries. What configuration isolates it after a bounded receive count?",
+      "options": [
+        {
+          "text": "A. Configure a DLQ and maxReceiveCount",
+          "correct": true
+        },
+        {
+          "text": "B. Increase message retention only",
+          "correct": false
+        },
+        {
+          "text": "C. Disable long polling",
+          "correct": false
+        },
+        {
+          "text": "D. Add an SNS message filter",
+          "correct": false
+        }
+      ],
+      "explain": "The redrive policy moves a message to the DLQ after its receive count exceeds maxReceiveCount."
+    },
+    {
+      "uid": "n072",
+      "lesson": 10,
+      "q": "A SaaS application emits events that must route to targets according to fields in each JSON event, with minimal custom routing code. Choose the service.",
+      "options": [
+        {
+          "text": "A. Amazon EventBridge",
+          "correct": true
+        },
+        {
+          "text": "B. Amazon EBS",
+          "correct": false
+        },
+        {
+          "text": "C. Amazon MQ client library only",
+          "correct": false
+        },
+        {
+          "text": "D. S3 Transfer Acceleration",
+          "correct": false
+        }
+      ],
+      "explain": "EventBridge event patterns filter structured events and rules route matching events to supported targets."
+    },
+    {
+      "uid": "n073",
+      "lesson": 11,
+      "q": "A workload may lose at most 15 minutes of committed data after a disaster. Which recovery metric states this requirement?",
+      "options": [
+        {
+          "text": "A. Recovery point objective",
+          "correct": true
+        },
+        {
+          "text": "B. Recovery time objective",
+          "correct": false
+        },
+        {
+          "text": "C. Mean time between failures",
+          "correct": false
+        },
+        {
+          "text": "D. Mean time to repair",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraint is acceptable data loss measured backward from disruption. That is the recovery point objective."
+    },
+    {
+      "uid": "n074",
+      "lesson": 11,
+      "q": "A company can tolerate a 24-hour outage and daily data loss, and it prioritizes the lowest ongoing DR cost. Which strategy is most suitable?",
+      "options": [
+        {
+          "text": "A. Multi-site active-active",
+          "correct": false
+        },
+        {
+          "text": "B. Backup and restore",
+          "correct": true
+        },
+        {
+          "text": "C. Warm standby",
+          "correct": false
+        },
+        {
+          "text": "D. Full-capacity hot standby",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding constraints are long RTO and RPO plus minimum cost. Backup and restore avoids continuously running a recovery environment."
+    },
+    {
+      "uid": "n075",
+      "lesson": 11,
+      "q": "Core databases replicate to a second Region, but application servers are created only after disaster declaration. Which DR strategy does this most closely describe?",
+      "options": [
+        {
+          "text": "A. Backup and restore only",
+          "correct": false
+        },
+        {
+          "text": "B. Multi-site active-active",
+          "correct": false
+        },
+        {
+          "text": "C. Pilot light",
+          "correct": true
+        },
+        {
+          "text": "D. Warm standby",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding pattern is always-on core data infrastructure with application capacity provisioned during recovery. That is pilot light."
+    },
+    {
+      "uid": "n076",
+      "lesson": 11,
+      "q": "A service requires near-zero recovery time and data loss across Regions, and cost is secondary. Which strategy best meets the objectives?",
+      "options": [
+        {
+          "text": "A. Weekly snapshots",
+          "correct": false
+        },
+        {
+          "text": "B. Pilot light",
+          "correct": false
+        },
+        {
+          "text": "C. Warm standby at minimal scale",
+          "correct": false
+        },
+        {
+          "text": "D. Multi-site active-active",
+          "correct": true
+        }
+      ],
+      "explain": "The deciding constraints are near-zero RTO and RPO. Multi-site keeps full service capability active and routes around a failed Region."
+    },
+    {
+      "uid": "n077",
+      "lesson": 11,
+      "q": "An RDS Multi-AZ database survives an Availability Zone failure. Why might this still be insufficient for the stated Regional disaster requirement?",
+      "options": [
+        {
+          "text": "A. Multi-AZ replicas remain in the same Region",
+          "correct": true
+        },
+        {
+          "text": "B. Multi-AZ never provides automatic failover",
+          "correct": false
+        },
+        {
+          "text": "C. Multi-AZ supports only read replicas",
+          "correct": false
+        },
+        {
+          "text": "D. Multi-AZ disables automated backups",
+          "correct": false
+        }
+      ],
+      "explain": "The deciding failure scope is an entire Region. Multi-AZ improves in-Region availability but does not by itself create a cross-Region recovery site."
+    },
+    {
+      "uid": "n078",
+      "lesson": 12,
+      "q": "A company serves private S3 objects globally and wants users unable to bypass the CDN by calling S3 directly. Which configuration is recommended?",
+      "options": [
+        {
+          "text": "A. CloudFront with origin access control and restrictive bucket policy",
+          "correct": true
+        },
+        {
+          "text": "B. Public S3 website endpoint with signed cookies",
+          "correct": false
+        },
+        {
+          "text": "C. Route 53 latency record only",
+          "correct": false
+        },
+        {
+          "text": "D. Global Accelerator endpoint to S3",
+          "correct": false
+        }
+      ],
+      "explain": "OAC lets CloudFront sign S3 origin requests while the bucket policy denies direct public access."
+    },
+    {
+      "uid": "n079",
+      "lesson": 12,
+      "q": "A global TCP application needs two fixed anycast IP addresses and fast endpoint failover unaffected by DNS caches. Which service should front it?",
+      "options": [
+        {
+          "text": "A. CloudFront",
+          "correct": false
+        },
+        {
+          "text": "B. Global Accelerator",
+          "correct": true
+        },
+        {
+          "text": "C. Route 53 geolocation routing",
+          "correct": false
+        },
+        {
+          "text": "D. S3 Multi-Region Access Point",
+          "correct": false
+        }
+      ],
+      "explain": "Global Accelerator supplies static anycast IPs and routes new connections to healthy endpoints over the AWS global network."
+    },
+    {
+      "uid": "n080",
+      "lesson": 12,
+      "q": "Users should resolve to the AWS Region offering the lowest measured network latency, and DNS-based steering is acceptable. Which Route 53 policy fits?",
+      "options": [
+        {
+          "text": "A. Weighted",
+          "correct": false
+        },
+        {
+          "text": "B. Latency-based",
+          "correct": true
+        },
+        {
+          "text": "C. Geolocation",
+          "correct": false
+        },
+        {
+          "text": "D. Multivalue answer without health checks",
+          "correct": false
+        }
+      ],
+      "explain": "Latency-based routing chooses the configured resource in the Region that provides the lowest latency measurement."
+    },
+    {
+      "uid": "n081",
+      "lesson": 12,
+      "q": "A CloudFront distribution has poor cache hit ratio because an unused unique request header is in the cache key. What change most directly improves reuse?",
+      "options": [
+        {
+          "text": "A. Remove the header from the cache policy key",
+          "correct": true
+        },
+        {
+          "text": "B. Lower the minimum TTL to zero",
+          "correct": false
+        },
+        {
+          "text": "C. Add more Route 53 records",
+          "correct": false
+        },
+        {
+          "text": "D. Enable Global Accelerator",
+          "correct": false
+        }
+      ],
+      "explain": "Values included in the cache key create cache variants; removing an irrelevant unique header allows requests to share objects."
+    },
+    {
+      "uid": "n082",
+      "lesson": 12,
+      "q": "A company wants to direct 10% of DNS responses to a new endpoint and 90% to the old endpoint during a gradual release. Which policy is designed for this?",
+      "options": [
+        {
+          "text": "A. Failover",
+          "correct": false
+        },
+        {
+          "text": "B. Weighted",
+          "correct": true
+        },
+        {
+          "text": "C. Geoproximity only",
+          "correct": false
+        },
+        {
+          "text": "D. IP-based without CIDRs",
+          "correct": false
+        }
+      ],
+      "explain": "Weighted records distribute DNS responses according to relative weights and are commonly used for controlled traffic shifts."
+    },
+    {
+      "uid": "n083",
+      "lesson": 13,
+      "q": "Multiple applications must independently consume and replay ordered clickstream records for up to several days. Which ingestion service best meets the need?",
+      "options": [
+        {
+          "text": "A. Kinesis Data Streams",
+          "correct": true
+        },
+        {
+          "text": "B. Data Firehose only",
+          "correct": false
+        },
+        {
+          "text": "C. SNS without queues",
+          "correct": false
+        },
+        {
+          "text": "D. AWS Glue crawler",
+          "correct": false
+        }
+      ],
+      "explain": "Kinesis Data Streams retains records and supports multiple consumers; partition keys order records within a shard."
+    },
+    {
+      "uid": "n084",
+      "lesson": 13,
+      "q": "A company wants a fully managed service to buffer streaming records and deliver compressed files to S3 with almost no consumer code. What should it use?",
+      "options": [
+        {
+          "text": "A. Kinesis Data Streams enhanced fan-out",
+          "correct": false
+        },
+        {
+          "text": "B. Amazon Data Firehose",
+          "correct": true
+        },
+        {
+          "text": "C. Amazon Athena",
+          "correct": false
+        },
+        {
+          "text": "D. Redshift Spectrum only",
+          "correct": false
+        }
+      ],
+      "explain": "Data Firehose manages buffering, optional conversion or transformation, and delivery to destinations such as S3."
+    },
+    {
+      "uid": "n085",
+      "lesson": 13,
+      "q": "Athena queries scan too much S3 data and cost too much. Which two data-layout changes provide the most direct improvement?",
+      "options": [
+        {
+          "text": "A. Convert to Parquet and partition by common predicates",
+          "correct": true
+        },
+        {
+          "text": "B. Convert to XML and merge all dates",
+          "correct": false
+        },
+        {
+          "text": "C. Replicate data to more Regions",
+          "correct": false
+        },
+        {
+          "text": "D. Increase Kinesis shard count",
+          "correct": false
+        }
+      ],
+      "explain": "Columnar Parquet reads needed columns, and partitions let Athena skip files outside common filter predicates."
+    },
+    {
+      "uid": "n086",
+      "lesson": 13,
+      "q": "Analysts need a shared schema registry for S3 datasets discovered automatically and queried by Athena. Which service provides this metadata?",
+      "options": [
+        {
+          "text": "A. AWS Glue Data Catalog",
+          "correct": true
+        },
+        {
+          "text": "B. CloudWatch Logs Insights",
+          "correct": false
+        },
+        {
+          "text": "C. Amazon ECR",
+          "correct": false
+        },
+        {
+          "text": "D. AWS Config aggregator",
+          "correct": false
+        }
+      ],
+      "explain": "Glue crawlers can infer schemas and populate the Glue Data Catalog, which Athena uses for table metadata."
+    },
+    {
+      "uid": "n087",
+      "lesson": 13,
+      "q": "A BI platform runs frequent complex joins over terabytes of curated data and needs a columnar massively parallel warehouse. Which service is designed for it?",
+      "options": [
+        {
+          "text": "A. Amazon Redshift",
+          "correct": true
+        },
+        {
+          "text": "B. Amazon DynamoDB",
+          "correct": false
+        },
+        {
+          "text": "C. Amazon SQS",
+          "correct": false
+        },
+        {
+          "text": "D. AWS DataSync",
+          "correct": false
+        }
+      ],
+      "explain": "Redshift is a columnar MPP data warehouse designed for large-scale analytic queries and joins."
+    },
+    {
+      "uid": "n088",
+      "lesson": 14,
+      "q": "A PostgreSQL database must migrate to Amazon Aurora with minimal downtime while source writes continue until cutover. Which service captures ongoing changes?",
+      "options": [
+        {
+          "text": "A. AWS DMS with CDC",
+          "correct": true
+        },
+        {
+          "text": "B. AWS DataSync",
+          "correct": false
+        },
+        {
+          "text": "C. AWS Snowball Edge only",
+          "correct": false
+        },
+        {
+          "text": "D. S3 Transfer Acceleration",
+          "correct": false
+        }
+      ],
+      "explain": "DMS change data capture replicates ongoing source changes after or during the initial full load."
+    },
+    {
+      "uid": "n089",
+      "lesson": 14,
+      "q": "An enterprise needs scheduled incremental transfers from an on-premises NFS server to S3, including integrity verification. Which service is purpose-built?",
+      "options": [
+        {
+          "text": "A. AWS DataSync",
+          "correct": true
+        },
+        {
+          "text": "B. AWS MGN",
+          "correct": false
+        },
+        {
+          "text": "C. AWS Glue",
+          "correct": false
+        },
+        {
+          "text": "D. Amazon AppFlow",
+          "correct": false
+        }
+      ],
+      "explain": "DataSync is an online transfer service for file and object storage with scheduling, verification, and network controls."
+    },
+    {
+      "uid": "n090",
+      "lesson": 14,
+      "q": "Hundreds of VMware servers must be continuously replicated to AWS and launched as EC2 instances during cutover. Which migration service fits?",
+      "options": [
+        {
+          "text": "A. AWS Application Migration Service",
+          "correct": true
+        },
+        {
+          "text": "B. AWS Database Migration Service",
+          "correct": false
+        },
+        {
+          "text": "C. AWS Transfer Family",
+          "correct": false
+        },
+        {
+          "text": "D. File Gateway",
+          "correct": false
+        }
+      ],
+      "explain": "AWS MGN performs block-level server replication and orchestrates test and cutover launches into EC2."
+    },
+    {
+      "uid": "n091",
+      "lesson": 14,
+      "q": "External partners must upload files over SFTP into Amazon S3 while AWS manages the protocol endpoint. Which service should be selected?",
+      "options": [
+        {
+          "text": "A. AWS Transfer Family",
+          "correct": true
+        },
+        {
+          "text": "B. AWS DataSync agent",
+          "correct": false
+        },
+        {
+          "text": "C. Volume Gateway",
+          "correct": false
+        },
+        {
+          "text": "D. Kinesis Data Streams",
+          "correct": false
+        }
+      ],
+      "explain": "Transfer Family provides managed SFTP, FTPS, FTP, and AS2 endpoints backed by S3 or EFS."
+    },
+    {
+      "uid": "n092",
+      "lesson": 14,
+      "q": "On-premises applications need an NFS file share with local caching while objects are durably stored in S3. Which hybrid service meets this pattern?",
+      "options": [
+        {
+          "text": "A. S3 File Gateway",
+          "correct": true
+        },
+        {
+          "text": "B. AWS DMS",
+          "correct": false
+        },
+        {
+          "text": "C. Snowcone import job",
+          "correct": false
+        },
+        {
+          "text": "D. ECR pull-through cache",
+          "correct": false
+        }
+      ],
+      "explain": "S3 File Gateway exposes NFS or SMB with local caching and stores files as objects in S3."
+    },
+    {
+      "uid": "n093",
+      "lesson": 15,
+      "q": "Security asks which principal called DeleteBucket and from which IP address yesterday. Which AWS service provides the authoritative API activity event?",
+      "options": [
+        {
+          "text": "A. AWS CloudTrail",
+          "correct": true
+        },
+        {
+          "text": "B. Amazon CloudWatch metrics",
+          "correct": false
+        },
+        {
+          "text": "C. AWS Config rule evaluation",
+          "correct": false
+        },
+        {
+          "text": "D. Systems Manager Inventory",
+          "correct": false
+        }
+      ],
+      "explain": "CloudTrail management events record API calls with identity, timestamp, source IP, request, and response details."
+    },
+    {
+      "uid": "n094",
+      "lesson": 15,
+      "q": "A team must detect that an S3 bucket became public and view how its configuration changed over time. Which service directly tracks this state?",
+      "options": [
+        {
+          "text": "A. AWS Config",
+          "correct": true
+        },
+        {
+          "text": "B. AWS CloudTrail Insights only",
+          "correct": false
+        },
+        {
+          "text": "C. CloudWatch Application Signals",
+          "correct": false
+        },
+        {
+          "text": "D. Systems Manager Parameter Store",
+          "correct": false
+        }
+      ],
+      "explain": "Config records resource configuration history and evaluates resources against compliance rules."
+    },
+    {
+      "uid": "n095",
+      "lesson": 15,
+      "q": "Administrators need shell access to private EC2 instances without inbound ports, bastions, or SSH keys. Which Systems Manager feature is designed for this?",
+      "options": [
+        {
+          "text": "A. Session Manager",
+          "correct": true
+        },
+        {
+          "text": "B. Distributor",
+          "correct": false
+        },
+        {
+          "text": "C. OpsCenter only",
+          "correct": false
+        },
+        {
+          "text": "D. CloudFormation drift detection",
+          "correct": false
+        }
+      ],
+      "explain": "Session Manager brokers IAM-controlled sessions through the SSM service without requiring inbound SSH."
+    },
+    {
+      "uid": "n096",
+      "lesson": 15,
+      "q": "A CloudFormation stack resource was manually modified, and operators need to identify divergence from its template. Which feature should they run?",
+      "options": [
+        {
+          "text": "A. CloudFormation drift detection",
+          "correct": true
+        },
+        {
+          "text": "B. CloudTrail log file validation",
+          "correct": false
+        },
+        {
+          "text": "C. CloudWatch anomaly detection",
+          "correct": false
+        },
+        {
+          "text": "D. Control Tower account enrollment",
+          "correct": false
+        }
+      ],
+      "explain": "Drift detection compares supported resources' actual configuration with expected CloudFormation properties."
+    },
+    {
+      "uid": "n097",
+      "lesson": 15,
+      "q": "A company needs a governed multi-account landing zone with account vending and preconfigured controls. Which service provides the highest-level solution?",
+      "options": [
+        {
+          "text": "A. AWS Control Tower",
+          "correct": true
+        },
+        {
+          "text": "B. Amazon CloudWatch",
+          "correct": false
+        },
+        {
+          "text": "C. AWS Systems Manager",
+          "correct": false
+        },
+        {
+          "text": "D. AWS Artifact",
+          "correct": false
+        }
+      ],
+      "explain": "Control Tower orchestrates a landing zone, account factory, centralized controls, and guardrails using underlying AWS services."
+    },
+    {
+      "uid": "n098",
+      "lesson": 16,
+      "q": "A company has a predictable minimum EC2 spend for three years but may change instance families and Regions. Which discount offers the broadest compute flexibility?",
+      "options": [
+        {
+          "text": "A. Compute Savings Plan",
+          "correct": true
+        },
+        {
+          "text": "B. Standard Reserved Instance",
+          "correct": false
+        },
+        {
+          "text": "C. Dedicated Host reservation only",
+          "correct": false
+        },
+        {
+          "text": "D. Spot Instance",
+          "correct": false
+        }
+      ],
+      "explain": "Compute Savings Plans apply across eligible EC2 families, sizes, operating systems, tenancy, and Regions, plus Fargate and Lambda."
+    },
+    {
+      "uid": "n099",
+      "lesson": 16,
+      "q": "Private subnets transfer terabytes to S3 through a NAT gateway every day. Which change most directly removes NAT data-processing charges for this traffic?",
+      "options": [
+        {
+          "text": "A. Add an S3 gateway VPC endpoint",
+          "correct": true
+        },
+        {
+          "text": "B. Buy a NAT gateway reservation",
+          "correct": false
+        },
+        {
+          "text": "C. Add a second internet gateway",
+          "correct": false
+        },
+        {
+          "text": "D. Enable S3 Transfer Acceleration",
+          "correct": false
+        }
+      ],
+      "explain": "An S3 gateway endpoint routes supported S3 traffic without traversing the NAT gateway and has no hourly endpoint charge."
+    },
+    {
+      "uid": "n100",
+      "lesson": 16,
+      "q": "Objects have unpredictable access that changes over time, and operations wants automatic tiering without writing lifecycle timing guesses. Which class fits?",
+      "options": [
+        {
+          "text": "A. S3 Intelligent-Tiering",
+          "correct": true
+        },
+        {
+          "text": "B. S3 Standard only",
+          "correct": false
+        },
+        {
+          "text": "C. S3 One Zone-IA for every object",
+          "correct": false
+        },
+        {
+          "text": "D. S3 Glacier Deep Archive immediately",
+          "correct": false
+        }
+      ],
+      "explain": "Intelligent-Tiering monitors access and automatically moves eligible objects among tiers while preserving millisecond access in online tiers."
+    },
+    {
+      "uid": "n101",
+      "lesson": 16,
+      "q": "A fault-tolerant batch fleet can lose workers and resume jobs from checkpoints. Which EC2 purchasing option usually offers the deepest discount?",
+      "options": [
+        {
+          "text": "A. Spot Instances",
+          "correct": true
+        },
+        {
+          "text": "B. On-Demand Capacity Reservations",
+          "correct": false
+        },
+        {
+          "text": "C. Dedicated Hosts",
+          "correct": false
+        },
+        {
+          "text": "D. Standard On-Demand only",
+          "correct": false
+        }
+      ],
+      "explain": "Spot uses spare EC2 capacity at steep discounts but can be interrupted, making checkpointed fault-tolerant batch a strong fit."
+    },
+    {
+      "uid": "n102",
+      "lesson": 16,
+      "q": "Athena costs increased after analysts began querying raw JSON logs across all dates. Which redesign lowers scanned bytes without changing the query service?",
+      "options": [
+        {
+          "text": "A. Store partitioned Parquet and filter partitions",
+          "correct": true
+        },
+        {
+          "text": "B. Copy JSON through a NAT gateway",
+          "correct": false
+        },
+        {
+          "text": "C. Increase CloudWatch retention",
+          "correct": false
+        },
+        {
+          "text": "D. Purchase EC2 Reserved Instances",
+          "correct": false
+        }
+      ],
+      "explain": "Athena charges primarily by bytes scanned; columnar compression and partition pruning directly reduce scanned data."
+    },
+    {
+      "uid": "n103",
+      "lesson": 17,
+      "q": "A question asks for the least operationally intensive highly available relational database. Which clue should dominate when several technically valid designs appear?",
+      "options": [
+        {
+          "text": "A. Choose the managed Multi-AZ option satisfying all constraints",
+          "correct": true
+        },
+        {
+          "text": "B. Choose the design with the most services",
+          "correct": false
+        },
+        {
+          "text": "C. Build manual replication on EC2",
+          "correct": false
+        },
+        {
+          "text": "D. Ignore the operational requirement",
+          "correct": false
+        }
+      ],
+      "explain": "The explicit superlative is decisive: a managed Multi-AZ database generally minimizes administration while meeting availability."
+    },
+    {
+      "uid": "n104",
+      "lesson": 17,
+      "q": "A workload can tolerate hours of recovery and up to one day of data loss. Which disaster-recovery strategy is usually the most cost-effective starting point?",
+      "options": [
+        {
+          "text": "A. Backup and restore",
+          "correct": true
+        },
+        {
+          "text": "B. Multi-site active-active",
+          "correct": false
+        },
+        {
+          "text": "C. Warm standby at full production scale",
+          "correct": false
+        },
+        {
+          "text": "D. Synchronous writes to three Regions",
+          "correct": false
+        }
+      ],
+      "explain": "Relaxed RTO and RPO commonly permit backup and restore, which has lower steady-state cost than continuously running environments."
+    },
+    {
+      "uid": "n105",
+      "lesson": 17,
+      "q": "An order API must respond quickly even when fulfillment is slow or unavailable. Which general architecture pattern best isolates the user request path?",
+      "options": [
+        {
+          "text": "A. Put durable messaging between order acceptance and fulfillment",
+          "correct": true
+        },
+        {
+          "text": "B. Call every fulfillment step synchronously",
+          "correct": false
+        },
+        {
+          "text": "C. Increase DNS TTL",
+          "correct": false
+        },
+        {
+          "text": "D. Store orders only in instance memory",
+          "correct": false
+        }
+      ],
+      "explain": "A durable queue decouples availability and rate, allowing the API to acknowledge accepted work without waiting for fulfillment."
+    },
+    {
+      "uid": "n106",
+      "lesson": 17,
+      "q": "Two answers meet functional needs, but one uses self-managed clusters and the other a managed service with equivalent controls. The stem says minimize operations. Choose what?",
+      "options": [
+        {
+          "text": "A. The managed service",
+          "correct": true
+        },
+        {
+          "text": "B. The self-managed cluster",
+          "correct": false
+        },
+        {
+          "text": "C. Whichever answer is longer",
+          "correct": false
+        },
+        {
+          "text": "D. The option with more EC2 instances",
+          "correct": false
+        }
+      ],
+      "explain": "When constraints are otherwise equal, the managed service directly satisfies the requirement to minimize operational overhead."
+    },
+    {
+      "uid": "n107",
+      "lesson": 17,
+      "q": "A design is Multi-AZ but has synchronous dependencies on one regional external endpoint. What exam habit most likely reveals this hidden availability risk?",
+      "options": [
+        {
+          "text": "A. Trace the full request and failure path",
+          "correct": true
+        },
+        {
+          "text": "B. Count only the number of AZs",
+          "correct": false
+        },
+        {
+          "text": "C. Select the newest AWS service",
+          "correct": false
+        },
+        {
+          "text": "D. Ignore dependencies outside compute",
+          "correct": false
+        }
+      ],
+      "explain": "End-to-end tracing exposes dependencies whose failure can defeat otherwise redundant compute and storage layers."
+    }
+  ]
+}
