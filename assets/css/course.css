@@ -182,12 +182,21 @@ body:has(.lesson-intro) .topbar{background:var(--panel2);border-bottom:none;back
 .visual-rules p{color:var(--muted);font-size:.82rem;margin:3px 0}
 .deep-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
 .deep-card{border:1px solid var(--line);border-radius:15px;padding:16px;background:linear-gradient(180deg,var(--card-shine),transparent)}
-.deep-card:nth-child(5){grid-column:1/-1}
+.deep-card-wide{grid-column:1/-1}
 .deep-head{display:flex;gap:10px;align-items:center}
 .deep-head span{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-weight:900}
 .deep-head h3{margin:0}
-.deep-card ul{padding-left:20px;margin:10px 0 0}
+.deep-card p{color:var(--soft);font-size:.9rem;margin:10px 0 0;max-width:70rem}
+.deep-card h4{margin:16px 0 0;font-size:.95rem}
+.deep-card ul,.deep-card ol{padding-left:20px;margin:10px 0 0}
 .deep-card li{color:var(--soft);margin:7px 0;font-size:.9rem}
+.deep-card .tablewrap{margin-top:12px}
+.deep-card .tablewrap table{min-width:540px}
+.deep-demo{margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--bg2)}
+.deep-demo .scenario-label{margin-bottom:4px}
+.deep-demo h4{margin:12px 0 0}
+.deep-demo h4:first-of-type{margin-top:6px}
+.deep-demo .tablewrap{margin-top:10px}
 .tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px}
 table{width:100%;border-collapse:collapse;min-width:760px}
 th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
@@ -227,7 +236,6 @@ td:nth-child(2){color:var(--text-strong);font-weight:750}
 @media(max-width:900px){
   .domain-grid,.method-grid{grid-template-columns:1fr 1fr}
   .lesson-list,.deep-grid,.decoder-grid{grid-template-columns:1fr}
-  .deep-card:nth-child(5){grid-column:auto}
   .visual-rules{grid-template-columns:1fr 1fr}
   .atlas-grid{grid-template-columns:1fr}
   #progText{display:none}
