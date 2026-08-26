@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('saaC03Theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revision · SAA-C03</title>
+<meta name="description" content="Questions you marked for revision and questions you answered incorrectly, gathered from every SAA-C03 lesson.">
+<meta property="og:title" content="Revision · Unofficial Study Aid AWS SAA-C03">
+<meta property="og:description" content="Questions you marked for revision and questions you answered incorrectly, gathered from every SAA-C03 lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/course.css?v=20260826f">
+</head>
+<body>
+<div class="topbar"><div class="topin">
+<a class="brand" href="index.html">Unofficial Study Aid <em>AWS SAA-C03</em></a>
+<div class="prog"><div id="progBar"></div></div>
+<div id="progText">0 / 17 complete</div>
+<a class="review-link is-current" href="review.html" aria-current="page">Revision<span class="review-count" data-review-count hidden>0</span></a>
+<button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to light colour scheme" title="Switch to light"><span class="theme-icon" aria-hidden="true">☀</span><span>Light</span></button>
+</div></div>
+
+<main>
+<section id="review">
+  <div class="hero">
+    <a class="back" href="index.html">← Course index</a>
+    <div class="eyebrow">Revision</div>
+    <h1>Marked questions and<br>missed answers</h1>
+    <p class="lead">Everything you flagged while working through the lessons, plus every question you have answered incorrectly — gathered from all 17 lessons. Answer them again here, or open a question in its lesson to re-read the teaching around it.</p>
+    <div class="info-note"><b>How to use this page:</b> Work the <b>Answered incorrectly</b> list first — those are your measured weak spots. Questions stay on the list after you get them right on a retry, so you can see whether the fix held; use <b>Remove from revision list</b> once you are confident. Marks and answer history are stored in this browser only.</div>
+    <div class="disclaimer"><b>Disclaimer:</b> Unofficial study aid, not affiliated with Amazon Web Services. Always verify details against the current <a href="https://docs.aws.amazon.com/aws-certification/latest/solutions-architect-associate-03/solutions-architect-associate-03.html" target="_blank" rel="noopener">SAA-C03 exam guide</a> and AWS documentation.</div>
+  </div>
+
+  <div id="reviewApp" data-bank="assets/data/questions.json">
+    <div class="review-toolbar">
+      <div class="scenario-tabs" role="tablist" aria-label="Revision lists">
+        <button type="button" class="scenario-tab active" data-review-tab="marked" role="tab" aria-selected="true">Marked for revision <span class="tab-count" data-tab-count>0</span></button>
+        <button type="button" class="scenario-tab" data-review-tab="missed" role="tab" aria-selected="false">Answered incorrectly <span class="tab-count" data-tab-count>0</span></button>
+      </div>
+      <div class="review-actions">
+        <button type="button" class="reset" id="clearMarks">Clear marked</button>
+        <button type="button" class="reset" id="clearAnswers">Clear answer history</button>
+      </div>
+    </div>
+    <div id="reviewList" class="review-list"><div class="review-empty"><b>Loading your revision lists…</b></div></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+Unofficial study aid for AWS SAA-C03 · MIT License · <a href="index.html">Course home</a> ·
+<a href="appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
+</footer>
+<script src="assets/js/course.js?v=20260826f"></script>
+</body></html>
