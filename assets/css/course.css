@@ -268,8 +268,12 @@ td:nth-child(2){color:var(--text-strong);font-weight:750}
 .qtop{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
 .qtop span{color:var(--accent);font-weight:900}
 .option{display:block;width:100%;text-align:left;border:1px solid var(--border-strong);border-radius:9px;padding:10px 12px;margin:7px 0;background:var(--option-bg);color:var(--soft);cursor:pointer}
+.option.selected{border-color:var(--accent);background:var(--brand-subtle);color:var(--text-strong)}
 .option.correct{border-color:var(--teal);background:var(--teal-soft-strong)}
 .option.wrong{border-color:var(--red);background:var(--red-soft)}
+.quiz-submit{display:block;width:100%;text-align:center;border:1px solid var(--accent);border-radius:9px;padding:10px 12px;margin:10px 0 7px;background:var(--brand-subtle);color:var(--accent);font-weight:800;cursor:pointer}
+.quiz-submit:hover{background:var(--teal-soft)}
+.quiz-submit:disabled{opacity:.55;cursor:default}
 .feedback{display:none;color:var(--soft);margin-top:9px}
 .mark-btn{
   flex:none;margin-left:auto;display:inline-flex;align-items:center;gap:6px;

@@ -69,15 +69,7 @@ function showScenario(lesson, i, btn) {
   if (panel) panel.classList.add('active');
 }
 
-function answer(el, correct, id) {
-  const card = el.closest('.quiz-card');
-  card.querySelectorAll('.option').forEach((x) => { x.disabled = true; });
-  el.classList.add(correct ? 'correct' : 'wrong');
-  if (!correct) {
-    card.querySelectorAll('.option').forEach((x) => {
-      if ((x.getAttribute('onclick') || '').includes(',true,')) x.classList.add('correct');
-    });
-  }
+function finishQuizCard(card, id, correct) {
   const fb = card.querySelector('.feedback') || document.getElementById(id);
   if (fb) fb.style.display = 'block';
   const uid = card.dataset.uid;
@@ -88,6 +80,61 @@ function answer(el, correct, id) {
     paintReviewStatus(card);
     updateReviewTabCounts();
   }
+}
+
+function answer(el, correct, id) {
+  const card = el.closest('.quiz-card');
+  card.querySelectorAll('.option').forEach((x) => { x.disabled = true; });
+  el.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) {
+    card.querySelectorAll('.option').forEach((x) => {
+      if ((x.getAttribute('onclick') || '').includes(',true,')) x.classList.add('correct');
+    });
+  }
+  finishQuizCard(card, id, correct);
+}
+
+function quizCardById(id) {
+  const fb = document.getElementById(id);
+  if (fb) return fb.closest('.quiz-card');
+  return document.getElementById('card-' + id);
+}
+
+function pick(el, id) {
+  const card = el.closest('.quiz-card') || quizCardById(id);
+  if (!card || card.dataset.locked === 'true') return;
+  const need = Number(card.dataset.need || 2);
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    el.setAttribute('aria-pressed', 'false');
+    return;
+  }
+  if (card.querySelectorAll('.option.selected').length >= need) return;
+  el.classList.add('selected');
+  el.setAttribute('aria-pressed', 'true');
+}
+
+function submitMulti(id) {
+  const card = quizCardById(id);
+  if (!card || card.dataset.locked === 'true') return;
+  const need = Number(card.dataset.need || 2);
+  const selected = [...card.querySelectorAll('.option.selected')];
+  if (selected.length !== need) return;
+  card.dataset.locked = 'true';
+  card.querySelectorAll('.option').forEach((x) => { x.disabled = true; });
+  const submit = card.querySelector('.quiz-submit');
+  if (submit) submit.disabled = true;
+  const correctOpts = [...card.querySelectorAll('.option[data-correct="true"]')];
+  const selectedSet = new Set(selected);
+  const allCorrect = selected.length === correctOpts.length
+    && correctOpts.every((opt) => selectedSet.has(opt));
+  selected.forEach((opt) => {
+    opt.classList.add(opt.getAttribute('data-correct') === 'true' ? 'correct' : 'wrong');
+  });
+  if (!allCorrect) {
+    correctOpts.forEach((opt) => opt.classList.add('correct'));
+  }
+  finishQuizCard(card, id, allCorrect);
 }
 
 function readStore(key, fallback) {
@@ -648,21 +695,39 @@ function paintReviewStatus(card) {
   if (slot) slot.innerHTML = reviewStatusHTML(card.dataset.uid);
 }
 
+function answerLetters(options) {
+  const letters = options
+    .map((opt, i) => (opt.correct ? String.fromCharCode(65 + i) : null))
+    .filter(Boolean);
+  return letters.join(' and ');
+}
+
 function buildReviewCard(item) {
   const qid = 'q-' + item.lesson + '-' + item.num;
   const lesson = reviewLessonMeta(item.lesson);
-  const correctIndex = item.options.findIndex((opt) => opt.correct);
-  const options = item.options.map((opt) => (
-    '<button type="button" class="option" onclick="answer(this,' + Boolean(opt.correct)
-    + ",'" + qid + "')\">" + escapeHTML(opt.text) + '</button>'
-  )).join('');
-  let feedback = '<strong>Answer: ' + String.fromCharCode(65 + correctIndex) + '.</strong> '
+  const correctCount = item.options.filter((opt) => opt.correct).length;
+  const isMulti = correctCount > 1;
+  const options = isMulti
+    ? item.options.map((opt) => (
+      '<button type="button" class="option" data-correct="' + Boolean(opt.correct)
+      + '" onclick="pick(this,\'' + qid + '\')" aria-pressed="false">'
+      + escapeHTML(opt.text) + '</button>'
+    )).join('')
+      + '<button type="button" class="quiz-submit" onclick="submitMulti(\'' + qid
+      + '\')">Check answer</button>'
+    : item.options.map((opt) => (
+      '<button type="button" class="option" onclick="answer(this,' + Boolean(opt.correct)
+      + ",'" + qid + "')\">" + escapeHTML(opt.text) + '</button>'
+    )).join('');
+  let feedback = '<strong>Answer: ' + answerLetters(item.options) + '.</strong> '
     + escapeHTML(item.explain);
   if (item.good_to_know) {
     feedback += ' <br><br><strong>Good to know:</strong> ' + escapeHTML(item.good_to_know);
   }
   const href = 'lessons/' + lesson.slug + '.html#card-' + qid;
-  return '<div class="quiz-card review-card" id="card-' + qid + '" data-uid="' + item.uid + '">'
+  const needAttr = isMulti ? ' data-need="' + correctCount + '"' : '';
+  return '<div class="quiz-card review-card" id="card-' + qid + '" data-uid="' + item.uid + '"'
+    + needAttr + '>'
     + '<div class="review-meta">'
     + '<a class="review-origin" href="' + href + '">Lesson '
     + String(item.lesson).padStart(2, '0') + ' · ' + escapeHTML(lesson.title)

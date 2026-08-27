@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "next_uid": 108,
+  "next_uid": 126,
   "lessons": [
     {
       "n": 1,
@@ -715,174 +715,657 @@
       "good_to_know": "A NAT Gateway is zonal too; it does not change the subnet’s AZ. Regional services such as an Internet Gateway or an ALB still place nodes or attachments in specific subnets."
     },
     {
-      "uid": "n026",
-      "lesson": 2,
-      "q": "Fifty VPCs need transitive connectivity to each other and to on-premises networks with centralized route segmentation. Which service best fits?",
-      "options": [
-        {
-          "text": "A. VPC peering mesh",
-          "correct": false
-        },
-        {
-          "text": "B. AWS Transit Gateway",
-          "correct": true
-        },
-        {
-          "text": "C. AWS PrivateLink",
-          "correct": false
-        },
-        {
-          "text": "D. Route 53 private hosted zone",
-          "correct": false
-        }
-      ],
-      "explain": "The deciding constraints are transitive routing and scale. Transit Gateway provides a managed hub with multiple route tables."
-    },
-    {
-      "uid": "n027",
-      "lesson": 2,
-      "q": "A partner must consume one TCP service privately from a VPC whose CIDR overlaps the provider VPC. The provider must not share network routes. What should be used?",
-      "options": [
-        {
-          "text": "A. VPC peering",
-          "correct": false
-        },
-        {
-          "text": "B. Transit Gateway peering",
-          "correct": false
-        },
-        {
-          "text": "C. PrivateLink endpoint service",
-          "correct": true
-        },
-        {
-          "text": "D. Site-to-site VPN",
-          "correct": false
-        }
-      ],
-      "explain": "The deciding constraints are overlapping CIDRs and service-only exposure. PrivateLink maps endpoint ENIs to a published service without routed connectivity."
-    },
-    {
-      "uid": "n028",
-      "lesson": 2,
-      "q": "A company needs a dedicated, predictable path from its data center to AWS, but all application traffic must also be encrypted in transit. Which design works?",
-      "options": [
-        {
-          "text": "A. Direct Connect only",
-          "correct": false
-        },
-        {
-          "text": "B. Internet gateway with TLS termination disabled",
-          "correct": false
-        },
-        {
-          "text": "C. VPC peering over Direct Connect",
-          "correct": false
-        },
-        {
-          "text": "D. VPN over Direct Connect",
-          "correct": true
-        }
-      ],
-      "explain": "The deciding constraints are dedicated performance and encryption. Direct Connect supplies the path, while the VPN supplies IPsec encryption."
-    },
-    {
-      "uid": "n029",
-      "lesson": 2,
-      "q": "On-premises DNS servers must resolve records in Route 53 private hosted zones. Which component accepts those DNS queries inside the VPC?",
-      "options": [
-        {
-          "text": "A. Route 53 Resolver inbound endpoint",
-          "correct": true
-        },
-        {
-          "text": "B. Route 53 Resolver outbound endpoint",
-          "correct": false
-        },
-        {
-          "text": "C. Public hosted zone alias",
-          "correct": false
-        },
-        {
-          "text": "D. Transit Gateway Connect",
-          "correct": false
-        }
-      ],
-      "explain": "The deciding direction is on premises to AWS. A Resolver inbound endpoint receives forwarded queries for private AWS namespaces."
-    },
-    {
       "uid": "n030",
       "lesson": 2,
-      "q": "Two VPCs have a peering connection, and one is connected to a third VPC. The first VPC cannot reach the third through the second. What explains this?",
+      "q": "A company connects VPC A to VPC B with a VPC peering connection, and connects VPC B to VPC C with a second peering connection. An application in VPC A must send packets to an Amazon EC2 instance in VPC C by using private IP addresses. The CIDR blocks do not overlap. After the second peering connection is active, VPC A still cannot reach VPC C. Which explanation accounts for this behavior?",
       "options": [
         {
-          "text": "A. Peering supports only IPv6 transit",
+          "text": "A. Security groups cannot reference a peer in another VPC, so the packets are dropped after routing succeeds.",
           "correct": false
         },
         {
-          "text": "B. VPC peering is non-transitive",
+          "text": "B. VPC peering is non-transitive; VPC A and VPC C need their own peering connection or an AWS Transit Gateway.",
           "correct": true
         },
         {
-          "text": "C. Route 53 blocks peered routes",
+          "text": "C. Amazon Route 53 Resolver blocks private DNS names across a chain of peering connections.",
           "correct": false
         },
         {
-          "text": "D. Security groups cannot reference peers",
+          "text": "D. Cross-account peering requires AWS PrivateLink even when the CIDR blocks do not overlap.",
           "correct": false
         }
       ],
-      "explain": "The deciding topology rule is that VPC peering is non-transitive; each required VPC pair needs a direct connection or a routing hub."
+      "explain": "VPC peering is point-to-point. A–B plus B–C does not create a route from A to C. Each pair needs a direct peering connection, or the VPCs need a Transit Gateway hub.",
+      "good_to_know": "In the same Region, a security group can reference a peered security group. That is not why A cannot reach C. PrivateLink is the tool when you must expose one service without routing entire CIDRs, not a requirement of peering itself."
     },
     {
       "uid": "n031",
       "lesson": 2,
-      "q": "A company attempts to create a VPC Peering connection between VPC A (10.0.0.0/16) and VPC B (10.0.128.0/17). The operation fails or routing behaves erratically. Upon inspection, it is found that parts of the CIDR blocks overlap or conflict with existing routes. What is the core restriction regarding CIDR blocks in VPC Peering?",
+      "q": "A company wants to create a VPC peering connection between VPC A (10.0.0.0/16) in one AWS account and VPC B (10.0.128.0/17) in a second account in the same AWS Region. The peering connection fails to create. The accounts are different and the prefix lengths are not the same. Which restriction is causing the failure?",
       "options": [
         {
-          "text": "A. VPC Peering is not supported across different AWS accounts within the same region.",
+          "text": "A. VPC peering is not supported across AWS accounts in the same Region.",
           "correct": false
         },
         {
-          "text": "B. Both peered VPCs must possess identical netmask CIDR lengths.",
+          "text": "B. Peered VPCs must use identical prefix lengths, such as /16 and /16.",
           "correct": false
         },
         {
-          "text": "C. Peered VPCs are prohibited from using standard RFC 1918 private address spaces.",
+          "text": "C. Peered VPCs cannot use RFC 1918 private address space.",
           "correct": false
         },
         {
-          "text": "D. The CIDR blocks of the peered VPCs cannot overlap or have matching routing conflicts.",
+          "text": "D. The CIDR blocks overlap; 10.0.128.0/17 sits inside 10.0.0.0/16.",
           "correct": true
         }
       ],
-      "explain": "Peered VPC CIDRs must not overlap. 10.0.128.0/17 sits inside 10.0.0.0/16, so peering cannot be used. Cross-account peering is supported when CIDRs are unique.",
-      "good_to_know": "Peering across AWS accounts and across Regions is supported when CIDRs do not overlap. Identical netmask lengths are not required."
+      "explain": "Peered VPC CIDRs cannot overlap. 10.0.128.0/17 is a subset of 10.0.0.0/16, so peering cannot be created. Cross-account peering is supported, and identical prefix lengths are not required.",
+      "good_to_know": "Peering across accounts and across Regions is supported when CIDRs do not overlap. If the CIDRs overlap, use AWS PrivateLink for service-only access or renumber one VPC."
+    },
+    {
+      "uid": "n111",
+      "lesson": 2,
+      "q": "A company has VPC A in the us-east-1 Region in one AWS account and VPC B in the eu-west-1 Region in a second account. The CIDR blocks do not overlap. Applications in VPC A must send packets to private IP addresses in VPC B and must resolve Amazon EC2 private DNS names that belong to VPC B. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Create a VPC peering connection between VPC A and VPC B, and add routes for each peer CIDR.",
+          "correct": true
+        },
+        {
+          "text": "B. Create an AWS Transit Gateway in us-east-1 only and attach both VPCs to that transit gateway.",
+          "correct": false
+        },
+        {
+          "text": "C. Enable DNS resolution on the peering connection so VPC A can resolve EC2 private DNS names in VPC B.",
+          "correct": true
+        },
+        {
+          "text": "D. Create an AWS PrivateLink endpoint service for every instance in VPC B.",
+          "correct": false
+        },
+        {
+          "text": "E. Associate a Route 53 public hosted zone with both VPCs.",
+          "correct": false
+        }
+      ],
+      "explain": "Peering works across accounts and Regions when CIDRs do not overlap. Routes make the packets flow. Enabling DNS resolution on the peering connection is a separate setting that lets instances resolve private DNS names in the peer VPC.",
+      "good_to_know": "A Transit Gateway is regional. Attaching a VPC in another Region requires a second transit gateway and a transit gateway peering attachment. PrivateLink would expose a service, not arbitrary private IPs and EC2 DNS names."
+    },
+    {
+      "uid": "n112",
+      "lesson": 2,
+      "q": "A company has two VPCs in the same AWS Region and the same AWS account. The CIDR blocks do not overlap. The VPCs must route traffic to each other. The company does not expect to add more VPCs or connect an on-premises network. Which solution will meet these requirements with the LEAST operational overhead?",
+      "options": [
+        {
+          "text": "A. Create a VPC peering connection and add routes for the peer CIDR in each VPC.",
+          "correct": true
+        },
+        {
+          "text": "B. Create an AWS Transit Gateway and attach both VPCs.",
+          "correct": false
+        },
+        {
+          "text": "C. Create an AWS PrivateLink endpoint service in each VPC.",
+          "correct": false
+        },
+        {
+          "text": "D. Create an AWS Site-to-Site VPN between the two VPCs.",
+          "correct": false
+        }
+      ],
+      "explain": "Two non-overlapping VPCs with no need for transitive routing are the peering case. A transit gateway would work but adds a hub to operate. PrivateLink shares a service, not the whole CIDR. A Site-to-Site VPN is a hybrid pattern.",
+      "good_to_know": "Choose a Transit Gateway when the number of VPCs will grow, when on-premises must join the same hub, or when you need centralized route tables. Peering is the simple point-to-point answer only while the mesh stays small."
+    },
+    {
+      "uid": "n026",
+      "lesson": 2,
+      "q": "A company operates 50 VPCs across several AWS accounts in a single AWS Region. The VPCs must communicate with each other and with an on-premises network that connects to AWS through AWS Direct Connect. The company currently maintains a mesh of VPC peering connections and finds that each new VPC requires many new connections and route table updates. Which solution will meet these requirements with the LEAST operational overhead?",
+      "options": [
+        {
+          "text": "A. Continue to use VPC peering and enable route propagation on every peering connection.",
+          "correct": false
+        },
+        {
+          "text": "B. Create an AWS Transit Gateway. Attach each VPC and the Direct Connect gateway to the transit gateway. Use transit gateway route tables to control routing.",
+          "correct": true
+        },
+        {
+          "text": "C. Create an AWS PrivateLink endpoint service in each VPC and interface endpoints in every other VPC.",
+          "correct": false
+        },
+        {
+          "text": "D. Associate one Route 53 private hosted zone with every VPC so that names resolve across accounts.",
+          "correct": false
+        }
+      ],
+      "explain": "Transit Gateway is the transitive hub for many VPCs plus hybrid attachments. Peering is not transitive and a mesh grows with every new VPC. PrivateLink does not join networks. A private hosted zone is DNS, not a packet path.",
+      "good_to_know": "Route 53 private hosted zones can make names resolve across those VPCs, but they do not move packets. PrivateLink is the right tool when each VPC should consume one service without sharing routes."
+    },
+    {
+      "uid": "n113",
+      "lesson": 2,
+      "q": "A company attaches production, development, and shared-services VPCs to one AWS Transit Gateway in a single AWS Region. Production and development must each reach directory and logging services in the shared-services VPC. A compliance rule requires that production must not be able to route to development. All three VPC CIDR blocks are unique. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create two Transit Gateway route tables. Associate production with one table and development with the other. Propagate only the shared-services attachment into both tables.",
+          "correct": true
+        },
+        {
+          "text": "B. Create a VPC peering connection between production and development and rely on security groups to block traffic.",
+          "correct": false
+        },
+        {
+          "text": "C. Disable route propagation on the Transit Gateway and use Route 53 Resolver to isolate the domains.",
+          "correct": false
+        },
+        {
+          "text": "D. Attach production and development to the same Transit Gateway route table and add a default route to shared services.",
+          "correct": false
+        }
+      ],
+      "explain": "Transit Gateway route tables control which attachments can reach which others. Separate associations keep production and development from learning each other's routes, while both still learn shared services.",
+      "good_to_know": "Security groups can still restrict ports after routing exists, but they do not remove a route that a shared Transit Gateway table already advertised. DNS isolation does not stop packets that have a route."
+    },
+    {
+      "uid": "n114",
+      "lesson": 2,
+      "q": "A company has several VPCs in the us-east-1 Region and several VPCs in the eu-west-1 Region. An on-premises data center must reach both Regions over one AWS Direct Connect connection. VPCs in each Region must also communicate with each other by using private IP addresses, including traffic between the two Regions. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Associate each VPC's virtual private gateway with a Direct Connect gateway attached to the connection.",
+          "correct": false
+        },
+        {
+          "text": "B. Create a Transit Gateway in each Region and associate both transit gateways with a Direct Connect gateway.",
+          "correct": true
+        },
+        {
+          "text": "C. Create VPC peering connections from each VPC to a single hub VPC that has a virtual private gateway.",
+          "correct": false
+        },
+        {
+          "text": "D. Create an AWS Site-to-Site VPN from on-premises to each VPC.",
+          "correct": false
+        },
+        {
+          "text": "E. Create a Transit Gateway peering attachment between the two Regions and add routes for the remote CIDRs.",
+          "correct": true
+        }
+      ],
+      "explain": "A Direct Connect gateway associated with virtual private gateways is not transitive between those VPCs. Transit Gateways in each Region associated with a Direct Connect gateway give hybrid reach. Transit Gateway peering is the separate path that carries VPC-to-VPC traffic between Regions.",
+      "good_to_know": "Associating many virtual private gateways with one Direct Connect gateway is a valid hybrid pattern when the VPCs do not need to talk to each other through that path. The extra constraint here is VPC-to-VPC, which is what forces Transit Gateway peering."
+    },
+    {
+      "uid": "n115",
+      "lesson": 2,
+      "q": "A company has an AWS Transit Gateway in us-east-1 with 12 VPC attachments and another Transit Gateway in eu-west-1 with 8 VPC attachments. VPCs in us-east-1 must send private traffic to VPCs in eu-west-1. The CIDR blocks do not overlap. Which solution will meet these requirements with the LEAST operational overhead?",
+      "options": [
+        {
+          "text": "A. Create a VPC peering connection between every us-east-1 VPC and every eu-west-1 VPC.",
+          "correct": false
+        },
+        {
+          "text": "B. Create a Transit Gateway peering attachment between the two transit gateways and add routes for the remote CIDR blocks.",
+          "correct": true
+        },
+        {
+          "text": "C. Create an AWS PrivateLink endpoint in each VPC for every workload in the other Region.",
+          "correct": false
+        },
+        {
+          "text": "D. Move every VPC into a single AWS Region.",
+          "correct": false
+        }
+      ],
+      "explain": "Transit Gateway peering joins two regional hubs so every attached VPC can reach the remote CIDRs through one attachment, instead of a cross-Region peering mesh.",
+      "good_to_know": "A full VPC peering mesh across 12 × 8 VPCs is operationally heavy and still non-transitive. PrivateLink is service-scoped and would require an endpoint per consumer–provider pair."
+    },
+    {
+      "uid": "n125",
+      "lesson": 2,
+      "q": "A company wants all east-west traffic between spoke VPCs to pass through a shared inspection VPC that runs firewall appliances. The company already uses AWS Transit Gateway to attach the spoke VPCs and the inspection VPC. Spoke VPCs must not learn routes to each other directly. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Associate the spoke attachments with a route table that sends inter-VPC traffic to the inspection attachment. Associate the inspection attachment with a route table that has routes back to the spokes.",
+          "correct": true
+        },
+        {
+          "text": "B. Create VPC peering connections from each spoke to every other spoke and detach the Transit Gateway.",
+          "correct": false
+        },
+        {
+          "text": "C. Create a gateway VPC endpoint in the inspection VPC for every spoke CIDR.",
+          "correct": false
+        },
+        {
+          "text": "D. Use Amazon Route 53 weighted routing to send packets through the inspection VPC.",
+          "correct": false
+        }
+      ],
+      "explain": "Centralized inspection is a Transit Gateway routing pattern: spokes do not learn each other's routes directly. They send east-west traffic to the inspection attachment, and the inspection VPC routes back to the spokes.",
+      "good_to_know": "Gateway VPC endpoints exist only for Amazon S3 and DynamoDB prefix lists, not for arbitrary spoke CIDRs. Route 53 can change which name a client resolves; it does not steer packets through a firewall VPC."
+    },
+    {
+      "uid": "n116",
+      "lesson": 2,
+      "q": "A company needs encrypted connectivity from its on-premises network to a VPC within two days so that a migration can start. The company already has a reliable internet connection at the data center. Consistent latency is not required for this phase. The company will evaluate AWS Direct Connect after the application is running. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create an AWS Site-to-Site VPN to a virtual private gateway or Transit Gateway.",
+          "correct": true
+        },
+        {
+          "text": "B. Order a dedicated AWS Direct Connect connection and wait for the cross-connect.",
+          "correct": false
+        },
+        {
+          "text": "C. Create an AWS Client VPN endpoint and enroll the on-premises routers as users.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a VPC peering connection from the on-premises CIDR to the VPC.",
+          "correct": false
+        }
+      ],
+      "explain": "A Site-to-Site VPN can be brought up quickly over existing internet connectivity and provides IPsec encryption. Direct Connect is the dedicated path but is not the fast option. Client VPN is for remote users, not site routers. Peering does not connect on-premises networks.",
+      "good_to_know": "When the exam later asks for predictable throughput, switch the answer to Direct Connect. When it asks for encryption on that dedicated path, add a VPN over Direct Connect (or MACsec where supported)."
+    },
+    {
+      "uid": "n117",
+      "lesson": 2,
+      "q": "A company uses an AWS Site-to-Site VPN from one customer gateway device to a virtual private gateway. The AWS Management Console shows two tunnels on that VPN connection. During a maintenance window on the customer gateway, the VPN is unavailable even though both tunnels were healthy the day before. Which solution will provide high availability on the on-premises side?",
+      "options": [
+        {
+          "text": "A. Create a second customer gateway on a second on-premises device and a second Site-to-Site VPN connection.",
+          "correct": true
+        },
+        {
+          "text": "B. Enable acceleration on the existing VPN connection.",
+          "correct": false
+        },
+        {
+          "text": "C. Replace the virtual private gateway with an internet gateway.",
+          "correct": false
+        },
+        {
+          "text": "D. Add a NAT gateway in front of the customer gateway.",
+          "correct": false
+        }
+      ],
+      "explain": "AWS provides two tunnels for AWS-side redundancy, but both typically terminate on the same customer gateway. A second on-premises device and a second VPN connection protect against customer-gateway failure.",
+      "good_to_know": "Accelerated Site-to-Site VPN improves performance by using the AWS global network; it does not add a second customer gateway. An internet gateway is the VPC's path to the public internet, not a hybrid VPN terminator."
+    },
+    {
+      "uid": "n118",
+      "lesson": 2,
+      "q": "A company transfers several terabytes each day from an on-premises data center to AWS. The current AWS Site-to-Site VPN saturates during business hours, and latency varies with internet conditions. The company needs a dedicated path with consistent performance for this sustained transfer and is willing to wait for a cross-connect. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create an AWS Direct Connect connection to the data center.",
+          "correct": true
+        },
+        {
+          "text": "B. Add a second Site-to-Site VPN tunnel on the same customer gateway.",
+          "correct": false
+        },
+        {
+          "text": "C. Enable AWS Client VPN on the data center firewall.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a VPC peering connection from the data center to the VPC.",
+          "correct": false
+        }
+      ],
+      "explain": "Direct Connect is the dedicated private path for consistent hybrid performance and sustained transfer. A second VPN tunnel on the same device still uses the internet. Client VPN is for users. Peering does not attach a data center.",
+      "good_to_know": "The two tunnels that AWS already provides on one VPN connection are for AWS-side redundancy, not extra internet bandwidth. If encryption is also required on the dedicated path, add a VPN over Direct Connect."
+    },
+    {
+      "uid": "n028",
+      "lesson": 2,
+      "q": "A company needs a dedicated, predictable network path from its data center to AWS for a steady replication workload. A compliance rule requires that all application traffic also be encrypted in transit on that path. The company is willing to add a second overlay if the dedicated path alone does not encrypt traffic. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create an AWS Direct Connect connection only.",
+          "correct": false
+        },
+        {
+          "text": "B. Attach an internet gateway and disable TLS on the application.",
+          "correct": false
+        },
+        {
+          "text": "C. Create a VPC peering connection and route it over Direct Connect.",
+          "correct": false
+        },
+        {
+          "text": "D. Create an AWS Site-to-Site VPN that uses the Direct Connect connection.",
+          "correct": true
+        }
+      ],
+      "explain": "Direct Connect supplies the dedicated path but is not encrypted by default. A Site-to-Site VPN over that path adds IPsec so both constraints are met.",
+      "good_to_know": "MACsec can encrypt Direct Connect at the link layer where the location and port support it. On the exam, 'VPN over Direct Connect' is the reliable encryption answer. Peering never rides Direct Connect as a connection type."
+    },
+    {
+      "uid": "n108",
+      "lesson": 2,
+      "q": "A company has one AWS Direct Connect connection at one Direct Connect location. That connection is the only path from the data center to AWS. The company needs a resilient hybrid design that survives the failure of that Direct Connect location. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Order a second Direct Connect connection that terminates at the same Direct Connect location.",
+          "correct": false
+        },
+        {
+          "text": "B. Order a second Direct Connect connection that terminates at a second Direct Connect location.",
+          "correct": true
+        },
+        {
+          "text": "C. Replace Direct Connect with AWS Client VPN for the data center routers.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a VPC peering connection from the data center to each VPC.",
+          "correct": false
+        },
+        {
+          "text": "E. Configure a second on-premises router and advertise the on-premises prefixes over both Direct Connect connections.",
+          "correct": true
+        }
+      ],
+      "explain": "Resilient Direct Connect uses two connections at two locations and two customer routers so a location or device failure does not isolate the data center.",
+      "good_to_know": "A second connection at the same location still fails if that location is lost. An AWS Site-to-Site VPN is a valid internet backup when a second location is not available, but it does not meet a two-location Direct Connect design."
+    },
+    {
+      "uid": "n119",
+      "lesson": 2,
+      "q": "A company has an AWS Direct Connect connection in the us-east-1 Region. VPCs in us-east-1 and ap-southeast-2 must receive traffic from on-premises over that single connection. The VPCs do not need to communicate with each other through the Direct Connect path, and the company wants to avoid operating a Transit Gateway if it is not required. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create a Direct Connect gateway. Associate each VPC's virtual private gateway with the Direct Connect gateway.",
+          "correct": true
+        },
+        {
+          "text": "B. Create VPC peering connections from the us-east-1 VPC to the ap-southeast-2 VPC and to on-premises.",
+          "correct": false
+        },
+        {
+          "text": "C. Create an AWS Client VPN endpoint in each Region.",
+          "correct": false
+        },
+        {
+          "text": "D. Duplicate the Direct Connect connection in ap-southeast-2.",
+          "correct": false
+        }
+      ],
+      "explain": "A Direct Connect gateway lets one connection reach virtual private gateways in multiple Regions. Because the VPCs do not need to talk to each other through that path, Transit Gateway is extra operational overhead.",
+      "good_to_know": "Virtual private gateways associated with the same Direct Connect gateway are not transitive with each other. If the stem had required VPC-to-VPC traffic as well, the answer would move to Transit Gateway plus Transit Gateway peering."
+    },
+    {
+      "uid": "n120",
+      "lesson": 2,
+      "q": "A company wants thousands of remote employees to reach an application that runs in a private subnet. Each employee uses a laptop on a home network rather than a corporate office LAN. The company does not need to connect entire branch offices or data centers. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create an AWS Client VPN endpoint. Associate target subnets, add authorization rules, and allow the Client VPN security group on the application.",
+          "correct": true
+        },
+        {
+          "text": "B. Create an AWS Site-to-Site VPN from each employee's home router.",
+          "correct": false
+        },
+        {
+          "text": "C. Create an AWS Direct Connect connection to each employee's ISP.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a VPC peering connection from each home network.",
+          "correct": false
+        }
+      ],
+      "explain": "Client VPN is the managed TLS VPN for remote users into a VPC. Site-to-Site VPN and Direct Connect join whole networks. Peering does not attach home networks.",
+      "good_to_know": "A working Client VPN session is not enough on its own. You still need target network associations, authorization rules, routes, and a security group that allows the Client VPN security group on the application port."
     },
     {
       "uid": "n032",
       "lesson": 2,
-      "q": "An enterprise is implementing AWS Client VPN to allow remote workers to connect to private backend instances. After establishing the VPN session successfully, traffic from remote clients fails to reach instances in the private subnets. Which configuration step is most likely missing?",
+      "q": "An enterprise is implementing AWS Client VPN so that remote workers can reach private backend instances. After a VPN session is established successfully, traffic from the clients still does not reach the instances. There is no authorization rule for the destination CIDR, and the instance security group does not allow the Client VPN security group. Which combination of steps should a solutions architect take? (Select TWO.)",
       "options": [
         {
-          "text": "A. Attaching a managed NAT Gateway directly to the Client VPN endpoint interface.",
+          "text": "A. Attach a NAT gateway to the Client VPN endpoint.",
           "correct": false
         },
         {
-          "text": "B. Adding target network subnet associations, authorization rules, and route table entries routing traffic to the private subnets.",
+          "text": "B. Add an authorization rule that allows the destination VPC CIDR.",
           "correct": true
         },
         {
-          "text": "C. Changing the VPC primary CIDR block to a globally public routing range.",
+          "text": "C. Change the VPC CIDR to a public address range.",
           "correct": false
         },
         {
-          "text": "D. Disabling all Network ACLs across the entire VPC architecture.",
+          "text": "D. Disable all network ACLs in the VPC.",
+          "correct": false
+        },
+        {
+          "text": "E. Update the instance security group to allow the Client VPN security group on the application port.",
+          "correct": true
+        }
+      ],
+      "explain": "A successful session already means at least one target network is associated. The remaining gaps named in the stem are an authorization rule for the destination CIDR and an instance security group that allows the Client VPN security group.",
+      "good_to_know": "If the destination is outside the associated VPC CIDR, you also need a Client VPN route for that CIDR. A NAT gateway is for outbound internet from private subnets, not a Client VPN attachment."
+    },
+    {
+      "uid": "n027",
+      "lesson": 2,
+      "q": "A software provider must offer one TCP service to hundreds of customer VPCs. Several customer CIDR blocks overlap the provider VPC, so VPC peering connections cannot be created. The provider must not share VPC routes with customers or grant access to any resource other than that service. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Create a VPC peering connection to each customer VPC.",
+          "correct": false
+        },
+        {
+          "text": "B. Attach every customer VPC to the provider's Transit Gateway.",
+          "correct": false
+        },
+        {
+          "text": "C. Place the service behind a Network Load Balancer and publish an AWS PrivateLink endpoint service.",
+          "correct": true
+        },
+        {
+          "text": "D. Create an AWS Site-to-Site VPN from each customer VPC to the provider VPC.",
+          "correct": false
+        },
+        {
+          "text": "E. Have each customer create an interface VPC endpoint to the published endpoint service.",
+          "correct": true
+        }
+      ],
+      "explain": "PrivateLink is two sides of one pattern. The provider publishes an NLB-backed endpoint service. Each customer creates an interface endpoint in its own VPC. No routes are shared, so overlapping CIDRs are allowed.",
+      "good_to_know": "Peering and Transit Gateway both require non-overlapping CIDRs and create routed reachability beyond the single service. Use them when the customer should reach the whole network, not one API."
+    },
+    {
+      "uid": "n121",
+      "lesson": 2,
+      "q": "A customer VPC must consume a shared file service that another AWS account publishes through AWS PrivateLink. The CIDR blocks overlap, so a VPC peering connection cannot be created. The customer must keep all traffic on private IP addresses inside its own VPC and must not receive routes to the provider VPC. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create a VPC peering connection, then add a static route to the provider Network Load Balancer.",
+          "correct": false
+        },
+        {
+          "text": "B. Create an interface VPC endpoint in the customer VPC for the endpoint service, and allow clients to reach the endpoint elastic network interfaces.",
+          "correct": true
+        },
+        {
+          "text": "C. Attach the customer VPC to the provider's Transit Gateway.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a gateway VPC endpoint for the provider service.",
           "correct": false
         }
       ],
-      "explain": "A working Client VPN session is not enough. Associate target networks, authorize access to the destination CIDRs, and install routes so client traffic is sent to the private subnets.",
-      "good_to_know": "A successful VPN session already means at least one target network is associated. The leftover is often authorization rules (and extra routes if the destination is outside the VPC local CIDR), plus the instance security group allowing the Client VPN security group."
+      "explain": "The consumer-side PrivateLink action is to create an interface endpoint in the customer VPC. Traffic stays on private ENIs. Overlapping CIDRs do not matter because no VPC routes are shared.",
+      "good_to_know": "Gateway VPC endpoints exist only for Amazon S3 and DynamoDB. A custom TCP service published by another account is always an interface endpoint. Peering cannot be created while the CIDRs overlap."
+    },
+    {
+      "uid": "n122",
+      "lesson": 2,
+      "q": "A company uses a gateway VPC endpoint so that Amazon EC2 instances in private subnets can reach Amazon S3 without a NAT gateway. Security wants to ensure that those instances can access only one specific bucket through the endpoint and cannot use the endpoint to list or read other buckets. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Attach an endpoint policy to the gateway endpoint that allows access only to that bucket.",
+          "correct": true
+        },
+        {
+          "text": "B. Move the bucket to a different AWS Region so that the prefix list no longer matches.",
+          "correct": false
+        },
+        {
+          "text": "C. Replace the gateway endpoint with an internet gateway and a bucket ACL.",
+          "correct": false
+        },
+        {
+          "text": "D. Delete the prefix-list route and send S3 traffic through a NAT gateway with a web ACL.",
+          "correct": false
+        }
+      ],
+      "explain": "A VPC endpoint policy is an IAM resource policy on the endpoint. It can restrict which buckets and actions the endpoint will permit, in addition to the bucket policy.",
+      "good_to_know": "A bucket policy that requires the endpoint (aws:SourceVpce) is the complementary control when you also want to deny access that bypasses the endpoint. Moving the bucket to another Region would break the gateway endpoint entirely."
+    },
+    {
+      "uid": "n110",
+      "lesson": 2,
+      "q": "A company needs Amazon S3 access that never uses the public internet. Amazon EC2 instances in a VPC must use a no-additional-charge path. On-premises servers that connect through AWS Direct Connect must use the same private S3 access pattern. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Create a gateway VPC endpoint for Amazon S3 and add the prefix-list route to the VPC route tables.",
+          "correct": true
+        },
+        {
+          "text": "B. Create an interface VPC endpoint for Amazon S3 that on-premises servers can route to over Direct Connect.",
+          "correct": true
+        },
+        {
+          "text": "C. Create a NAT gateway and route all S3 prefixes to it.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a VPC peering connection to Amazon S3.",
+          "correct": false
+        },
+        {
+          "text": "E. Attach an internet gateway to the private subnets.",
+          "correct": false
+        }
+      ],
+      "explain": "A gateway endpoint is the in-VPC, no-hourly-charge path. Gateway endpoints cannot be reached from on-premises, so the Direct Connect clients need an interface endpoint (PrivateLink) they can route to.",
+      "good_to_know": "Keeping both endpoints is the cost-aware design: in-VPC traffic stays on the free gateway path, and you pay the interface charge only for traffic that cannot use the gateway. A NAT gateway still sends S3 to the public endpoint."
+    },
+    {
+      "uid": "n123",
+      "lesson": 2,
+      "q": "On-premises applications connect to a VPC through AWS Direct Connect. The VPC already has a gateway VPC endpoint for Amazon S3, and in-VPC instances use that endpoint successfully. The on-premises applications still reach S3 over the public internet. Which solution will provide private connectivity to Amazon S3 for the on-premises applications?",
+      "options": [
+        {
+          "text": "A. Add the on-premises CIDR to the gateway endpoint's prefix list.",
+          "correct": false
+        },
+        {
+          "text": "B. Create an interface VPC endpoint for Amazon S3 and route on-premises traffic to the endpoint elastic network interfaces.",
+          "correct": true
+        },
+        {
+          "text": "C. Enable route propagation from the virtual private gateway to the gateway endpoint.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a VPC peering connection between the on-premises network and Amazon S3.",
+          "correct": false
+        }
+      ],
+      "explain": "Gateway endpoint connections cannot be extended out of the VPC. Direct Connect, VPN, Transit Gateway, and peering clients that need private S3 use an interface endpoint.",
+      "good_to_know": "The existing gateway endpoint remains the right path for in-VPC instances. Do not delete it when you add the interface endpoint for hybrid clients. You cannot peer with Amazon S3 as if it were a VPC."
+    },
+    {
+      "uid": "n029",
+      "lesson": 2,
+      "q": "On-premises DNS servers must resolve records in a Route 53 private hosted zone that is already associated with a VPC. The VPC is connected to the data center through AWS Direct Connect, and route tables already include the on-premises CIDR. On-premises queries still fail to resolve those private names. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create a Route 53 Resolver inbound endpoint in the VPC and forward the private domain from on-premises DNS to that endpoint.",
+          "correct": true
+        },
+        {
+          "text": "B. Create a Route 53 Resolver outbound endpoint and a forwarding rule for the private hosted zone.",
+          "correct": false
+        },
+        {
+          "text": "C. Create a Route 53 public hosted zone with the same records.",
+          "correct": false
+        },
+        {
+          "text": "D. Attach the private hosted zone directly to the on-premises DNS server.",
+          "correct": false
+        }
+      ],
+      "explain": "The query direction is on-premises to AWS. A Resolver inbound endpoint receives those forwarded queries. Associating the private hosted zone with the VPC is necessary but not sufficient for on-premises resolvers.",
+      "good_to_know": "An outbound endpoint is the other direction: VPC clients resolving on-premises names. A public hosted zone would publish the names on the internet, which is not private resolution."
+    },
+    {
+      "uid": "n109",
+      "lesson": 2,
+      "q": "A company needs hybrid DNS. On-premises servers must resolve names in a Route 53 private hosted zone. Amazon EC2 instances in the VPC must resolve names in an on-premises DNS domain. The networks are connected by AWS Direct Connect. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Create a Resolver inbound endpoint and configure on-premises DNS to forward the private hosted zone domain to it.",
+          "correct": true
+        },
+        {
+          "text": "B. Create a Resolver outbound endpoint and a forwarding rule that sends the on-premises domain to the on-premises DNS servers.",
+          "correct": true
+        },
+        {
+          "text": "C. Create a Route 53 public hosted zone for the on-premises domain.",
+          "correct": false
+        },
+        {
+          "text": "D. Replace Direct Connect with Amazon CloudFront.",
+          "correct": false
+        },
+        {
+          "text": "E. Enable VPC peering DNS resolution toward the data center.",
+          "correct": false
+        }
+      ],
+      "explain": "Hybrid DNS is two directions. Inbound endpoints accept queries that on-premises resolvers forward into the VPC. Outbound endpoints plus forwarding rules send selected VPC queries to on-premises DNS.",
+      "good_to_know": "A private hosted zone associated with the VPC answers queries that already arrive at the VPC resolver. It does not, by itself, pull queries in from on-premises or push VPC queries out. Peering DNS resolution applies to a peered VPC, not a data center."
+    },
+    {
+      "uid": "n124",
+      "lesson": 2,
+      "q": "A company serves an API from a primary Regional endpoint and a standby Regional endpoint. Amazon Route 53 must return the primary endpoint while it is healthy and must return the standby endpoint only when the primary fails a health check. Users must not be split across both endpoints while the primary is healthy. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create a failover routing policy with a health check on the primary record.",
+          "correct": true
+        },
+        {
+          "text": "B. Create a weighted routing policy that assigns 50 percent to each endpoint.",
+          "correct": false
+        },
+        {
+          "text": "C. Create a latency routing policy for both endpoints.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a geolocation routing policy that defaults to the standby Region.",
+          "correct": false
+        }
+      ],
+      "explain": "Failover routing is active/passive. Route 53 returns the primary record while the health check passes and switches to the secondary when it fails. Weighted and latency policies would split traffic while both endpoints are healthy.",
+      "good_to_know": "Weighted routing is the 10/90 gradual-release answer. Latency routing is the lowest-latency Region answer. Both belong to Lesson 12's global steering set; this lesson's DNS fork is hybrid resolution versus failover."
     },
     {
       "uid": "n033",
