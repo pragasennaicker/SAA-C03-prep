@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827a">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -74,17 +74,17 @@
 
   <div class="lesson-section" id="deep-6">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>Principals + temporary credentials</h3></div><ul><li>IAM users are long-lived identities and should be minimized for human access.</li><li>IAM roles are assumed and provide temporary credentials through AWS STS.</li><li>EC2, Lambda and other AWS workloads should use service roles instead of hard-coded access keys.</li><li>Cross-account access commonly uses a trust policy on a role plus permissions granted to the role.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>Policy evaluation</h3></div><ul><li>Start by asking whether an applicable explicit deny exists; explicit deny wins.</li><li>An allow must exist in the effective policy set unless access is granted through an applicable resource-based mechanism.</li><li>Identity policies say what a principal may do; resource policies say who may access a resource.</li><li>Permissions boundaries limit the maximum identity-based permissions a user/role can receive.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>Organizations + SCPs</h3></div><ul><li>AWS Organizations groups accounts into organizational units.</li><li>SCPs set maximum permissions for member accounts/OUs; they do not grant permissions.</li><li>Use multiple accounts to reduce blast radius and separate production, security/logging and workloads.</li><li>Resource Access Manager can share supported resources across accounts without duplicating them.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>IAM Identity Center</h3></div><ul><li>Centralizes workforce sign-in to many AWS accounts and applications.</li><li>Permission sets map workforce groups/users to account permissions.</li><li>External identity providers can federate users, avoiding IAM users in each account.</li><li>Distinguish workforce identity from customer identity (Cognito).</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Root + least privilege</h3></div><ul><li>Protect the root user with strong controls and avoid routine use.</li><li>Use MFA for privileged human access.</li><li>Continuously reduce broad permissions based on actual need.</li><li>Prefer short-lived credentials and role assumption over long-lived access keys.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>Principals + temporary credentials</h3></summary><ul><li>IAM users are long-lived identities and should be minimized for human access.</li><li>IAM roles are assumed and provide temporary credentials through AWS STS.</li><li>EC2, Lambda and other AWS workloads should use service roles instead of hard-coded access keys.</li><li>Cross-account access commonly uses a trust policy on a role plus permissions granted to the role.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>Policy evaluation</h3></summary><ul><li>Start by asking whether an applicable explicit deny exists; explicit deny wins.</li><li>An allow must exist in the effective policy set unless access is granted through an applicable resource-based mechanism.</li><li>Identity policies say what a principal may do; resource policies say who may access a resource.</li><li>Permissions boundaries limit the maximum identity-based permissions a user/role can receive.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>Organizations + SCPs</h3></summary><ul><li>AWS Organizations groups accounts into organizational units.</li><li>SCPs set maximum permissions for member accounts/OUs; they do not grant permissions.</li><li>Use multiple accounts to reduce blast radius and separate production, security/logging and workloads.</li><li>Resource Access Manager can share supported resources across accounts without duplicating them.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>IAM Identity Center</h3></summary><ul><li>Centralizes workforce sign-in to many AWS accounts and applications.</li><li>Permission sets map workforce groups/users to account permissions.</li><li>External identity providers can federate users, avoiding IAM users in each account.</li><li>Distinguish workforce identity from customer identity (Cognito).</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Root + least privilege</h3></summary><ul><li>Protect the root user with strong controls and avoid routine use.</li><li>Use MFA for privileged human access.</li><li>Continuously reduce broad permissions based on actual need.</li><li>Prefer short-lived credentials and role assumption over long-lived access keys.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-6">

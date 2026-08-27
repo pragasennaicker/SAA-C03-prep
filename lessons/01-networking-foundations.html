@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827a">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -258,7 +258,7 @@
 
   <div class="lesson-section" id="deep-1">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><details class="deep-card deep-card-wide" open>
+    <div class="deep-grid"><details class="deep-card deep-card-wide">
           <summary class="deep-head"><span>1</span><h3>VPC + CIDR numbering</h3></summary>
           <p>The VPC CIDR is the private IPv4 space you own in one Region. Subnets are non-overlapping slices of that space, and each subnet lives in one Availability Zone. You cannot resize a CIDR after you create it; you can add a secondary VPC CIDR later. Plan non-overlapping blocks if peering, Transit Gateway, or hybrid routing is likely.</p>
           <h4>What the slash means</h4>
@@ -291,7 +291,7 @@
               <tr><td>Private AZ-B</td><td>10.0.11.0/24</td><td>10.0.11.0 – 10.0.11.255</td><td>251 (10.0.11.4 – 10.0.11.254)</td></tr>
             </tbody></table></div>
           </div>
-        </details><details class="deep-card deep-card-wide" open>
+        </details><details class="deep-card deep-card-wide">
           <summary class="deep-head"><span>2</span><h3>Route tables</h3></summary>
           <p>The VPC has an implicit router. You do not configure that router directly — you write <b>route tables</b>. Each route is a destination (CIDR or prefix list) plus a target (where to send matching packets). Route tables choose a next hop; they are not firewalls. Security groups and network ACLs still decide whether the packet is allowed.</p>
           <ul>
@@ -333,13 +333,13 @@
               <li>Create an S3 gateway endpoint and select the two private route tables. AWS injects the prefix-list route. Confirm with a packet to S3: it must match <b>vpce</b>, not NAT.</li>
             </ol>
           </div>
-        </details><details class="deep-card deep-card-wide" open>
+        </details><details class="deep-card deep-card-wide">
           <summary class="deep-head"><span>3</span><h3>Public vs private subnets</h3></summary><ul><li>A subnet is public because its route table has a route to an Internet Gateway.</li><li>An instance also needs a public IPv4 address or Elastic IP plus permissive security controls to be directly internet reachable.</li><li>A private subnet normally has no direct IGW route.</li><li>Public ALBs, NAT Gateways, and bastion hosts normally live in public subnets; application/database tiers normally live in private subnets.</li></ul>
-        </details><details class="deep-card deep-card-wide" open>
+        </details><details class="deep-card deep-card-wide">
           <summary class="deep-head"><span>4</span><h3>IGW + NAT Gateway</h3></summary><ul><li>An Internet Gateway is attached to the VPC — <b>at most one per VPC</b> — and enables internet routing for public resources. It is regional, not one-per-AZ.</li><li>A NAT Gateway in a public subnet enables private IPv4 resources to start outbound internet connections. It uses an Elastic IP. Prefer a managed NAT Gateway over a NAT instance unless you need custom iptables, port forwarding, or inbound DNAT.</li><li>For zonal NAT high availability, place a NAT Gateway in each AZ and route each private subnet to its same-AZ NAT. A zonal NAT has no Multi-AZ mirror toggle. A <b>regional NAT Gateway</b> (availability mode = regional) is a different resource that can expand across AZs with your workloads.</li><li>Native IPv6 outbound from private subnets uses an <b>egress-only internet gateway</b> (<b>::/0</b>), not NAT. A standard IGW would also allow unsolicited inbound IPv6. NAT64 (<b>64:ff9b::/96 → NAT</b>) is only for IPv6-only clients talking to IPv4 destinations.</li></ul>
-        </details><details class="deep-card deep-card-wide" open>
+        </details><details class="deep-card deep-card-wide">
           <summary class="deep-head"><span>5</span><h3>Security Group vs NACL</h3></summary><ul><li>Security Groups are stateful: allowed request traffic automatically permits the response path.</li><li>Security Groups contain allow rules, not explicit deny rules. A security group evaluates <b>all</b> of its rules and allows the packet if any allow matches — there is no numbered order.</li><li>Network ACLs are stateless and are evaluated at the subnet boundary. They support allow and deny. Rules are processed from lowest number to highest; <b>the first match wins</b> and evaluation stops. A lower-numbered deny beats a higher-numbered allow.</li><li>Both controls end with an <b>implicit deny</b> if nothing matched. NACLs never implicitly allow.</li><li>NACL return traffic needs an explicit outbound allow, including ephemeral client ports. AWS exam examples use <b>1024–65535</b> (Linux is often 32768–60999).</li></ul>
-        </details><details class="deep-card deep-card-wide" open>
+        </details><details class="deep-card deep-card-wide">
           <summary class="deep-head"><span>6</span><h3>VPC endpoints</h3></summary><ul><li>Gateway endpoints are especially important for S3 and DynamoDB.</li><li>Interface endpoints use private ENIs and AWS PrivateLink for many AWS services.</li><li>Endpoints keep supported service traffic private and may avoid NAT processing/data-path cost.</li><li>Endpoint policies can further restrict permitted actions/resources.</li></ul>
         </details></div>
   </div>

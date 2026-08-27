@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827a">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -74,17 +74,17 @@
 
   <div class="lesson-section" id="deep-7">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>KMS + encryption</h3></div><ul><li>KMS manages cryptographic keys used by many AWS services.</li><li>AWS-owned, AWS-managed and customer-managed key choices differ in control and administration.</li><li>Envelope encryption lets services encrypt data keys efficiently while KMS protects key material.</li><li>Key policies are fundamental authorization controls; IAM alone may not be sufficient depending on key policy design.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>Secrets Manager</h3></div><ul><li>Stores secrets such as database passwords, API keys and credentials.</li><li>Supports rotation workflows for supported integrations/custom logic.</li><li>Applications retrieve secrets at runtime using IAM-authorized calls.</li><li>Do not confuse a KMS key with a secret value: KMS protects encryption keys; Secrets Manager stores secret material.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>Edge + network security</h3></div><ul><li>AWS WAF evaluates HTTP(S) requests using rules and managed rule groups.</li><li>AWS Shield protects against DDoS; Shield Standard is built into supported AWS services, while Advanced adds expanded protections/features.</li><li>AWS Network Firewall filters VPC network traffic centrally.</li><li>Firewall Manager can centrally apply supported security policies across accounts/resources.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>Detection + posture</h3></div><ul><li>GuardDuty analyzes signals to detect suspicious or malicious activity.</li><li>Inspector assesses supported compute/container/serverless workloads for vulnerabilities/exposure.</li><li>Macie discovers sensitive data in S3.</li><li>Security Hub aggregates and normalizes findings; Detective helps investigate security events.</li><li>Audit Manager and Artifact support audit/compliance evidence and reports.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Certificates + directories</h3></div><ul><li>ACM manages TLS certificates for supported AWS integrations.</li><li>Directory Service supports Microsoft AD and directory-integrated workloads.</li><li>Cognito manages application customer identity; IAM Identity Center handles workforce identity.</li><li>CloudHSM provides dedicated HSM appliances when direct HSM control is required.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>KMS + encryption</h3></summary><ul><li>KMS manages cryptographic keys used by many AWS services.</li><li>AWS-owned, AWS-managed and customer-managed key choices differ in control and administration.</li><li>Envelope encryption lets services encrypt data keys efficiently while KMS protects key material.</li><li>Key policies are fundamental authorization controls; IAM alone may not be sufficient depending on key policy design.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>Secrets Manager</h3></summary><ul><li>Stores secrets such as database passwords, API keys and credentials.</li><li>Supports rotation workflows for supported integrations/custom logic.</li><li>Applications retrieve secrets at runtime using IAM-authorized calls.</li><li>Do not confuse a KMS key with a secret value: KMS protects encryption keys; Secrets Manager stores secret material.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>Edge + network security</h3></summary><ul><li>AWS WAF evaluates HTTP(S) requests using rules and managed rule groups.</li><li>AWS Shield protects against DDoS; Shield Standard is built into supported AWS services, while Advanced adds expanded protections/features.</li><li>AWS Network Firewall filters VPC network traffic centrally.</li><li>Firewall Manager can centrally apply supported security policies across accounts/resources.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>Detection + posture</h3></summary><ul><li>GuardDuty analyzes signals to detect suspicious or malicious activity.</li><li>Inspector assesses supported compute/container/serverless workloads for vulnerabilities/exposure.</li><li>Macie discovers sensitive data in S3.</li><li>Security Hub aggregates and normalizes findings; Detective helps investigate security events.</li><li>Audit Manager and Artifact support audit/compliance evidence and reports.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Certificates + directories</h3></summary><ul><li>ACM manages TLS certificates for supported AWS integrations.</li><li>Directory Service supports Microsoft AD and directory-integrated workloads.</li><li>Cognito manages application customer identity; IAM Identity Center handles workforce identity.</li><li>CloudHSM provides dedicated HSM appliances when direct HSM control is required.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-7">

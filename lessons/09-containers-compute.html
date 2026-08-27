@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827a">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -74,17 +74,17 @@
 
   <div class="lesson-section" id="deep-9">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>ECS</h3></div><ul><li>AWS-native container orchestration with services/tasks and tight AWS integration.</li><li>Can run tasks on EC2 capacity or Fargate.</li><li>ECS services maintain desired task count and integrate with load balancers/autoscaling.</li><li>Good default when Kubernetes APIs/ecosystem are not a requirement.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>EKS</h3></div><ul><li>Managed Kubernetes control plane and AWS integrations.</li><li>Use when Kubernetes portability/ecosystem/API compatibility is a real requirement.</li><li>Worker compute can be EC2 managed node groups or Fargate for supported workloads.</li><li>Kubernetes adds operational concepts; do not choose it merely because it is fashionable.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>Fargate</h3></div><ul><li>Serverless compute engine for containers used with ECS and EKS.</li><li>Removes EC2 worker-node provisioning/patching responsibilities.</li><li>Pay for task/pod compute resources rather than idle cluster instances.</li><li>Useful when container packaging is desired but infrastructure management should be minimized.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>ECR + image lifecycle</h3></div><ul><li>Private/public container registry integrated with IAM.</li><li>Store versioned images and scan/manage lifecycle according to requirements.</li><li>Orchestrators pull images from ECR and run them; ECR itself does not execute containers.</li><li>Immutable image/versioning practices improve repeatability.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Batch + platform options</h3></div><ul><li>AWS Batch schedules queued batch jobs onto suitable compute resources.</li><li>Elastic Beanstalk abstracts much of application environment provisioning while retaining underlying AWS resources.</li><li>Outposts extends AWS infrastructure on premises for latency/data-residency use cases.</li><li>ECS/EKS Anywhere are recognition-level options for customer-managed/on-premises container environments.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>ECS</h3></summary><ul><li>AWS-native container orchestration with services/tasks and tight AWS integration.</li><li>Can run tasks on EC2 capacity or Fargate.</li><li>ECS services maintain desired task count and integrate with load balancers/autoscaling.</li><li>Good default when Kubernetes APIs/ecosystem are not a requirement.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>EKS</h3></summary><ul><li>Managed Kubernetes control plane and AWS integrations.</li><li>Use when Kubernetes portability/ecosystem/API compatibility is a real requirement.</li><li>Worker compute can be EC2 managed node groups or Fargate for supported workloads.</li><li>Kubernetes adds operational concepts; do not choose it merely because it is fashionable.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>Fargate</h3></summary><ul><li>Serverless compute engine for containers used with ECS and EKS.</li><li>Removes EC2 worker-node provisioning/patching responsibilities.</li><li>Pay for task/pod compute resources rather than idle cluster instances.</li><li>Useful when container packaging is desired but infrastructure management should be minimized.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>ECR + image lifecycle</h3></summary><ul><li>Private/public container registry integrated with IAM.</li><li>Store versioned images and scan/manage lifecycle according to requirements.</li><li>Orchestrators pull images from ECR and run them; ECR itself does not execute containers.</li><li>Immutable image/versioning practices improve repeatability.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Batch + platform options</h3></summary><ul><li>AWS Batch schedules queued batch jobs onto suitable compute resources.</li><li>Elastic Beanstalk abstracts much of application environment provisioning while retaining underlying AWS resources.</li><li>Outposts extends AWS infrastructure on premises for latency/data-residency use cases.</li><li>ECS/EKS Anywhere are recognition-level options for customer-managed/on-premises container environments.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-9">

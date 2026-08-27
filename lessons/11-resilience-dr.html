@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827a">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -74,17 +74,17 @@
 
   <div class="lesson-section" id="deep-11">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>HA vs fault tolerance vs DR</h3></div><ul><li>High availability minimizes downtime through redundant resources and automated failover.</li><li>Fault-tolerant designs continue operating despite component failures with minimal interruption.</li><li>Disaster recovery restores or shifts a workload after major failures such as a regional event.</li><li>A Multi-AZ design protects against AZ failure but is not automatically a complete regional DR strategy.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>RPO + RTO</h3></div><ul><li>RPO is the maximum acceptable period of data loss measured backward from an incident.</li><li>RTO is the maximum acceptable time to restore service.</li><li>Lower RPO/RTO usually requires more replication, pre-provisioned capacity and automation.</li><li>The exam often gives RPO/RTO clues indirectly: &#x27;no more than 5 minutes of data loss&#x27; is RPO.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>DR strategies</h3></div><ul><li>Backup &amp; restore: minimal standing infrastructure; lowest cost, longer recovery.</li><li>Pilot light: core data/services replicated and essential infrastructure kept ready; scale remaining components during recovery.</li><li>Warm standby: smaller but fully functional environment continuously running.</li><li>Multi-site active-active: multiple production environments serve traffic; fastest recovery but highest cost/complexity.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>Data durability</h3></div><ul><li>Use service-native Multi-AZ replication for local availability.</li><li>Cross-Region replication/backup protects against regional failures according to service semantics.</li><li>Cross-account backups can reduce blast radius for destructive credentials/account compromise.</li><li>Test restore/failover procedures; untested backup plans are not reliable recovery plans.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Failure automation</h3></div><ul><li>Route 53 health/failover can switch DNS endpoints.</li><li>Auto Scaling replaces unhealthy compute; load balancers route around unhealthy targets.</li><li>Infrastructure as code accelerates reproducible recovery.</li><li>Service quotas in standby Regions must be sufficient before a disaster.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>HA vs fault tolerance vs DR</h3></summary><ul><li>High availability minimizes downtime through redundant resources and automated failover.</li><li>Fault-tolerant designs continue operating despite component failures with minimal interruption.</li><li>Disaster recovery restores or shifts a workload after major failures such as a regional event.</li><li>A Multi-AZ design protects against AZ failure but is not automatically a complete regional DR strategy.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>RPO + RTO</h3></summary><ul><li>RPO is the maximum acceptable period of data loss measured backward from an incident.</li><li>RTO is the maximum acceptable time to restore service.</li><li>Lower RPO/RTO usually requires more replication, pre-provisioned capacity and automation.</li><li>The exam often gives RPO/RTO clues indirectly: &#x27;no more than 5 minutes of data loss&#x27; is RPO.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>DR strategies</h3></summary><ul><li>Backup &amp; restore: minimal standing infrastructure; lowest cost, longer recovery.</li><li>Pilot light: core data/services replicated and essential infrastructure kept ready; scale remaining components during recovery.</li><li>Warm standby: smaller but fully functional environment continuously running.</li><li>Multi-site active-active: multiple production environments serve traffic; fastest recovery but highest cost/complexity.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>Data durability</h3></summary><ul><li>Use service-native Multi-AZ replication for local availability.</li><li>Cross-Region replication/backup protects against regional failures according to service semantics.</li><li>Cross-account backups can reduce blast radius for destructive credentials/account compromise.</li><li>Test restore/failover procedures; untested backup plans are not reliable recovery plans.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Failure automation</h3></summary><ul><li>Route 53 health/failover can switch DNS endpoints.</li><li>Auto Scaling replaces unhealthy compute; load balancers route around unhealthy targets.</li><li>Infrastructure as code accelerates reproducible recovery.</li><li>Service quotas in standby Regions must be sufficient before a disaster.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-11">
