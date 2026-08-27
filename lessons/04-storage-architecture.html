@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> EBS is zonal block. EFS is shared POSIX across AZs. S3 is object storage — lifecycle, versioning, and CRR are explicit, not defaults. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-4">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>S3 fundamentals</h3></div><ul><li>Object storage addressed by bucket/key rather than block or POSIX file semantics.</li><li>Versioning protects against accidental overwrite/delete and supports replication use cases.</li><li>Lifecycle rules transition or expire objects according to age/access pattern.</li><li>Replication can copy objects within or across Regions according to requirements.</li><li>Presigned URLs grant time-limited object access without making a bucket public.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>S3 storage classes</h3></div><ul><li>Standard fits frequent access.</li><li>Intelligent-Tiering automatically moves eligible objects between access tiers based on observed access and is useful for unknown/changing patterns.</li><li>Standard-IA and One Zone-IA fit infrequent access with retrieval charges; One Zone trades AZ resilience for lower cost.</li><li>Glacier Instant Retrieval / Flexible Retrieval / Deep Archive cover increasingly archival access patterns with different retrieval trade-offs.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>EBS</h3></div><ul><li>Persistent block storage for EC2 in one AZ.</li><li>gp3 is a common general-purpose SSD choice because capacity and performance can be provisioned independently.</li><li>io-class SSD fits demanding IOPS/latency workloads; HDD classes fit large sequential workloads where appropriate.</li><li>Snapshots provide point-in-time backup and can restore volumes in other AZs/Regions after copy.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>EFS + FSx</h3></div><ul><li>EFS is elastic NFS-style shared storage for Linux workloads and can span AZs through mount targets.</li><li>EFS performance/throughput modes should match access patterns.</li><li>FSx for Windows File Server provides managed SMB/Windows integration.</li><li>FSx for Lustre targets high-performance parallel file workloads; other FSx families serve ONTAP/OpenZFS use cases.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Data protection</h3></div><ul><li>AWS Backup can centralize backup plans and retention across supported services.</li><li>Encryption at rest commonly integrates with KMS.</li><li>Cross-Region/cross-account backup strategies can improve protection from regional or account-level incidents.</li><li>Recovery requirements—not backup creation alone—should drive architecture.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>S3 fundamentals</h3></summary><ul><li>Object storage addressed by bucket/key rather than block or POSIX file semantics.</li><li>Versioning protects against accidental overwrite/delete and supports replication use cases.</li><li>Lifecycle rules transition or expire objects according to age/access pattern.</li><li>Replication can copy objects within or across Regions according to requirements.</li><li>Presigned URLs grant time-limited object access without making a bucket public.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>S3 storage classes</h3></summary><ul><li>Standard fits frequent access.</li><li>Intelligent-Tiering automatically moves eligible objects between access tiers based on observed access and is useful for unknown/changing patterns.</li><li>Standard-IA and One Zone-IA fit infrequent access with retrieval charges; One Zone trades AZ resilience for lower cost.</li><li>Glacier Instant Retrieval / Flexible Retrieval / Deep Archive cover increasingly archival access patterns with different retrieval trade-offs.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>EBS</h3></summary><ul><li>Persistent block storage for EC2 in one AZ.</li><li>gp3 is a common general-purpose SSD choice because capacity and performance can be provisioned independently.</li><li>io-class SSD fits demanding IOPS/latency workloads; HDD classes fit large sequential workloads where appropriate.</li><li>Snapshots provide point-in-time backup and can restore volumes in other AZs/Regions after copy.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>EFS + FSx</h3></summary><ul><li>EFS is elastic NFS-style shared storage for Linux workloads and can span AZs through mount targets.</li><li>EFS performance/throughput modes should match access patterns.</li><li>FSx for Windows File Server provides managed SMB/Windows integration.</li><li>FSx for Lustre targets high-performance parallel file workloads; other FSx families serve ONTAP/OpenZFS use cases.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Data protection</h3></summary><ul><li>AWS Backup can centralize backup plans and retention across supported services.</li><li>Encryption at rest commonly integrates with KMS.</li><li>Cross-Region/cross-account backup strategies can improve protection from regional or account-level incidents.</li><li>Recovery requirements—not backup creation alone—should drive architecture.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-4">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>

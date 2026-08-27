@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> Edge (Route 53, CloudFront, WAF) then ALB, Multi-AZ compute and data, encryption, and a queue where work can be retried. Eliminate answers that break a constraint. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-17">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>Classic three-tier web</h3></div><ul><li>Route 53/CloudFront → ALB → private application tier → relational database.</li><li>ASG spans AZs; database uses Multi-AZ where HA is required.</li><li>Security Groups reference tiers rather than opening broad CIDRs.</li><li>Static assets go to S3/CloudFront; ElastiCache can offload hot reads.</li><li>Secrets Manager/KMS/CloudWatch complete security/operations concerns.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>Serverless API</h3></div><ul><li>CloudFront or front end → API Gateway → Lambda → DynamoDB/S3.</li><li>Cognito handles end-user identity.</li><li>SQS/EventBridge decouple asynchronous work.</li><li>Serverless services scale independently and reduce infrastructure management.</li><li>Use RDS Proxy if a relational DB is required behind high Lambda concurrency.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>Event-driven microservices</h3></div><ul><li>Publish domain events instead of making every service synchronously call every other service.</li><li>Use SNS/EventBridge for routing/fanout and SQS per consumer for durable buffering.</li><li>DLQs isolate failures; idempotency protects against duplicate delivery.</li><li>Each service owns its scaling and failure domain.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>Hybrid enterprise</h3></div><ul><li>On-premises → VPN or Direct Connect → Transit Gateway → multiple VPCs.</li><li>Centralized inspection/shared services can be attached to the hub.</li><li>Organizations/Control Tower/IAM Identity Center govern accounts and workforce access.</li><li>PrivateLink exposes selected services without broad network routing.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Exam method</h3></div><ul><li>1. Identify the workload and architecture family.</li><li>2. Underline hard constraints: MUST be private, RTO, protocol, no code changes, least ops, most cost-effective.</li><li>3. Eliminate answers that violate any hard constraint.</li><li>4. Compare the remaining answers on operations, resilience and cost.</li><li>5. Flag lengthy questions and return; never leave an answer blank.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>Classic three-tier web</h3></summary><ul><li>Route 53/CloudFront → ALB → private application tier → relational database.</li><li>ASG spans AZs; database uses Multi-AZ where HA is required.</li><li>Security Groups reference tiers rather than opening broad CIDRs.</li><li>Static assets go to S3/CloudFront; ElastiCache can offload hot reads.</li><li>Secrets Manager/KMS/CloudWatch complete security/operations concerns.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>Serverless API</h3></summary><ul><li>CloudFront or front end → API Gateway → Lambda → DynamoDB/S3.</li><li>Cognito handles end-user identity.</li><li>SQS/EventBridge decouple asynchronous work.</li><li>Serverless services scale independently and reduce infrastructure management.</li><li>Use RDS Proxy if a relational DB is required behind high Lambda concurrency.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>Event-driven microservices</h3></summary><ul><li>Publish domain events instead of making every service synchronously call every other service.</li><li>Use SNS/EventBridge for routing/fanout and SQS per consumer for durable buffering.</li><li>DLQs isolate failures; idempotency protects against duplicate delivery.</li><li>Each service owns its scaling and failure domain.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>Hybrid enterprise</h3></summary><ul><li>On-premises → VPN or Direct Connect → Transit Gateway → multiple VPCs.</li><li>Centralized inspection/shared services can be attached to the hub.</li><li>Organizations/Control Tower/IAM Identity Center govern accounts and workforce access.</li><li>PrivateLink exposes selected services without broad network routing.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Exam method</h3></summary><ul><li>1. Identify the workload and architecture family.</li><li>2. Underline hard constraints: MUST be private, RTO, protocol, no code changes, least ops, most cost-effective.</li><li>3. Eliminate answers that violate any hard constraint.</li><li>4. Compare the remaining answers on operations, resilience and cost.</li><li>5. Flag lengthy questions and return; never leave an answer blank.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-17">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>

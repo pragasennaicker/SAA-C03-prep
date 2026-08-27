@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> SQS decouples one consumer group (use a DLQ). SNS fans out. EventBridge routes by pattern. Step Functions orchestrates; Amazon MQ is for existing brokers. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-10">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>SQS</h3></div><ul><li>Queue decouples producers and consumers and absorbs bursts.</li><li>Standard queues prioritize scale and at-least-once delivery; consumers should be idempotent.</li><li>FIFO queues add ordering and deduplication semantics for workloads that require them.</li><li>Visibility timeout prevents another consumer from immediately processing an in-flight message.</li><li>Dead-letter queues isolate repeatedly failing messages for investigation/replay.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>SNS</h3></div><ul><li>Topic-based pub/sub fanout to multiple subscribers.</li><li>A strong pattern is SNS → separate SQS queues per downstream service, so each consumer owns its backlog/retries.</li><li>Can deliver to supported endpoints such as SQS, Lambda and notifications.</li><li>Filtering can reduce unnecessary deliveries to subscribers.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>EventBridge</h3></div><ul><li>Event bus routes events using rules/patterns.</li><li>Useful for AWS service events, custom domain events and SaaS integrations.</li><li>Decouples event producers from consumers without each producer knowing every destination.</li><li>Schedules are available through EventBridge scheduling capabilities, but distinguish event routing from durable work queues.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>Step Functions</h3></div><ul><li>State-machine orchestration for multi-step workflows.</li><li>Handles branching, retries, waiting and error paths explicitly.</li><li>Useful when business process state must be visible and coordinated.</li><li>Contrast choreography (events between services) with orchestration (central workflow).</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Amazon MQ + integration</h3></div><ul><li>Amazon MQ supports familiar broker protocols/engines for migrations requiring traditional messaging compatibility.</li><li>AppFlow handles managed data transfer between supported SaaS and AWS services.</li><li>Choose purpose-built native services when protocol compatibility is not required and operational simplicity matters.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>SQS</h3></summary><ul><li>Queue decouples producers and consumers and absorbs bursts.</li><li>Standard queues prioritize scale and at-least-once delivery; consumers should be idempotent.</li><li>FIFO queues add ordering and deduplication semantics for workloads that require them.</li><li>Visibility timeout prevents another consumer from immediately processing an in-flight message.</li><li>Dead-letter queues isolate repeatedly failing messages for investigation/replay.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>SNS</h3></summary><ul><li>Topic-based pub/sub fanout to multiple subscribers.</li><li>A strong pattern is SNS → separate SQS queues per downstream service, so each consumer owns its backlog/retries.</li><li>Can deliver to supported endpoints such as SQS, Lambda and notifications.</li><li>Filtering can reduce unnecessary deliveries to subscribers.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>EventBridge</h3></summary><ul><li>Event bus routes events using rules/patterns.</li><li>Useful for AWS service events, custom domain events and SaaS integrations.</li><li>Decouples event producers from consumers without each producer knowing every destination.</li><li>Schedules are available through EventBridge scheduling capabilities, but distinguish event routing from durable work queues.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>Step Functions</h3></summary><ul><li>State-machine orchestration for multi-step workflows.</li><li>Handles branching, retries, waiting and error paths explicitly.</li><li>Useful when business process state must be visible and coordinated.</li><li>Contrast choreography (events between services) with orchestration (central workflow).</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Amazon MQ + integration</h3></summary><ul><li>Amazon MQ supports familiar broker protocols/engines for migrations requiring traditional messaging compatibility.</li><li>AppFlow handles managed data transfer between supported SaaS and AWS services.</li><li>Choose purpose-built native services when protocol compatibility is not required and operational simplicity matters.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-10">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>

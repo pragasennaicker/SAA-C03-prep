@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> MGN for servers, DMS for databases, DataSync for online files, Snow for bulk offline. Storage Gateway is ongoing hybrid access, not a one-time migration. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-14">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>Application Migration Service</h3></div><ul><li>AWS Application Migration Service (MGN) supports lift-and-shift server migration by continuously replicating source servers.</li><li>Launch test/cutover instances in AWS after replication.</li><li>Good when moving whole servers/applications with minimal architectural change.</li><li>Modernization can happen separately after migration.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>DMS</h3></div><ul><li>Database Migration Service moves/replicates supported databases with low-downtime patterns.</li><li>Full load plus change data capture can keep target synchronized until cutover.</li><li>Homogeneous and heterogeneous database migrations differ; heterogeneous migrations may require schema conversion.</li><li>DMS is for database data, not generic file-system migration.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>DataSync</h3></div><ul><li>Managed online transfer between on-premises storage, S3, EFS and FSx-related targets/source patterns.</li><li>Optimizes network transfer and handles integrity/metadata according to supported modes.</li><li>Use for large file/object transfers when a working network path exists.</li><li>Can schedule recurring synchronization.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>Snow Family</h3></div><ul><li>Physical/edge devices move large datasets when network transfer would take too long or connectivity is constrained.</li><li>Estimate transfer time from bandwidth before choosing online vs offline methods.</li><li>Also useful in edge/disconnected processing patterns depending on device/service generation.</li><li>Physical logistics/security are part of the architecture.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Transfer Family + Storage Gateway</h3></div><ul><li>Transfer Family provides managed SFTP/FTPS/FTP-style endpoints backed by AWS storage.</li><li>Storage Gateway presents familiar on-premises storage interfaces while integrating with AWS cloud storage.</li><li>Useful when legacy applications cannot immediately change storage protocols.</li><li>Direct Connect/VPN can complement these hybrid services but solve connectivity rather than application protocol migration.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>Application Migration Service</h3></summary><ul><li>AWS Application Migration Service (MGN) supports lift-and-shift server migration by continuously replicating source servers.</li><li>Launch test/cutover instances in AWS after replication.</li><li>Good when moving whole servers/applications with minimal architectural change.</li><li>Modernization can happen separately after migration.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>DMS</h3></summary><ul><li>Database Migration Service moves/replicates supported databases with low-downtime patterns.</li><li>Full load plus change data capture can keep target synchronized until cutover.</li><li>Homogeneous and heterogeneous database migrations differ; heterogeneous migrations may require schema conversion.</li><li>DMS is for database data, not generic file-system migration.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>DataSync</h3></summary><ul><li>Managed online transfer between on-premises storage, S3, EFS and FSx-related targets/source patterns.</li><li>Optimizes network transfer and handles integrity/metadata according to supported modes.</li><li>Use for large file/object transfers when a working network path exists.</li><li>Can schedule recurring synchronization.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>Snow Family</h3></summary><ul><li>Physical/edge devices move large datasets when network transfer would take too long or connectivity is constrained.</li><li>Estimate transfer time from bandwidth before choosing online vs offline methods.</li><li>Also useful in edge/disconnected processing patterns depending on device/service generation.</li><li>Physical logistics/security are part of the architecture.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Transfer Family + Storage Gateway</h3></summary><ul><li>Transfer Family provides managed SFTP/FTPS/FTP-style endpoints backed by AWS storage.</li><li>Storage Gateway presents familiar on-premises storage interfaces while integrating with AWS cloud storage.</li><li>Useful when legacy applications cannot immediately change storage protocols.</li><li>Direct Connect/VPN can complement these hybrid services but solve connectivity rather than application protocol migration.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-14">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>

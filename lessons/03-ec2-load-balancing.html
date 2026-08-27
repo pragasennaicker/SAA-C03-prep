@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> Choose ALB for HTTP host/path routing and NLB for TCP/UDP. Scale replaceable instances from a launch template; health checks must match the load balancer. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-3">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>EC2 families + sizing</h3></div><ul><li>General purpose balances CPU/memory/network.</li><li>Compute optimized fits CPU-heavy processing.</li><li>Memory optimized fits large in-memory datasets and memory-heavy databases.</li><li>Storage optimized fits high local I/O workloads; accelerated instances use GPUs/accelerators.</li><li>Right-size from workload metrics rather than choosing the largest instance.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>ALB vs NLB</h3></div><ul><li>ALB is Layer 7 and understands HTTP/HTTPS; it supports host/path routing and modern app patterns.</li><li>NLB is Layer 4 for TCP/UDP/TLS, very high throughput/low latency and static IP-style requirements.</li><li>Gateway Load Balancer is for deploying/scaling virtual network appliances.</li><li>Cross-zone and health-check behavior matters for resilience.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>Auto Scaling</h3></div><ul><li>An ASG has minimum, desired and maximum capacity.</li><li>Target tracking keeps a metric near a chosen target and is common for elastic workloads.</li><li>Step/simple scaling reacts to thresholds; scheduled scaling helps predictable patterns.</li><li>Use ELB health checks and multiple AZs to replace unhealthy instances automatically.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>EC2 purchase models</h3></div><ul><li>On-Demand: flexibility, no long commitment.</li><li>Savings Plans: discount for committed compute spend/usage patterns.</li><li>Reserved capacity/pricing constructs are useful for steady predictable workloads depending on service/model.</li><li>Spot: deep discounts but interruption is possible; design fault-tolerant workloads.</li><li>Dedicated Hosts/Instances address isolation, compliance or licensing requirements.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Placement + storage</h3></div><ul><li>EBS persists independently of an EC2 instance lifecycle depending on configuration.</li><li>Instance store is ephemeral local storage and should not hold unique durable data.</li><li>Placement groups can optimize latency/throughput/failure spread for specialized workloads.</li><li>Use AMIs and launch templates for repeatable immutable capacity.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>EC2 families + sizing</h3></summary><ul><li>General purpose balances CPU/memory/network.</li><li>Compute optimized fits CPU-heavy processing.</li><li>Memory optimized fits large in-memory datasets and memory-heavy databases.</li><li>Storage optimized fits high local I/O workloads; accelerated instances use GPUs/accelerators.</li><li>Right-size from workload metrics rather than choosing the largest instance.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>ALB vs NLB</h3></summary><ul><li>ALB is Layer 7 and understands HTTP/HTTPS; it supports host/path routing and modern app patterns.</li><li>NLB is Layer 4 for TCP/UDP/TLS, very high throughput/low latency and static IP-style requirements.</li><li>Gateway Load Balancer is for deploying/scaling virtual network appliances.</li><li>Cross-zone and health-check behavior matters for resilience.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>Auto Scaling</h3></summary><ul><li>An ASG has minimum, desired and maximum capacity.</li><li>Target tracking keeps a metric near a chosen target and is common for elastic workloads.</li><li>Step/simple scaling reacts to thresholds; scheduled scaling helps predictable patterns.</li><li>Use ELB health checks and multiple AZs to replace unhealthy instances automatically.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>EC2 purchase models</h3></summary><ul><li>On-Demand: flexibility, no long commitment.</li><li>Savings Plans: discount for committed compute spend/usage patterns.</li><li>Reserved capacity/pricing constructs are useful for steady predictable workloads depending on service/model.</li><li>Spot: deep discounts but interruption is possible; design fault-tolerant workloads.</li><li>Dedicated Hosts/Instances address isolation, compliance or licensing requirements.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Placement + storage</h3></summary><ul><li>EBS persists independently of an EC2 instance lifecycle depending on configuration.</li><li>Instance store is ephemeral local storage and should not hold unique durable data.</li><li>Placement groups can optimize latency/throughput/failure spread for specialized workloads.</li><li>Use AMIs and launch templates for repeatable immutable capacity.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-3">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>

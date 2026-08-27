@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> Route 53 chooses the endpoint. CloudFront caches HTTP at the edge. Global Accelerator improves the network path for TCP/UDP, not cache hit ratio. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-12">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>CloudFront</h3></div><ul><li>CDN using a global edge network to cache and deliver HTTP(S) content closer to users.</li><li>Origins can include S3, ALBs and other HTTP endpoints.</li><li>Cache keys, TTLs and invalidations affect freshness and origin load.</li><li>Origin Access Control can keep S3 origins private while CloudFront serves content.</li><li>Signed URLs/cookies can restrict private content distribution.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>Global Accelerator</h3></div><ul><li>Uses static anycast IP addresses and routes traffic over the AWS global network to healthy regional endpoints.</li><li>Works for TCP/UDP-style application acceleration and is not a content cache.</li><li>Useful when clients require fixed entry IPs and optimized global routing.</li><li>Health checks and endpoint weighting support failover/traffic shaping patterns.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>Route 53</h3></div><ul><li>Authoritative DNS with alias records for AWS resources.</li><li>Weighted = proportional distribution.</li><li>Latency = select the configured AWS Region giving lowest latency to the user.</li><li>Failover = active/passive; Geolocation = user geography; Geoproximity = geography plus bias; Multivalue returns multiple healthy records.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>CloudFront vs Route 53</h3></div><ul><li>Route 53 tells the client an endpoint address; DNS answers may be cached.</li><li>CloudFront becomes the HTTP delivery path and can cache content.</li><li>CloudFront itself often uses a DNS name returned through Route 53 alias records.</li><li>They commonly work together rather than competing.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Global architecture</h3></div><ul><li>Static content: S3 + CloudFront is a core pattern.</li><li>Dynamic global web: CloudFront can still accelerate/collapse connections even when content is not cacheable.</li><li>Multi-Region application endpoints can use Route 53 or Global Accelerator depending on DNS vs network-layer requirements.</li><li>Keep origin resources private where possible.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>CloudFront</h3></summary><ul><li>CDN using a global edge network to cache and deliver HTTP(S) content closer to users.</li><li>Origins can include S3, ALBs and other HTTP endpoints.</li><li>Cache keys, TTLs and invalidations affect freshness and origin load.</li><li>Origin Access Control can keep S3 origins private while CloudFront serves content.</li><li>Signed URLs/cookies can restrict private content distribution.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>Global Accelerator</h3></summary><ul><li>Uses static anycast IP addresses and routes traffic over the AWS global network to healthy regional endpoints.</li><li>Works for TCP/UDP-style application acceleration and is not a content cache.</li><li>Useful when clients require fixed entry IPs and optimized global routing.</li><li>Health checks and endpoint weighting support failover/traffic shaping patterns.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>Route 53</h3></summary><ul><li>Authoritative DNS with alias records for AWS resources.</li><li>Weighted = proportional distribution.</li><li>Latency = select the configured AWS Region giving lowest latency to the user.</li><li>Failover = active/passive; Geolocation = user geography; Geoproximity = geography plus bias; Multivalue returns multiple healthy records.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>CloudFront vs Route 53</h3></summary><ul><li>Route 53 tells the client an endpoint address; DNS answers may be cached.</li><li>CloudFront becomes the HTTP delivery path and can cache content.</li><li>CloudFront itself often uses a DNS name returned through Route 53 alias records.</li><li>They commonly work together rather than competing.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Global architecture</h3></summary><ul><li>Static content: S3 + CloudFront is a core pattern.</li><li>Dynamic global web: CloudFront can still accelerate/collapse connections even when content is not cacheable.</li><li>Multi-Region application endpoints can use Route 53 or Global Accelerator depending on DNS vs network-layer requirements.</li><li>Keep origin resources private where possible.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-12">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>

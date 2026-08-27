@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> CloudWatch is health. CloudTrail is who called which API. Config is how the resource is configured. SSM Session Manager replaces inbound SSH. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-15">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>CloudWatch</h3></div><ul><li>Collects/observes metrics, logs and alarms across AWS workloads.</li><li>CloudWatch Logs centralizes logs; metric filters can derive metrics from log events.</li><li>Alarms can notify or trigger automated actions and scaling.</li><li>Dashboards visualize operational health; use application-specific metrics when infrastructure metrics are insufficient.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>CloudTrail</h3></div><ul><li>Records AWS API/account activity for audit and investigation.</li><li>Management events capture control-plane actions; data events can capture high-volume resource-level operations for supported services when enabled.</li><li>Organization trails can centralize multi-account auditing.</li><li>If the question asks &#x27;who changed/deleted/created this resource?&#x27;, CloudTrail is usually central.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>AWS Config</h3></div><ul><li>Records resource configuration changes and relationships.</li><li>Config Rules evaluate configurations against desired conditions/compliance standards.</li><li>Conformance packs group rules/remediation patterns.</li><li>Use when the question asks whether resource configuration is compliant, not who called the API.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>Systems Manager + CloudFormation</h3></div><ul><li>Systems Manager provides fleet inventory, patching, Session Manager, automation and Parameter Store among other operational capabilities.</li><li>Session Manager can provide shell access without opening inbound SSH when configured appropriately.</li><li>CloudFormation defines infrastructure as code for repeatable deployments.</li><li>Immutable/reproducible infrastructure improves reliability and recovery.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Governance + optimization</h3></div><ul><li>Control Tower establishes/governs a multi-account landing zone using AWS Organizations and controls.</li><li>Trusted Advisor surfaces best-practice checks according to account/support availability.</li><li>Compute Optimizer recommends rightsizing for supported resources.</li><li>AWS Health Dashboard reports AWS events affecting services/resources; License Manager and Service Catalog address specialized governance.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>CloudWatch</h3></summary><ul><li>Collects/observes metrics, logs and alarms across AWS workloads.</li><li>CloudWatch Logs centralizes logs; metric filters can derive metrics from log events.</li><li>Alarms can notify or trigger automated actions and scaling.</li><li>Dashboards visualize operational health; use application-specific metrics when infrastructure metrics are insufficient.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>CloudTrail</h3></summary><ul><li>Records AWS API/account activity for audit and investigation.</li><li>Management events capture control-plane actions; data events can capture high-volume resource-level operations for supported services when enabled.</li><li>Organization trails can centralize multi-account auditing.</li><li>If the question asks &#x27;who changed/deleted/created this resource?&#x27;, CloudTrail is usually central.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>AWS Config</h3></summary><ul><li>Records resource configuration changes and relationships.</li><li>Config Rules evaluate configurations against desired conditions/compliance standards.</li><li>Conformance packs group rules/remediation patterns.</li><li>Use when the question asks whether resource configuration is compliant, not who called the API.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>Systems Manager + CloudFormation</h3></summary><ul><li>Systems Manager provides fleet inventory, patching, Session Manager, automation and Parameter Store among other operational capabilities.</li><li>Session Manager can provide shell access without opening inbound SSH when configured appropriately.</li><li>CloudFormation defines infrastructure as code for repeatable deployments.</li><li>Immutable/reproducible infrastructure improves reliability and recovery.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Governance + optimization</h3></summary><ul><li>Control Tower establishes/governs a multi-account landing zone using AWS Organizations and controls.</li><li>Trusted Advisor surfaces best-practice checks according to account/support availability.</li><li>Compute Optimizer recommends rightsizing for supported resources.</li><li>AWS Health Dashboard reports AWS events affecting services/resources; License Manager and Service Catalog address specialized governance.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-15">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>

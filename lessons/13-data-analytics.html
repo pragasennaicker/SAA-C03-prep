@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> Kinesis Data Streams is replayable. Firehose delivers. Glue catalogs and transforms. Athena queries S3; Redshift is the warehouse. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-13">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>Kinesis Data Streams</h3></div><ul><li>Real-time streaming service for producers and multiple consumers.</li><li>Partition/shard key design determines distribution and ordering scope.</li><li>Use when applications need direct control over consuming/processing a stream.</li><li>Enhanced fan-out and scaling concepts matter at architecture level; avoid hot partitions.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>Data Firehose</h3></div><ul><li>Managed delivery of streaming data to supported destinations such as S3, Redshift and OpenSearch.</li><li>Reduces operational work when the goal is delivery rather than custom stream-consumer control.</li><li>Can buffer and transform records before delivery.</li><li>Think &#x27;streaming delivery pipe&#x27; rather than a general message queue.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>S3 data lake + Glue</h3></div><ul><li>S3 is the durable data-lake storage layer.</li><li>Glue Data Catalog stores table/schema metadata for analytics services.</li><li>Glue ETL jobs transform datasets into query-friendly formats/partitions.</li><li>Lake Formation simplifies data-lake governance and permissions on top of lake resources.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>Athena + Redshift</h3></div><ul><li>Athena performs serverless SQL queries on data in S3; cost is strongly influenced by data scanned, so columnar formats/partitioning help.</li><li>Redshift is a managed analytical data warehouse for repeated warehouse-style analytics.</li><li>Use Redshift Spectrum capabilities where appropriate to query data outside warehouse storage.</li><li>OLTP databases are not interchangeable with analytics warehouses.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>EMR + OpenSearch + BI</h3></div><ul><li>EMR runs managed big-data frameworks such as Spark and Hadoop.</li><li>OpenSearch is useful for search, log analytics and near-real-time indexing/query patterns.</li><li>AWS&#x27;s current in-scope analytics list also includes Amazon Quick for BI/analytics recognition.</li><li>Choose from processing/query pattern rather than dataset size alone.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>Kinesis Data Streams</h3></summary><ul><li>Real-time streaming service for producers and multiple consumers.</li><li>Partition/shard key design determines distribution and ordering scope.</li><li>Use when applications need direct control over consuming/processing a stream.</li><li>Enhanced fan-out and scaling concepts matter at architecture level; avoid hot partitions.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>Data Firehose</h3></summary><ul><li>Managed delivery of streaming data to supported destinations such as S3, Redshift and OpenSearch.</li><li>Reduces operational work when the goal is delivery rather than custom stream-consumer control.</li><li>Can buffer and transform records before delivery.</li><li>Think &#x27;streaming delivery pipe&#x27; rather than a general message queue.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>S3 data lake + Glue</h3></summary><ul><li>S3 is the durable data-lake storage layer.</li><li>Glue Data Catalog stores table/schema metadata for analytics services.</li><li>Glue ETL jobs transform datasets into query-friendly formats/partitions.</li><li>Lake Formation simplifies data-lake governance and permissions on top of lake resources.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>Athena + Redshift</h3></summary><ul><li>Athena performs serverless SQL queries on data in S3; cost is strongly influenced by data scanned, so columnar formats/partitioning help.</li><li>Redshift is a managed analytical data warehouse for repeated warehouse-style analytics.</li><li>Use Redshift Spectrum capabilities where appropriate to query data outside warehouse storage.</li><li>OLTP databases are not interchangeable with analytics warehouses.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>EMR + OpenSearch + BI</h3></summary><ul><li>EMR runs managed big-data frameworks such as Spark and Hadoop.</li><li>OpenSearch is useful for search, log analytics and near-real-time indexing/query patterns.</li><li>AWS&#x27;s current in-scope analytics list also includes Amazon Quick for BI/analytics recognition.</li><li>Choose from processing/query pattern rather than dataset size alone.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-13">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>

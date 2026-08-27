@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> Aurora Multi-AZ protects the writer; readers scale reads. ElastiCache is not a database. DynamoDB is a different data model, not an Aurora replica. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-5">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>RDS availability vs scaling</h3></div><ul><li>Multi-AZ creates a highly available deployment/failover architecture; it is not primarily a read-scaling feature.</li><li>Read replicas offload read traffic and may be cross-Region depending on engine/features.</li><li>RDS Proxy pools/manages DB connections and can protect relational databases from connection storms.</li><li>Automated backups/snapshots serve recovery needs; retention and cross-Region/cross-account strategy depend on requirements.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>Aurora</h3></div><ul><li>Aurora uses distributed storage across Availability Zones and separates storage from database compute.</li><li>Aurora Replicas can scale reads and participate in failover.</li><li>Aurora Serverless variants fit variable or intermittent relational workloads where elastic database capacity is useful.</li><li>Global Database patterns support cross-Region read/locality and DR scenarios.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>DynamoDB</h3></div><ul><li>Key-value/document model designed around partition and sort keys.</li><li>Choose partition keys that distribute traffic; poor keys create hot partitions.</li><li>On-demand capacity simplifies unpredictable traffic; provisioned capacity can be economical for predictable workloads.</li><li>Global Tables provide multi-Region active-active style replication.</li><li>DAX is an in-memory cache purpose-built for DynamoDB; TTL and Streams support lifecycle/event patterns.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>Caching</h3></div><ul><li>ElastiCache reduces latency and database load for hot/repeated data.</li><li>Cache-aside is a common pattern: app checks cache, falls back to DB, then populates cache.</li><li>Use TTL/invalidation carefully so stale data remains acceptable.</li><li>Redis/Valkey-style capabilities suit richer data structures, replication and persistence options; Memcached is simpler distributed caching.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Purpose-built DBs</h3></div><ul><li>Neptune = graph relationships.</li><li>DocumentDB = MongoDB-compatible document use cases.</li><li>Keyspaces = Cassandra-compatible wide-column patterns.</li><li>Redshift = analytical warehouse, not OLTP.</li><li>Choose purpose-built services from the query/access pattern rather than trying to force every workload into one database.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>RDS availability vs scaling</h3></summary><ul><li>Multi-AZ creates a highly available deployment/failover architecture; it is not primarily a read-scaling feature.</li><li>Read replicas offload read traffic and may be cross-Region depending on engine/features.</li><li>RDS Proxy pools/manages DB connections and can protect relational databases from connection storms.</li><li>Automated backups/snapshots serve recovery needs; retention and cross-Region/cross-account strategy depend on requirements.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>Aurora</h3></summary><ul><li>Aurora uses distributed storage across Availability Zones and separates storage from database compute.</li><li>Aurora Replicas can scale reads and participate in failover.</li><li>Aurora Serverless variants fit variable or intermittent relational workloads where elastic database capacity is useful.</li><li>Global Database patterns support cross-Region read/locality and DR scenarios.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>DynamoDB</h3></summary><ul><li>Key-value/document model designed around partition and sort keys.</li><li>Choose partition keys that distribute traffic; poor keys create hot partitions.</li><li>On-demand capacity simplifies unpredictable traffic; provisioned capacity can be economical for predictable workloads.</li><li>Global Tables provide multi-Region active-active style replication.</li><li>DAX is an in-memory cache purpose-built for DynamoDB; TTL and Streams support lifecycle/event patterns.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>Caching</h3></summary><ul><li>ElastiCache reduces latency and database load for hot/repeated data.</li><li>Cache-aside is a common pattern: app checks cache, falls back to DB, then populates cache.</li><li>Use TTL/invalidation carefully so stale data remains acceptable.</li><li>Redis/Valkey-style capabilities suit richer data structures, replication and persistence options; Memcached is simpler distributed caching.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Purpose-built DBs</h3></summary><ul><li>Neptune = graph relationships.</li><li>DocumentDB = MongoDB-compatible document use cases.</li><li>Keyspaces = Cassandra-compatible wide-column patterns.</li><li>Redshift = analytical warehouse, not OLTP.</li><li>Choose purpose-built services from the query/access pattern rather than trying to force every workload into one database.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-5">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>

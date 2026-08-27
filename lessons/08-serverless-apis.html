@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/course.css?v=20260826f">
+<link rel="stylesheet" href="../assets/css/course.css?v=20260827b">
 </head>
 <body>
 <div class="topbar"><div class="topin">
@@ -70,22 +70,21 @@
         <p class="arch-build-empty">Click a chip to add that piece to the drawing. Click it again to remove it and anything that depends on it.</p>
       </div>
     </div>
-    <div class="info-note svg-note"><b>Drawing cue:</b> Cognito authenticates. The API invokes Lambda with an execution role. Reserve concurrency on the path that must not starve. AppSync is the GraphQL front door. Icons: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener">AWS Architecture Icons</a> (Q3 2026), used unchanged.</div>
   </div>
 
   <div class="lesson-section" id="deep-8">
     <div class="section-kicker">02 · DEEP DIVE</div><h2>What you actually need to understand</h2>
-    <div class="deep-grid"><div class="deep-card">
-          <div class="deep-head"><span>1</span><h3>Lambda execution model</h3></div><ul><li>Runs functions in response to events with automatic scaling.</li><li>Memory allocation also influences available CPU; tune memory from measured cost/performance rather than minimum size.</li><li>Use execution roles for AWS access and environment/secrets patterns carefully.</li><li>Concurrency controls protect downstream systems; asynchronous invocations and event-source mappings have different retry semantics.</li><li>Keep functions stateless and persist durable state externally.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>2</span><h3>API Gateway</h3></div><ul><li>Managed front door for REST, HTTP and WebSocket API patterns.</li><li>Supports throttling, authentication/authorization integrations, stages and request handling features.</li><li>Can invoke Lambda or integrate with other AWS services/backends.</li><li>Use caching or CloudFront where appropriate for read-heavy global APIs.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>3</span><h3>Cognito</h3></div><ul><li>User Pools provide application sign-up/sign-in and token issuance.</li><li>Identity Pools can exchange authenticated identities for temporary AWS credentials in suitable app patterns.</li><li>Use for customer/application identity, not as a replacement for workforce Identity Center.</li><li>Integrates with external identity providers.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>4</span><h3>AppSync + Amplify</h3></div><ul><li>AppSync provides managed GraphQL APIs, subscriptions/real-time features and multiple data-source integrations.</li><li>Amplify provides front-end development/deployment capabilities and hosting workflows.</li><li>Choose AppSync when GraphQL and flexible data-source resolution are core requirements.</li><li>Do not pick it merely because the application is serverless—API style matters.</li></ul>
-        </div><div class="deep-card">
-          <div class="deep-head"><span>5</span><h3>Serverless trade-offs</h3></div><ul><li>Excellent for variable workloads and low operational overhead.</li><li>Cold-start, concurrency, runtime and service-integration constraints must be understood conceptually.</li><li>Very long-running, highly stateful or specialized compute may fit containers/EC2 better.</li><li>Event-driven design should protect downstream services with queues, rate limits and idempotency.</li></ul>
-        </div></div>
+    <div class="deep-grid"><details class="deep-card">
+          <summary class="deep-head"><span>1</span><h3>Lambda execution model</h3></summary><ul><li>Runs functions in response to events with automatic scaling.</li><li>Memory allocation also influences available CPU; tune memory from measured cost/performance rather than minimum size.</li><li>Use execution roles for AWS access and environment/secrets patterns carefully.</li><li>Concurrency controls protect downstream systems; asynchronous invocations and event-source mappings have different retry semantics.</li><li>Keep functions stateless and persist durable state externally.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>2</span><h3>API Gateway</h3></summary><ul><li>Managed front door for REST, HTTP and WebSocket API patterns.</li><li>Supports throttling, authentication/authorization integrations, stages and request handling features.</li><li>Can invoke Lambda or integrate with other AWS services/backends.</li><li>Use caching or CloudFront where appropriate for read-heavy global APIs.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>3</span><h3>Cognito</h3></summary><ul><li>User Pools provide application sign-up/sign-in and token issuance.</li><li>Identity Pools can exchange authenticated identities for temporary AWS credentials in suitable app patterns.</li><li>Use for customer/application identity, not as a replacement for workforce Identity Center.</li><li>Integrates with external identity providers.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>4</span><h3>AppSync + Amplify</h3></summary><ul><li>AppSync provides managed GraphQL APIs, subscriptions/real-time features and multiple data-source integrations.</li><li>Amplify provides front-end development/deployment capabilities and hosting workflows.</li><li>Choose AppSync when GraphQL and flexible data-source resolution are core requirements.</li><li>Do not pick it merely because the application is serverless—API style matters.</li></ul>
+        </details><details class="deep-card">
+          <summary class="deep-head"><span>5</span><h3>Serverless trade-offs</h3></summary><ul><li>Excellent for variable workloads and low operational overhead.</li><li>Cold-start, concurrency, runtime and service-integration constraints must be understood conceptually.</li><li>Very long-running, highly stateful or specialized compute may fit containers/EC2 better.</li><li>Event-driven design should protect downstream services with queues, rate limits and idempotency.</li></ul>
+        </details></div>
   </div>
 
   <div class="lesson-section" id="decision-8">
@@ -138,5 +137,5 @@
 Unofficial SAA-C03 study aid · MIT License · <a href="../index.html">Course home</a> ·
 <a href="../appendix/service-atlas.html">Service atlas</a> · Not affiliated with Amazon Web Services.
 </footer>
-<script src="../assets/js/course.js?v=20260826f"></script>
+<script src="../assets/js/course.js?v=20260827a"></script>
 </body></html>
