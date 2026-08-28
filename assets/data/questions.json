@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "next_uid": 151,
+  "next_uid": 176,
   "lessons": [
     {
       "n": 1,
@@ -1396,124 +1396,657 @@
       "good_to_know": "Weighted routing is the 10/90 gradual-release answer. Latency routing is the lowest-latency Region answer. Both belong to Lesson 12's global steering set; this lesson's DNS fork is hybrid resolution versus failover."
     },
     {
-      "uid": "n033",
+      "uid": "n151",
       "lesson": 3,
-      "q": "A web platform must route requests to different target groups based on hostname and URL path while terminating HTTPS. Which load balancer should it use?",
+      "q": "A media company hosts a public website and a REST API on Amazon EC2 instances in private subnets. Users must reach both applications through one HTTPS entry point. Requests for api.example.com must go to one target group, and requests whose path starts with /images must go to another. TLS must terminate at the load balancer using a certificate the company already stores in ACM. Which solution will meet these requirements?",
       "options": [
         {
-          "text": "A. Gateway Load Balancer",
-          "correct": false
-        },
-        {
-          "text": "B. Network Load Balancer",
-          "correct": false
-        },
-        {
-          "text": "C. Application Load Balancer",
+          "text": "A. Create an Application Load Balancer with host and path listener rules, and attach the ACM certificate to an HTTPS listener.",
           "correct": true
         },
         {
-          "text": "D. Classic Load Balancer",
+          "text": "B. Create a Network Load Balancer with TLS listeners, and route by host header to two target groups.",
+          "correct": false
+        },
+        {
+          "text": "C. Create a Gateway Load Balancer in front of the instances, and terminate TLS on the virtual appliances.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a Classic Load Balancer, and add HTTP listener rules that match hostname and URL path.",
           "correct": false
         }
       ],
-      "explain": "The deciding constraints are Layer 7 host and path inspection. ALB listener rules provide both and can terminate HTTPS."
+      "explain": "Host-header and URL-path routing are Layer 7 listener rules, and ACM certificates attach to an HTTPS listener. Those two constraints select an Application Load Balancer.",
+      "good_to_know": "A Network Load Balancer would terminate TLS, but it does not inspect HTTP host or path. A Gateway Load Balancer steers traffic to appliances over GENEVE; Classic Load Balancers do not provide ALB-style host and path rules."
     },
     {
-      "uid": "n034",
+      "uid": "n152",
       "lesson": 3,
-      "q": "External clients allowlist fixed IPv4 addresses for a high-throughput TCP application. Which regional load-balancing design satisfies this?",
+      "q": "A financial exchange runs a latency-sensitive TCP market-data feed on Amazon EC2 instances in two Availability Zones. Partner firms allowlist destination IPv4 addresses on their firewalls and refuse to update those lists when AWS addresses change. The feed is not HTTP. The company needs a regional entry point with a fixed address in each enabled zone. Which solution will meet these requirements?",
       "options": [
         {
-          "text": "A. ALB with sticky sessions",
+          "text": "A. Create an internet-facing Application Load Balancer and associate an Elastic IP address with each public subnet.",
           "correct": false
         },
         {
-          "text": "B. CloudFront with an ALB origin",
+          "text": "B. Create a Gateway Load Balancer and register the feed instances as GENEVE targets.",
           "correct": false
         },
         {
-          "text": "C. ASG without a load balancer",
-          "correct": false
-        },
-        {
-          "text": "D. NLB with Elastic IPs per AZ",
+          "text": "C. Create an internet-facing Network Load Balancer and associate an Elastic IP address with each enabled Availability Zone.",
           "correct": true
+        },
+        {
+          "text": "D. Create a CloudFront distribution with an origin that points at the TCP instances.",
+          "correct": false
         }
       ],
-      "explain": "The deciding constraints are static IP addresses and TCP performance. NLB supports Layer 4 traffic and per-AZ Elastic IPs."
+      "explain": "The protocol is TCP, not HTTP, and partners need a static IPv4 address per zone. A Network Load Balancer is Layer 4 and is the load balancer that accepts an Elastic IP address on each enabled subnet.",
+      "good_to_know": "An Application Load Balancer cannot be assigned Elastic IP addresses, and it is the HTTP/HTTPS balancer. Gateway Load Balancer is for appliance fleets. CloudFront is an HTTP cache at the edge, not a regional TCP listener."
     },
     {
-      "uid": "n035",
+      "uid": "n153",
       "lesson": 3,
-      "q": "An ASG instance passes EC2 status checks but its web process is dead. The company wants automatic replacement. What should be configured?",
+      "q": "A security team deploys a fleet of third-party virtual firewall appliances in a VPC. All traffic that enters and leaves application subnets must be inspected by those appliances. The team must scale the appliance fleet independently of the applications and must not convert the applications to HTTP. The appliances already speak GENEVE. Which solution will meet these requirements?",
       "options": [
         {
-          "text": "A. ELB health checks for the ASG",
+          "text": "A. Create an Application Load Balancer and register the firewall appliances as HTTP targets.",
+          "correct": false
+        },
+        {
+          "text": "B. Create a Gateway Load Balancer and register the firewall appliances as targets.",
           "correct": true
         },
         {
-          "text": "B. Scheduled scaling every minute",
+          "text": "C. Create a Network Load Balancer and register the firewall appliances as TCP port 443 targets.",
           "correct": false
         },
         {
-          "text": "C. A larger root EBS volume",
-          "correct": false
-        },
-        {
-          "text": "D. NACL health probes",
+          "text": "D. Create a Classic Load Balancer and enable sticky sessions to the appliance fleet.",
           "correct": false
         }
       ],
-      "explain": "The deciding constraint is application-level failure. Enabling ELB health checks lets the ASG replace targets that fail the load balancer check."
+      "explain": "Gateway Load Balancer is the balancer that steers all IP traffic to a scalable appliance fleet over GENEVE. Inspection of arbitrary traffic, not application HTTP or a TCP API, is the deciding constraint.",
+      "good_to_know": "Use an Application Load Balancer when the stem asks for host or path routing, and a Network Load Balancer when it asks for TCP/UDP or a static IP in front of the application itself. Neither of those is an appliance-insertion fabric."
     },
     {
-      "uid": "n036",
+      "uid": "n154",
       "lesson": 3,
-      "q": "Traffic tracks CPU utilization unpredictably throughout the day. The ASG should maintain CPU near 50 percent with minimal policy management. Which policy fits?",
+      "q": "A web application runs on Amazon EC2 instances in an Auto Scaling group behind an Application Load Balancer. Users begin to receive HTTP 502 errors. CloudWatch shows the group at its desired capacity, and every instance still passes EC2 status checks. On several instances the web process has exited. The company wants those instances replaced automatically. Which solution will meet these requirements?",
       "options": [
         {
-          "text": "A. Scheduled scaling",
+          "text": "A. Increase the Auto Scaling group's maximum capacity so extra instances absorb the 502 errors.",
           "correct": false
         },
         {
-          "text": "B. Target tracking scaling",
+          "text": "B. Switch the Auto Scaling group from a launch template to a launch configuration.",
+          "correct": false
+        },
+        {
+          "text": "C. Move the instances into a cluster placement group so failed hardware is isolated.",
+          "correct": false
+        },
+        {
+          "text": "D. Set the Auto Scaling group's health check type to ELB so failed target-group checks replace instances.",
           "correct": true
-        },
-        {
-          "text": "C. Manual desired capacity",
-          "correct": false
-        },
-        {
-          "text": "D. Instance refresh",
-          "correct": false
         }
       ],
-      "explain": "The deciding constraint is maintaining a metric target under variable load. Target tracking adjusts capacity around the selected CPU value."
+      "explain": "By default an Auto Scaling group replaces instances that fail EC2 status checks only. ELB health checks add the target-group check, so an instance whose web process is dead is taken out even while the virtual machine still looks healthy.",
+      "good_to_know": "Raising maximum capacity adds more of the same unhealthy instances. Launch configurations and placement groups do not change how the group decides that an instance is unhealthy."
     },
     {
-      "uid": "n037",
+      "uid": "n155",
       "lesson": 3,
-      "q": "A batch fleet can tolerate interruption and needs the lowest EC2 compute cost, but it must replace reclaimed capacity automatically. Which design is best?",
+      "q": "An ecommerce site runs on Amazon EC2 instances in an Auto Scaling group behind an Application Load Balancer. Traffic varies throughout the day with no predictable schedule. The operations team wants average CPU utilization to stay near 50 percent without maintaining a set of CloudWatch alarm thresholds. Which solution will meet these requirements?",
       "options": [
         {
-          "text": "A. Dedicated Hosts in one AZ",
-          "correct": false
-        },
-        {
-          "text": "B. On-Demand instances without an ASG",
-          "correct": false
-        },
-        {
-          "text": "C. EC2 Auto Scaling with diversified Spot capacity",
+          "text": "A. Add a target tracking scaling policy that keeps average CPU utilization at 50 percent.",
           "correct": true
         },
         {
-          "text": "D. Reserved Instances with fixed capacity",
+          "text": "B. Add a scheduled scaling action that sets desired capacity to a fixed size at midnight.",
+          "correct": false
+        },
+        {
+          "text": "C. Add a simple scaling policy that launches two instances whenever CPU exceeds 90 percent.",
+          "correct": false
+        },
+        {
+          "text": "D. Replace the Auto Scaling group with a single larger instance that can absorb the peaks.",
           "correct": false
         }
       ],
-      "explain": "The deciding constraints are interruption tolerance and minimum cost. Diversified Spot in an ASG reduces concentration risk and replaces lost instances."
+      "explain": "Target tracking keeps a chosen metric near a target value and creates the alarms for you. Unpredictable load plus a CPU target is the textbook use of that policy type.",
+      "good_to_know": "Scheduled scaling is the answer when the stem gives a known clock time, such as a sale that starts at 09:00. Simple or step scaling is the answer when you must react to explicit alarm thresholds rather than a target value."
+    },
+    {
+      "uid": "n156",
+      "lesson": 3,
+      "q": "A retailer runs a web application on an Auto Scaling group behind an Application Load Balancer. A national sale starts at 09:00 on a published date. New instances need several minutes to bootstrap from the launch template before they can serve traffic. The team must have extra capacity ready at 09:00 and must still follow live demand after the sale opens. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Rely only on a target tracking policy that keeps CPU near 50 percent throughout the sale.",
+          "correct": false
+        },
+        {
+          "text": "B. Change the launch template to a larger instance type and leave desired capacity unchanged.",
+          "correct": false
+        },
+        {
+          "text": "C. Add a scheduled scaling action that raises desired capacity before 09:00, and keep a target tracking policy for live demand.",
+          "correct": true
+        },
+        {
+          "text": "D. Replace the Auto Scaling group with Spot Instances so capacity appears at the lowest price.",
+          "correct": false
+        }
+      ],
+      "explain": "A known start time plus a long bootstrap is scheduled scaling: warm the group before the event. Target tracking then follows the sale's live demand. Reactive scaling alone starts after CPU has already risen.",
+      "good_to_know": "Target tracking by itself is correct when traffic is unpredictable and there is no clock to plan around. A larger instance type is vertical scaling and wastes capacity after the sale. Spot is the interruptible-batch answer, not a flash-sale web tier."
+    },
+    {
+      "uid": "n157",
+      "lesson": 3,
+      "q": "A company runs a checkpointed video-transcoding fleet on Amazon EC2. Jobs can restart from the last completed segment if an instance stops. The finance team wants the lowest compute cost, and the architecture must replace capacity automatically when AWS reclaims an instance. The fleet can use more than one instance type. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Purchase Dedicated Hosts for the transcoding workers so licenses stay on one socket.",
+          "correct": false
+        },
+        {
+          "text": "B. Run a diversified Spot fleet in an Auto Scaling group that uses a mixed instances policy.",
+          "correct": true
+        },
+        {
+          "text": "C. Run On-Demand instances only, and set the Auto Scaling group's minimum equal to its maximum.",
+          "correct": false
+        },
+        {
+          "text": "D. Place the workers in a cluster placement group so interrupted instances restart on the same rack.",
+          "correct": false
+        }
+      ],
+      "explain": "Spot is the purchase model for interruptible, checkpointed work, and an Auto Scaling group replaces instances AWS reclaims. Diversifying instance types in a mixed instances policy reduces the chance that one pool is empty.",
+      "good_to_know": "On-Demand is the answer when the stem forbids interruption. Dedicated Hosts are the per-socket license answer. A cluster placement group packs instances for latency; it does not make Spot cheaper or survive reclamation."
+    },
+    {
+      "uid": "n158",
+      "lesson": 3,
+      "q": "A company is moving a licensed analytics engine onto Amazon EC2. The vendor contract charges by physical socket and physical core, and an audit requires the team to report the host ID, socket count, and core count of every machine that runs the engine. The instances must not share hardware with other AWS customers. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Launch the engine on Dedicated Instances so the hardware is isolated from other customers.",
+          "correct": false
+        },
+        {
+          "text": "B. Launch the engine on Spot Instances in a diversified Auto Scaling group.",
+          "correct": false
+        },
+        {
+          "text": "C. Launch the engine on burstable T instances with a Compute Savings Plan.",
+          "correct": false
+        },
+        {
+          "text": "D. Launch the engine on Dedicated Hosts so socket, core, and host ID are visible.",
+          "correct": true
+        }
+      ],
+      "explain": "Dedicated Hosts expose sockets, cores, and host ID, which is what a per-socket or per-core bring-your-own-license contract needs. Isolation alone is not enough.",
+      "good_to_know": "Dedicated Instances also keep the hardware from being shared, but they do not give socket or core visibility, so they fail the audit. Spot and Savings Plans are purchase-model answers, not licensing answers."
+    },
+    {
+      "uid": "n159",
+      "lesson": 3,
+      "q": "An Auto Scaling group currently uses a launch configuration to start On-Demand web instances. The company wants a mixed instances policy that keeps a small On-Demand base and fills the rest with Spot Instances across several instance types. New launches must keep the same AMI and security groups. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Replace the launch configuration with a launch template, then attach a mixed instances policy.",
+          "correct": true
+        },
+        {
+          "text": "B. Keep the launch configuration and enable a mixed instances policy on the existing group.",
+          "correct": false
+        },
+        {
+          "text": "C. Keep the launch configuration and add a second Auto Scaling group that uses only Spot Instances.",
+          "correct": false
+        },
+        {
+          "text": "D. Replace the launch configuration with user data that picks an instance type at boot.",
+          "correct": false
+        }
+      ],
+      "explain": "A mixed instances policy that combines On-Demand and Spot, or that specifies more than one instance type, requires a launch template. Launch configurations cannot express those options.",
+      "good_to_know": "Two separate groups can mix purchase models at the account level, but that is not one mixed instances policy and it splits scaling. User data cannot substitute for the launch specification the group uses to start instances."
+    },
+    {
+      "uid": "n160",
+      "lesson": 3,
+      "q": "A batch worker on Amazon EC2 writes intermediate files to the instance's SSD while a job runs, then writes the finished object to Amazon S3. During a test, an operator stops the instance to change its type. After start, the intermediate files are gone and an in-flight job cannot resume. Unique data must survive stop and terminate. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Store unique data in a cluster placement group so the disk stays on the same rack.",
+          "correct": false
+        },
+        {
+          "text": "B. Store unique data on instance store and enable termination protection on the instance.",
+          "correct": false
+        },
+        {
+          "text": "C. Store unique data on an Amazon EBS volume instead of on instance store.",
+          "correct": true
+        },
+        {
+          "text": "D. Store unique data on instance store and purchase a Savings Plan for the instance.",
+          "correct": false
+        }
+      ],
+      "explain": "Instance store is ephemeral: stop, terminate, or underlying-host failure wipes it. Unique data that must survive those events belongs on EBS. Volume types are a Lesson 04 decision.",
+      "good_to_know": "Termination protection only blocks an accidental terminate API call; it does not make instance store persistent across a stop. Placement groups and Savings Plans do not change disk lifetime."
+    },
+    {
+      "uid": "n161",
+      "lesson": 3,
+      "q": "A team creates a new internet-facing load balancer for an HTTP application. They select one public subnet in a single Availability Zone and choose the Application Load Balancer type. The create operation fails. The application must stay HTTP, must keep host-based routing, and must use an Application Load Balancer. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create a Network Load Balancer in the same single subnet and add HTTP listener rules.",
+          "correct": false
+        },
+        {
+          "text": "B. Create the Application Load Balancer again and enable subnets in at least two Availability Zones.",
+          "correct": true
+        },
+        {
+          "text": "C. Create a Gateway Load Balancer in the same single subnet and register the web instances.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a Classic Load Balancer in the same single subnet and attach an ACM certificate.",
+          "correct": false
+        }
+      ],
+      "explain": "An Application Load Balancer must be enabled in at least two Availability Zones. That requirement, not the HTTP protocol, is why a one-subnet create fails.",
+      "good_to_know": "A Network Load Balancer can be created in one Availability Zone, but it cannot do host-based HTTP routing. Gateway Load Balancer is for appliances. Classic Load Balancer is the legacy HTTP option and is not the host-routing answer."
+    },
+    {
+      "uid": "n162",
+      "lesson": 3,
+      "q": "A TCP application sits behind a Network Load Balancer enabled in two Availability Zones. Eight healthy targets run in zone A and one healthy target runs in zone B. Cross-zone load balancing is still at the service default. The single zone-B target runs at 100 percent CPU while zone-A targets are idle. Clients connect through both nodes. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Replace the Network Load Balancer with a Gateway Load Balancer.",
+          "correct": false
+        },
+        {
+          "text": "B. Disable stickiness on the Network Load Balancer target group.",
+          "correct": false
+        },
+        {
+          "text": "C. Move the Network Load Balancer nodes into the private subnets.",
+          "correct": false
+        },
+        {
+          "text": "D. Enable cross-zone load balancing on the Network Load Balancer.",
+          "correct": true
+        }
+      ],
+      "explain": "Cross-zone load balancing is off by default on a Network Load Balancer, so each node sends traffic only to targets in its own zone. The zone-B node therefore piles every client that lands on it onto the one local target.",
+      "good_to_know": "Application Load Balancers have cross-zone always on at the load balancer, which is why this imbalance is an NLB (or GWLB) exam item. Adding targets in zone B would also help; switching balancer type does not."
+    },
+    {
+      "uid": "n163",
+      "lesson": 3,
+      "q": "An internal order API on Amazon EC2 must be reached by other microservices in the same VPC over HTTP. Clients resolve a DNS name and must never send traffic to a public address. The API uses host-based routing to several target groups. No user on the internet should be able to open a connection to the load balancer. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Create an internal Application Load Balancer and register the API instances as targets.",
+          "correct": true
+        },
+        {
+          "text": "B. Create an internet-facing Application Load Balancer and lock its security group to the VPC CIDR.",
+          "correct": false
+        },
+        {
+          "text": "C. Create an internet-facing Network Load Balancer and associate an Elastic IP address with each zone.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a Gateway Load Balancer and register the API instances as GENEVE targets.",
+          "correct": false
+        }
+      ],
+      "explain": "An internal Application Load Balancer has private IP addresses and still provides Layer 7 host-based routing. That combination keeps the entry point inside the VPC.",
+      "good_to_know": "An internet-facing balancer receives a public DNS name even if a security group is tight; the scheme is still public. A Network Load Balancer with Elastic IP addresses is the partner-allowlist TCP answer. Gateway Load Balancer is not an HTTP API front."
+    },
+    {
+      "uid": "n164",
+      "lesson": 3,
+      "q": "A company runs an in-memory analytics engine on Amazon EC2. Each node holds several hundred gigabytes of working set in RAM. CPU utilization stays low, local disk I/O is modest, and the engine is not a GPU workload. The team must pick an instance family that matches this profile rather than oversizing a general-purpose type. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Use compute-optimized instances such as the C family.",
+          "correct": false
+        },
+        {
+          "text": "B. Use storage-optimized instances such as the I family.",
+          "correct": false
+        },
+        {
+          "text": "C. Use memory-optimized instances such as the R family.",
+          "correct": true
+        },
+        {
+          "text": "D. Use burstable general-purpose instances such as the T family.",
+          "correct": false
+        }
+      ],
+      "explain": "Memory-optimized families are the match when the working set is large RAM and CPU is not the bottleneck. Right-sizing starts from that measured profile.",
+      "good_to_know": "Compute-optimized instances fit CPU-bound processing. Storage-optimized instances fit high local I/O. Burstable T instances are for spiky, low-baseline general-purpose work, not a hundreds-of-gigabytes in-memory engine."
+    },
+    {
+      "uid": "n165",
+      "lesson": 3,
+      "q": "A legacy web application on Amazon EC2 stores session state on the local disk of each instance. The fleet sits behind an Application Load Balancer. After a user authenticates, subsequent requests from that user must return to the same instance for the rest of the session. The team cannot yet move session state into a shared store. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Replace the Application Load Balancer with a Network Load Balancer that uses Elastic IP addresses.",
+          "correct": false
+        },
+        {
+          "text": "B. Enable stickiness on the Application Load Balancer target group.",
+          "correct": true
+        },
+        {
+          "text": "C. Place the instances in a cluster placement group so sessions stay on one rack.",
+          "correct": false
+        },
+        {
+          "text": "D. Enable ELB health checks on the Auto Scaling group that hosts the instances.",
+          "correct": false
+        }
+      ],
+      "explain": "Stickiness is a target-group setting on an Application Load Balancer. Duration-based or application-based cookies send the same client back to the same target.",
+      "good_to_know": "A Network Load Balancer hashes connections, which is not an HTTP session cookie. Placement groups affect hardware packing, not request affinity. ELB health checks replace dead instances; they do not pin sessions."
+    },
+    {
+      "uid": "n166",
+      "lesson": 3,
+      "q": "A tightly coupled HPC simulation runs on Amazon EC2 instances that exchange large messages with one another. The team needs the lowest possible latency and the highest packet rate between those instances. All nodes can live in a single Availability Zone, and the team accepts that a hardware event could affect many of them together. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Launch the instances in a spread placement group.",
+          "correct": false
+        },
+        {
+          "text": "B. Launch the instances in a partition placement group.",
+          "correct": false
+        },
+        {
+          "text": "C. Launch the instances on Dedicated Hosts in two Availability Zones.",
+          "correct": false
+        },
+        {
+          "text": "D. Launch the instances in a cluster placement group.",
+          "correct": true
+        }
+      ],
+      "explain": "A cluster placement group packs instances close together in one Availability Zone for the lowest latency and highest throughput. Correlated hardware risk is the trade-off the stem already accepts.",
+      "good_to_know": "Spread placement groups put instances on distinct hardware to reduce correlated failure. Partition placement groups fit large distributed stores such as Hadoop or Kafka. Dedicated Hosts are the socket-license answer."
+    },
+    {
+      "uid": "n167",
+      "lesson": 3,
+      "q": "A company has run the same 40 Amazon EC2 web instances, 24 hours a day, for 18 months and expects that baseline to continue for at least another year. Traffic above the baseline is small and already handled by Auto Scaling. The finance team wants a lower unit price for the steady 40 instances and will accept a one-year commitment. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Cover the 40-instance baseline with a Savings Plan or Reserved Instances.",
+          "correct": true
+        },
+        {
+          "text": "B. Replace the 40 instances with Spot Instances in a diversified Auto Scaling group.",
+          "correct": false
+        },
+        {
+          "text": "C. Move the 40 instances onto Dedicated Hosts to receive a hardware discount.",
+          "correct": false
+        },
+        {
+          "text": "D. Change the 40 instances to a larger On-Demand type so fewer of them run.",
+          "correct": false
+        }
+      ],
+      "explain": "A measured, long-lived baseline is what Savings Plans and Reserved Instances discount. Which Savings Plan type is more flexible across families and Regions is a Lesson 16 decision.",
+      "good_to_know": "Spot would cut the unit price further but can be reclaimed, which a customer-facing web baseline usually cannot accept. Dedicated Hosts are for socket-level licenses, not a generic discount. A larger On-Demand type is not a purchase-model saving."
+    },
+    {
+      "uid": "n168",
+      "lesson": 3,
+      "q": "A company is launching a new customer-facing web application on Amazon EC2 in an Auto Scaling group behind an Application Load Balancer. Traffic volume is unknown and may stay low for months. The application cannot tolerate instance interruption: in-flight checkout requests must not be dropped because AWS reclaimed capacity. Which solution will meet these requirements?",
+      "options": [
+        {
+          "text": "A. Run the Auto Scaling group on Spot Instances with a diversified mixed instances policy.",
+          "correct": false
+        },
+        {
+          "text": "B. Run the Auto Scaling group on On-Demand instances.",
+          "correct": true
+        },
+        {
+          "text": "C. Run the Auto Scaling group on Dedicated Hosts to avoid shared hardware.",
+          "correct": false
+        },
+        {
+          "text": "D. Cover an estimated peak with a three-year all-upfront Reserved Instance purchase.",
+          "correct": false
+        }
+      ],
+      "explain": "On-Demand has no interruption and no commitment, which matches an uninterruptible workload whose size is still unknown. Spot's discount comes with a two-minute reclamation warning the checkout path cannot accept.",
+      "good_to_know": "Spot is correct when the stem says the work can checkpoint or retry. A long Reserved Instance term is the answer after the baseline is measured. Dedicated Hosts solve licensing, not interruption."
+    },
+    {
+      "uid": "n169",
+      "lesson": 3,
+      "q": "A company must present one HTTPS hostname to the internet for a website and a REST API that run on Amazon EC2 instances in private subnets. Requests to api.example.com must reach one target group, and requests whose path starts with /static must reach another. TLS must terminate at the load balancer with a certificate already in ACM. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Create an Application Load Balancer with host-based and path-based listener rules.",
+          "correct": true
+        },
+        {
+          "text": "B. Create a Network Load Balancer and route TLS connections by URL path.",
+          "correct": false
+        },
+        {
+          "text": "C. Attach the ACM certificate to an HTTPS listener on that load balancer.",
+          "correct": true
+        },
+        {
+          "text": "D. Create a Gateway Load Balancer and terminate HTTPS on the appliance fleet.",
+          "correct": false
+        },
+        {
+          "text": "E. Create a Route 53 weighted policy that splits api.example.com from /static.",
+          "correct": false
+        }
+      ],
+      "explain": "Layer 7 host and path rules select an Application Load Balancer, and TLS termination with an ACM certificate is an HTTPS listener on that same balancer. Both pieces are required; neither NLB nor DNS can split on URL path.",
+      "good_to_know": "Weighted routing can split two hostnames, not a hostname versus a URL path. A Network Load Balancer does not inspect HTTP. Gateway Load Balancer is the appliance answer."
+    },
+    {
+      "uid": "n170",
+      "lesson": 3,
+      "q": "A ticket vendor runs Amazon EC2 web instances in an Auto Scaling group. On-sale events start at published clock times, and new instances need several minutes to become healthy. Between events, traffic is low and variable. The architecture must have spare capacity ready when an on-sale begins and must still follow demand after the doors open. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Add a simple scaling policy that launches instances only after CPU has already reached 90 percent.",
+          "correct": false
+        },
+        {
+          "text": "B. Add a scheduled scaling action that raises desired capacity before each on-sale time.",
+          "correct": true
+        },
+        {
+          "text": "C. Change the launch template to the largest available instance type and freeze desired capacity.",
+          "correct": false
+        },
+        {
+          "text": "D. Add a target tracking policy that keeps a load metric near a chosen value after the event starts.",
+          "correct": true
+        },
+        {
+          "text": "E. Replace the group with Spot Instances so extra capacity is always cheap enough to over-provision.",
+          "correct": false
+        }
+      ],
+      "explain": "Scheduled scaling warms the group before a known clock time. Target tracking then follows live demand. The two policies solve different parts of the same day.",
+      "good_to_know": "A simple policy that waits for 90 percent CPU is reactive and starts too late when bootstrap takes minutes. Vertical scaling and Spot do not address the schedule."
+    },
+    {
+      "uid": "n171",
+      "lesson": 3,
+      "q": "A company wants one Auto Scaling group to keep four On-Demand web instances as a base and to fill additional capacity with Spot Instances. Spot launches must spread across several instance types in the same generation so a shortage in one pool does not halt scaling. The group today uses a launch configuration. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Keep the launch configuration and enable Spot allocation on that configuration.",
+          "correct": false
+        },
+        {
+          "text": "B. Place the group in a cluster placement group so Spot and On-Demand share a rack.",
+          "correct": false
+        },
+        {
+          "text": "C. Create a launch template that specifies the AMI, security groups, and a baseline instance type.",
+          "correct": true
+        },
+        {
+          "text": "D. Migrate the web tier to AWS Fargate so purchase options are no longer required.",
+          "correct": false
+        },
+        {
+          "text": "E. Attach a mixed instances policy with instance-type overrides for the Spot portion of the group.",
+          "correct": true
+        }
+      ],
+      "explain": "Mixing On-Demand with Spot and naming more than one instance type requires a launch template plus a mixed instances policy. Launch configurations cannot express either requirement.",
+      "good_to_know": "A cluster placement group is the HPC-latency answer. Fargate is a Lesson 09 compute model; it does not satisfy a stem that keeps an EC2 Auto Scaling group."
+    },
+    {
+      "uid": "n172",
+      "lesson": 3,
+      "q": "Partners send a custom TCP protocol to a market-data service on Amazon EC2 in two Availability Zones. Each partner firewall allowlists destination IPv4 addresses and cannot follow DNS changes. The service is not HTTP. The company needs a regional load balancer whose address in each enabled zone never changes. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Create an internet-facing Network Load Balancer and enable both Availability Zones.",
+          "correct": true
+        },
+        {
+          "text": "B. Create an internet-facing Application Load Balancer and attach Elastic IP addresses to it.",
+          "correct": false
+        },
+        {
+          "text": "C. Create a CloudFront distribution with a TCP origin that points at the instances.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a Gateway Load Balancer and register the market-data instances as targets.",
+          "correct": false
+        },
+        {
+          "text": "E. Allocate an Elastic IP address for each enabled zone and associate it with the load balancer.",
+          "correct": true
+        }
+      ],
+      "explain": "A Network Load Balancer is the Layer 4 regional balancer, and it is the one that accepts an Elastic IP address per enabled Availability Zone. Those two steps give partners a stable TCP destination in each zone.",
+      "good_to_know": "Application Load Balancers cannot be assigned Elastic IP addresses and do not serve arbitrary TCP. CloudFront is HTTP at the edge. Gateway Load Balancer inserts appliances; it is not the partner-facing TCP listener."
+    },
+    {
+      "uid": "n173",
+      "lesson": 3,
+      "q": "A web fleet in an Auto Scaling group sits behind an Application Load Balancer. Operators see HTTP 502 errors while CloudWatch still reports every instance as passing EC2 status checks. On several instances the web process has exited. The group must stop sending traffic to those instances and must replace them without a manual terminate. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Increase the group's maximum capacity so extra instances hide the 502 errors.",
+          "correct": false
+        },
+        {
+          "text": "B. Configure the target group health check to a path the application actually serves.",
+          "correct": true
+        },
+        {
+          "text": "C. Set the Auto Scaling group's health check type to ELB.",
+          "correct": true
+        },
+        {
+          "text": "D. Switch the group from a launch template to a launch configuration.",
+          "correct": false
+        },
+        {
+          "text": "E. Move the instances into a spread placement group so a dead process is isolated.",
+          "correct": false
+        }
+      ],
+      "explain": "The target group must detect that the application is dead, and the Auto Scaling group must treat that target-group failure as instance failure. Default EC2 status checks watch the virtual machine, not the web process.",
+      "good_to_know": "Raising maximum capacity, changing to a launch configuration, or picking a different placement group leaves the dead processes in service. Health-check grace period matters at boot, not after a running process has already exited."
+    },
+    {
+      "uid": "n174",
+      "lesson": 3,
+      "q": "A company runs third-party intrusion-detection appliances on Amazon EC2. Every packet to and from application subnets must pass through those appliances. The security team must scale the appliance fleet independently of the applications, and the applications must keep their existing TCP and UDP protocols. The appliances already accept GENEVE. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Create an Application Load Balancer and register the appliances as HTTP targets.",
+          "correct": false
+        },
+        {
+          "text": "B. Create a Network Load Balancer and register the appliances as TLS targets on port 443.",
+          "correct": false
+        },
+        {
+          "text": "C. Replace the appliances with an internet-facing Classic Load Balancer.",
+          "correct": false
+        },
+        {
+          "text": "D. Create a Gateway Load Balancer in the appliance VPC.",
+          "correct": true
+        },
+        {
+          "text": "E. Register the intrusion-detection appliances as targets of that load balancer.",
+          "correct": true
+        }
+      ],
+      "explain": "Gateway Load Balancer plus an appliance target group is the pattern that inspects all IP traffic and scales the fleet over GENEVE. ALB and NLB sit in front of applications; they are not an inspection fabric for a third-party appliance.",
+      "good_to_know": "Choose an Application Load Balancer for host and path routing, or a Network Load Balancer for a static IP in front of a TCP service. Classic Load Balancer is not an IDS scaler."
+    },
+    {
+      "uid": "n175",
+      "lesson": 3,
+      "q": "A company is building a new stateless web tier on Amazon EC2. Golden AMIs already contain the application. The tier must launch consistent instances, replace them automatically, and remain available if one Availability Zone fails. The team does not want to keep using launch configurations. Which combination of steps should a solutions architect take? (Select TWO.)",
+      "options": [
+        {
+          "text": "A. Create a launch template that points at the golden AMI and the web instance type.",
+          "correct": true
+        },
+        {
+          "text": "B. Create an Auto Scaling group that uses that template and spans at least two Availability Zones.",
+          "correct": true
+        },
+        {
+          "text": "C. Create a launch configuration that points at the golden AMI and pin the group to one zone.",
+          "correct": false
+        },
+        {
+          "text": "D. Place every instance in a cluster placement group that stretches both Availability Zones.",
+          "correct": false
+        },
+        {
+          "text": "E. Store the application binaries only on instance store so new launches stay fast.",
+          "correct": false
+        }
+      ],
+      "explain": "A launch template is the current way to start Auto Scaling instances from an AMI, and the group must span two Availability Zones so one zone outage does not take the tier down. Those two steps are the replaceable-compute baseline.",
+      "good_to_know": "Launch configurations cannot mix instance types or purchase options and are the legacy path the stem already rejects. Cluster placement groups do not span Availability Zones. Instance store is ephemeral and is not where unique data belongs."
     },
     {
       "uid": "n038",
